@@ -37,7 +37,7 @@ totalTimesteps = (maxTimestep - minTimestep + 1)
 ###################################
 # Get CBM database and crosswalks #
 ###################################
-#CBMDatabase <- datasheet(myLibrary, "CBM_CBMDatabase")
+#CBMDatabase <- datasheet(myLibrary, "CBMCFS3_Database")
 CBMDatabase <- "C:/Program Files (x86)/Operational-Scale CBM-CFS3/Admin/DBs/ArchiveIndex_Beta_Install.mdb"
 crosswalkStratumState <- datasheet(myScenario, "CBMCFS3_STSCCrosswalk")
 crosswalkStock <- datasheet(myScenario, "CBMCFS3_SFCrosswalk")
