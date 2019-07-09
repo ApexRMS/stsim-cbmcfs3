@@ -1,9 +1,9 @@
 library(methods)
 library(rsyncrosim)
+library(tidyverse)
 library(RODBC)
 # Before running script make sure that Microsoft Access Database Engine is installed so that you can connect to a MS Access db from R x64bit
 # On Sept 27 2018, I installed AccessDatabaseEngine_X64.exe from https://www.microsoft.com/en-us/download/details.aspx?id=13255
-library(tidyverse)
 
 GetDataSheetExpectData <- function(name, ssimObj) {
   ds = datasheet(ssimObj, name)
@@ -19,7 +19,7 @@ GetSingleValueExpectData <- function(df, name) {
 
 #Environment
 e = ssimEnvironment()
-mySession = session("C:/Users/bronw/Documents/Apex/SyncroSim/2-1-4-Beta")
+mySession = session("C:/Users/bronw/Documents/Apex/SyncroSim/2-1-7-Beta")
 myLibrary = ssimLibrary(name = e$LibraryFilePath, session = mySession)
 myProject = project(myLibrary, project = as.integer(e$ProjectId))
 myScenario = scenario(myLibrary, scenario = as.integer(e$ScenarioId))
@@ -39,9 +39,9 @@ totalTimesteps = (maxTimestep - minTimestep + 1)
 ###################################
 #CBMDatabase <- datasheet(myLibrary, "CBM_CBMDatabase")
 CBMDatabase <- "C:/Program Files (x86)/Operational-Scale CBM-CFS3/Admin/DBs/ArchiveIndex_Beta_Install.mdb"
-crosswalkStratumState <- datasheet(myScenario, "CBM_STSCCrosswalk")
-crosswalkStock <- datasheet(myScenario, "CBM_SFCrosswalk")
-#crosswalkTransition <- datasheet(myScenario, "CBM_TGCrosswalk")
+crosswalkStratumState <- datasheet(myScenario, "CBMCFS3_STSCCrosswalk")
+crosswalkStock <- datasheet(myScenario, "CBMCFS3_SFCrosswalk")
+#crosswalkTransition <- datasheet(myScenario, "CBMCFS3_TGCrosswalk")
 
 # Crosswalk functions
 crossSF <- function(CBMStock){ as.character(crosswalkStock$StockTypeID[crosswalkStock$CBMStock==CBMStock])}
