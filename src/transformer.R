@@ -19,7 +19,7 @@ GetSingleValueExpectData <- function(df, name) {
 
 #Environment
 e = ssimEnvironment()
-mySession = session("C:/Users/bronw/Documents/Apex/SyncroSim/2-1-7-Beta")
+mySession = session("C:/Users/bronw/Documents/Apex/SyncroSim/2-1-10-Beta")
 myLibrary = ssimLibrary(name = e$LibraryFilePath, session = mySession)
 myProject = project(myLibrary, project = as.integer(e$ProjectId))
 myScenario = scenario(myLibrary, scenario = as.integer(e$ScenarioId))
@@ -37,11 +37,10 @@ totalTimesteps = (maxTimestep - minTimestep + 1)
 ###################################
 # Get CBM database and crosswalks #
 ###################################
-#CBMDatabase <- datasheet(myLibrary, "CBMCFS3_Database")
-CBMDatabase <- "C:/Program Files (x86)/Operational-Scale CBM-CFS3/Admin/DBs/ArchiveIndex_Beta_Install.mdb"
-crosswalkStratumState <- datasheet(myScenario, "CBMCFS3_STSCCrosswalk")
-crosswalkStock <- datasheet(myScenario, "CBMCFS3_SFCrosswalk")
-#crosswalkTransition <- datasheet(myScenario, "CBMCFS3_TGCrosswalk")
+CBMDatabase <- datasheet(myLibrary, "CBMCFS3_Database")[1,"Path"]
+crosswalkStratumState <- datasheet(myScenario, "CBMCFS3_CrosswalkSpecies")
+crosswalkStock <- datasheet(myScenario, "CBMCFS3_CrosswalkStock")
+#crosswalkTransition <- datasheet(myScenario, "CBMCFS3_CrosswalkDisturbance")
 
 # Crosswalk functions
 crossSF <- function(CBMStock){ as.character(crosswalkStock$StockTypeID[crosswalkStock$CBMStock==CBMStock])}
