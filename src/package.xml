@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.0" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" configVersion="2.0000" url="https://github.com/ApexRMS/stsimcbmcfs3">
+<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.1" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://github.com/ApexRMS/stsimcbmcfs3">
   <transformers>
     <transformer name="Primary" displayName="CBM-CFS3 Flow Pathways" isPrimary="True" extendsTransformer="stsim_Runtime" userRunnable="True" runOrder="Before" runContext="LocalOnly" programName="Rscript.exe" programArguments="transformer.R" className="SyncroSim.StochasticTime.StochasticTimeTransformer" classAssembly="SyncroSim.StochasticTime" configurationSheet="stsim_RunControl">
       <datafeeds>
