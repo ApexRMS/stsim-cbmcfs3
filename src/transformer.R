@@ -5,41 +5,16 @@ library(RODBC)
 # Before running script make sure that Microsoft Access Database Engine is installed so that you can connect to a MS Access db from R x64bit
 # On Sept 27 2018, I installed AccessDatabaseEngine_X64.exe from https://www.microsoft.com/en-us/download/details.aspx?id=13255
 
-GetDataSheetExpectData <- function(name, ssimObj) {
-  ds = datasheet(ssimObj, name)
-  if (nrow(ds) == 0) { stop(paste0("No data for: ", name)) }
-  return(ds)
-}
-
-GetSingleValueExpectData <- function(df, name) {
-  v = df[, name]
-  if (is.na(v)) { stop(paste0("Missing data for: ", name)) }
-  return(v)
-}
-
-#Environment
-e = ssimEnvironment()
-mySession = session("C:/Users/bronw/Documents/Apex/SyncroSim/2-1-10-Beta")
-myLibrary = ssimLibrary(name = e$LibraryFilePath, session = mySession)
-myProject = project(myLibrary, project = as.integer(e$ProjectId))
-myScenario = scenario(myLibrary, scenario = as.integer(e$ScenarioId))
-myRunControl = GetDataSheetExpectData("STSim_RunControl", myScenario)
-maxIteration = GetSingleValueExpectData(myRunControl, "MaximumIteration")
-minIteration = GetSingleValueExpectData(myRunControl, "MinimumIteration")
-minTimestep = GetSingleValueExpectData(myRunControl, "MinimumTimestep")
-maxTimestep = GetSingleValueExpectData(myRunControl, "MaximumTimestep")
-totalIterations = (maxIteration - minIteration + 1)
-totalTimesteps = (maxTimestep - minTimestep + 1)
-
-#Simulation
-
+# Get ST-Sim library and scenario
+myLibrary <- ssimLibrary()
+myScenario <- scenario()
 
 ###################################
 # Get CBM database and crosswalks #
 ###################################
-CBMDatabase <- datasheet(myLibrary, "CBMCFS3_Database")[1,"Path"]
-crosswalkStratumState <- datasheet(myScenario, "CBMCFS3_CrosswalkSpecies")
-crosswalkStock <- datasheet(myScenario, "CBMCFS3_CrosswalkStock")
+CBMDatabase <- datasheet(myLibrary, "stsimcbmcfs3_Database")[1,"Path"]
+crosswalkStratumState <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkSpecies")
+crosswalkStock <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkStock")
 #crosswalkTransition <- datasheet(myScenario, "CBMCFS3_CrosswalkDisturbance")
 
 # Crosswalk functions
@@ -57,7 +32,7 @@ numBiomassStocks <- length(biomassStocks)
 numDOMStocks <- length(DOMStocks)
 
 # SF Flow Pathways
-flowPathways = datasheet(myScenario, name="SF_FlowPathway", empty=F, optional=T)
+flowPathways = datasheet(myScenario, name="stsimsf_FlowPathway", empty=F, optional=T)
 
 # Identify growth, biomass transfer, emission, decay, and DOM transfer flows
 growthFlows <- flowPathways[flowPathways$FromStockTypeID == crossSF("Atmosphere")]
@@ -222,9 +197,9 @@ for(i in 1: nrow(crosswalkStratumState)){
   ########################################################
   # Calculate net growth based on mass-balance equations #
   ########################################################
-  stateAttributeValues <- datasheet(myScenario, "STSim_StateAttributeValue", empty=FALSE, optional=TRUE)
+  stateAttributeValues <- datasheet(myScenario, "stsim_StateAttributeValue", empty=FALSE, optional=TRUE)
   stateAttributeValuesWide <- spread(stateAttributeValues, key="StateAttributeTypeID", value = "Value")
-  carbonInitialConditions <- datasheet(myScenario, "SF_InitialStockNonSpatial", empty=FALSE, optional=TRUE)
+  carbonInitialConditions <- datasheet(myScenario, "stsimsf_InitialStockNonSpatial", empty=FALSE, optional=TRUE)
   
   volumeToCarbon <- stateAttributeValuesWide
   volumeToCarbon$c_m <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Merchantable")])]
@@ -261,7 +236,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   # STSim-SF datasheets #
   #######################
   # State Attribute Values for net growth based on mass-balance equations
-  stateAttributesNetGrowth = datasheet(myScenario, name="STSim_StateAttributeValue", empty = T, optional = T)
+  stateAttributesNetGrowth = datasheet(myScenario, name="stsim_StateAttributeValue", empty = T, optional = T)
   stateAttributesNetGrowth[1:nrow(volumeToCarbon), "StratumID"] <- volumeToCarbon$StratumID[1:nrow(volumeToCarbon)]
   stateAttributesNetGrowth[1:nrow(volumeToCarbon), "SecondaryStratumID"] <- volumeToCarbon$SecondaryStratumID[1:nrow(volumeToCarbon)]
   stateAttributesNetGrowth[1:nrow(volumeToCarbon), "StateClassID"] <- volumeToCarbon$StateClassID[1:nrow(volumeToCarbon)]
@@ -271,12 +246,12 @@ for(i in 1: nrow(crosswalkStratumState)){
   stateAttributesNetGrowth[1:nrow(volumeToCarbon), "Value"] <- volumeToCarbon$g_all[1:nrow(volumeToCarbon)]
   stateAttributesNetGrowth[nrow(volumeToCarbon), "AgeMax"] <- NA
     
-  saveDatasheet(myScenario, stateAttributesNetGrowth, name = "STSim_StateAttributeValue", append = TRUE)
+  saveDatasheet(myScenario, stateAttributesNetGrowth, name = "stsim_StateAttributeValue", append = TRUE)
   
 
   # SF Flow Pathways
   # Flow Multilpiers for biomass net growth based on volume-to-carbon proportions 
-  flowPathwayNetGrowth <- datasheet(myScenario, name="SF_FlowPathway", empty=T, optional=T)
+  flowPathwayNetGrowth <- datasheet(myScenario, name="stsimsf_FlowPathway", empty = T, optional = T)
   flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FromStratumID"] <- crosswalkStratumState$StratumID[i]
   flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FromSecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]
   flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks),"FromStateClassID"] <- crosswalkStratumState$StateClassID[i]
@@ -304,7 +279,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   
   # Flow Pathways for biomass turnover rates and DOM transfer and decay rates
   flowPathwayTable <- rbind(biomassTurnoverTable, DOMTable[,names(biomassTurnoverTable)])
-  flowPathwayTurnoverTransferDecayEmission <- datasheet(myScenario, name="SF_FlowPathway", empty=T, optional=T)
+  flowPathwayTurnoverTransferDecayEmission <- datasheet(myScenario, name="stsimsf_FlowPathway", empty=T, optional=T)
   flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FromStratumID"] <- crosswalkStratumState$StratumID[i]
   flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FromSecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]
   flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FromStateClassID"] <- crosswalkStratumState$StateClassID[i]
@@ -316,5 +291,5 @@ for(i in 1: nrow(crosswalkStratumState)){
   # Combine all flow multipliers
   flowPathwayAll <- rbind(flowPathwayNetGrowth, flowPathwayTurnoverTransferDecayEmission)
   
-  saveDatasheet(myScenario, flowPathwayAll, name="SF_FlowPathway", append=FALSE)
+  saveDatasheet(myScenario, flowPathwayAll, name="stsimsf_FlowPathway", append=FALSE)
   }
