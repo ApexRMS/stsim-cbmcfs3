@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.3" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://github.com/ApexRMS/stsimcbmcfs3">
+<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.4" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://github.com/ApexRMS/stsimcbmcfs3">
   <transformers>
     <transformer name="Primary" displayName="CBM-CFS3 Flow Pathways" isPrimary="True" extendsTransformer="stsim_Runtime" userRunnable="True" runOrder="Before" runContext="LocalOnly" programName="Rscript.exe" programArguments="transformer.R" className="SyncroSim.StochasticTime.StochasticTimeTransformer" classAssembly="SyncroSim.StochasticTime" configurationSheet="stsim_RunControl">
       <datafeeds>
@@ -110,7 +110,7 @@
       <item name="Database"/>
     </layout>
     <layout name="coreforms_ProjectDatafeeds" appendTo="Advanced">
-      <group name="CBM-CFS3">
+      <group name="CBMCFS3Group" displayName="CBM-CFS3">
         <item name="EcoBoundary"/>
         <item name="AdminBoundary"/>
         <item name="SpeciesType"/>
@@ -118,7 +118,7 @@
       </group>
     </layout>
     <layout name="coreforms_ScenarioDatafeeds" appendTo="Advanced">
-      <group name="CBM-CFS3 to ST-Sim Crosswalk">
+      <group name="CrosswalkGroup" displayName="CBM-CFS3 to ST-Sim Crosswalk">
         <item name="CrosswalkSpecies" displayName="Spatial Unit and Species Type"/>
         <item name="CrosswalkDisturbance" displayName="Disturbance"/>
         <item name="CrosswalkStock" displayName="Carbon Stock"/>
