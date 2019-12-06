@@ -106,10 +106,10 @@
     </transformer>
   </transformers>
   <layouts>
-    <layout name="coreforms_LibraryDatafeeds" appendTo="Options">
+    <layout name="coreforms_LibraryDatafeeds" appendTo="stsim_Options">
       <item name="Database"/>
     </layout>
-    <layout name="coreforms_ProjectDatafeeds" appendTo="Advanced">
+    <layout name="coreforms_ProjectDatafeeds" appendTo="stsim_Advanced">
       <group name="CBMCFS3Group" displayName="CBM-CFS3">
         <item name="EcoBoundary"/>
         <item name="AdminBoundary"/>
@@ -117,7 +117,7 @@
         <item name="DisturbanceType"/>
       </group>
     </layout>
-    <layout name="coreforms_ScenarioDatafeeds" appendTo="Advanced">
+    <layout name="coreforms_ScenarioDatafeeds" appendTo="stsim_Advanced">
       <group name="CrosswalkGroup" displayName="CBM-CFS3 to ST-Sim Crosswalk">
         <item name="CrosswalkSpecies" displayName="Spatial Unit and Species Type"/>
         <item name="CrosswalkDisturbance" displayName="Disturbance"/>
