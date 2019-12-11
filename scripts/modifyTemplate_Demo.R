@@ -42,32 +42,16 @@ crosswalkRowNumber <- 1
 # The name of the ssim template library
 templateLibraryName <- "CBM-CFS3 Template.ssim"
 # The name you want to give to your working copy of the template
-myLibraryName <- "CBM-CFS3 Demo BC Pacific Maritime Doug Fir.ssim"
+myLibraryName <- "cbmcfs3Test.ssim"
 myProjectName <- "Definitions"
 numTimesteps <- 300
 maxAge <- 300
 initialStandAge <- 0
 standArea <- 1
 
-# TODO: Separate out what only needs to happen once from what needs to happen once per row
-#       in the cross walk csv file.
-
-#######################
-# Read in input files #
-#######################
-# Read in CBM-CFS3 Crosswalk for Spatial Unit and Species Type
-crosswalkSUST <- read.csv(paste0(crosswalkDir, crosswalkSUSTName), check.names = F)[crosswalkRowNumber,]
-crosswalkSUST$StateLabelX <- gsub("(.*)\\:(.*)","\\1", crosswalkSUST[,"ST-Sim State Class"])
-crosswalkSUST$StateLabelY <- gsub("(.*)\\:(.*)","\\2", crosswalkSUST[,"ST-Sim State Class"])
-
-# Read in CBM-CFS3 Simulation data
-CBMSimulationData <- read.csv(paste0(CBMDir, crosswalkSUST$CBMSimulationDataFileName), header=TRUE, check.names = F)
-# Remove blank column that CBM-CFS exports by default
-CBMSimulationData <- CBMSimulationData[,1:(ncol(CBMSimulationData)-1)]
-
+# First do everything that needs to be done only once for the library
 ###########################################################
 # ST-Sim open session and get parameters from data sheets #
-# TODO: THis section only needs to happen once across all rows 
 ###########################################################
 # Open ST-Sim library and project
 mySession <- session()
@@ -78,19 +62,9 @@ myLibrary <- ssimLibrary(name = paste0(myLibraryDir, myLibraryName), session = m
 myProject <- project(myLibrary, project=myProjectName)
 name(myLibrary) <- myLibraryName
 
-crosswalkSF <- datasheet(scenario(myProject,"CBM-CFS3 Crosswalk - Carbon Stock"), name="stsimcbmcfs3_CrosswalkStock")
 
-# Crosswalk function
-crossSF <- function(CBMStock){ as.character(crosswalkSF$StockTypeID[crosswalkSF$CBMStock==CBMStock])}
-
-# Identify biomass and DOM stocks
-biomassStocks <- unlist(lapply(c("Merchantable", "Foliage", "Other", "Coarse root", "Fine root"), crossSF))
-DOMStocks <- unique(unlist(lapply(c("Aboveground Very Fast DOM", "Aboveground Fast DOM", "Aboveground Medium DOM", "Aboveground Slow DOM",
-                                    "Belowground Very Fast DOM", "Belowground Fast DOM", "Belowground Slow DOM",
-                                    "Softwood Branch Snag", "Softwood Stem Snag", "Hardwood Branch Snag", "Hardwood Stem Snag"), 
-                                  crossSF)))
-numBiomassStocks <- length(biomassStocks)
-numDOMStocks <- length(DOMStocks)
+# TODO: Separate out what only needs to happen once from what needs to happen once per row
+#       in the cross walk csv file.
 
 ##############################
 # Library Options (CBM-CFS3) #
@@ -117,32 +91,6 @@ mySheet$SecondaryStratumLabel[1] <- "Administrative Boundary"
 mySheet$TimestepUnits[1] <- "Year"
 saveDatasheet(myProject, mySheet, sheetName)
 
-# ST-Sim Primary Strata 
-sheetName <- "stsim_Stratum"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"ST-Sim Stratum"]
-#mySheet[1,"ID"] <- 1
-saveDatasheet(myProject, mySheet, name=sheetName)
-
-# ST-Sim Secondary Strata 
-sheetName <- "stsim_SecondaryStratum"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"ST-Sim Secondary Stratum"]
-#mySheet[1,"ID"] <- 1
-saveDatasheet(myProject, mySheet, name=sheetName)
-
-# ST-Sim State Label x
-sheetName <- "stsim_StateLabelX"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"StateLabelX"]
-saveDatasheet(myProject, mySheet, name=sheetName)
-
-# ST-Sim State Label y
-sheetName <- "stsim_StateLabelY"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"StateLabelY"]
-saveDatasheet(myProject, mySheet, name=sheetName)
-
 #ST-Sim Age Type
 # TODO: Ages section only needs to happen once across all rows 
 sheetName <- "stsim_AgeType"
@@ -157,42 +105,6 @@ sheetName <- "stsim_AgeGroup"
 mySheet <- datasheet(myProject, name=sheetName, optional=T)
 mySheet[1:(maxAge/20),"MaximumAge"] <- c(seq(from=20, to=(maxAge-1), by=20), maxAge-1)
 saveDatasheet(myProject, mySheet, name=sheetName)
-
-# ST-Sim StateClass
-sheetName <- "stsim_StateClass"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"ST-Sim State Class"]
-mySheet[1:nrow(crosswalkSUST),"StateLabelXID"] <- crosswalkSUST[,"StateLabelX"]
-mySheet[1:nrow(crosswalkSUST),"StateLabelYID"] <- crosswalkSUST[,"StateLabelY"]
-#mySheet[1, "ID"] <- 1
-saveDatasheet(myProject, mySheet, name=sheetName)
-
-# NB: No transitions for now
-
-
-##########################
-# Definitions (CBM-CFS3) #
-##########################
-sheetName <- "stsimcbmcfs3_EcoBoundary"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"CBM-CFS3 Ecological Boundary"]
-saveDatasheet(myProject, mySheet, name=sheetName)
-
-sheetName <- "stsimcbmcfs3_AdminBoundary"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"CBM-CFS3 Administrative Boundary"]
-saveDatasheet(myProject, mySheet, name=sheetName)
-
-sheetName <- "stsimcbmcfs3_SpeciesType"
-mySheet <- datasheet(myProject, name=sheetName, optional=T)
-mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"CBM-CFS3 Species Type"]
-saveDatasheet(myProject, mySheet, name=sheetName)
-
-# NB: No disturbances for now
-
-####################################
-# Sub-scenario datasheets (ST-Sim) #
-####################################
 
 # ST-Sim Run Control
 # TODO: Run Control section only needs to happen once across all rows 
@@ -210,33 +122,6 @@ mySheet[1,"MaximumTimestep"] <- maxTimestep
 mySheet[1,"IsSpatial"] <- FALSE
 saveDatasheet(myScenario, mySheet, sheetName)
 
-# ST-Sim Transition Pathways
-myScenario <- scenario(myProject, scenario <- "Pathway Diagram")
-sheetName <- "stsim_DeterministicTransition"
-mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-mySheet[1:nrow(crosswalkSUST), "StratumIDSource"] <- crosswalkSUST[,"ST-Sim Stratum"]
-mySheet[1:nrow(crosswalkSUST), "StateClassIDSource"] <- crosswalkSUST[,"ST-Sim State Class"]
-mySheet[1:nrow(crosswalkSUST), "Location"] <- paste0("A", c(1:nrow(crosswalkSUST)))
-saveDatasheet(myScenario, mySheet, sheetName)
-
-# NB: No probabilistic transitions for now
-
-# ST-Sim Initial conditions
-myScenario <- scenario(myProject, scenario = paste0("Initial Conditions [Non-spatial; Single cell; ", standArea, " ha; Age ", initialStandAge, "]"))
-sheetName <- "stsim_InitialConditionsNonSpatial"
-mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-mySheet[1, "TotalAmount"] <- standArea * nrow(crosswalkSUST)
-mySheet[1, "NumCells"] <- nrow(crosswalkSUST)
-mySheet[1, "CalcFromDist"] <- F
-saveDatasheet(myScenario, mySheet, sheetName)
-sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
-mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-mySheet[1:nrow(crosswalkSUST), "StratumID"] <- crosswalkSUST[,"ST-Sim Stratum"]
-mySheet[1:nrow(crosswalkSUST), "SecondaryStratumID"] <- crosswalkSUST[,"ST-Sim Secondary Stratum"]
-mySheet[1:nrow(crosswalkSUST), "StateClassID"] <- crosswalkSUST[,"ST-Sim State Class"]
-mySheet[1:nrow(crosswalkSUST), "AgeMin"] <- initialStandAge
-mySheet[1:nrow(crosswalkSUST), "RelativeAmount"] <- standArea
-saveDatasheet(myScenario, mySheet, sheetName)
 
 # ST-Sim Output options
 # TODO: Output options section only needs to happen once across all rows 
@@ -259,17 +144,145 @@ mySheet[1, "SummaryOutputOmitSS"] <- F
 mySheet[1, "SummaryOutputOmitTS"] <- F
 saveDatasheet(myScenario, mySheet, sheetName)
 
-#ST-Sim State attribute values
-# Loop over all entries in crosswalkSUST to create state attribute values for initial carbon stocks (biomass & DOM stocks)
-for(i in 1:nrow(crosswalkSUST)){
-  #i<-1
+# Get the SF croswalk sorted out before looping over rows as this should always be the same
+crosswalkSF <- datasheet(scenario(myProject,"CBM-CFS3 Crosswalk - Carbon Stock"), name="stsimcbmcfs3_CrosswalkStock")
+
+# Crosswalk function
+crossSF <- function(CBMStock){ as.character(crosswalkSF$StockTypeID[crosswalkSF$CBMStock==CBMStock])}
+
+# Identify biomass and DOM stocks
+biomassStocks <- unlist(lapply(c("Merchantable", "Foliage", "Other", "Coarse root", "Fine root"), crossSF))
+DOMStocks <- unique(unlist(lapply(c("Aboveground Very Fast DOM", "Aboveground Fast DOM", "Aboveground Medium DOM", "Aboveground Slow DOM",
+                                    "Belowground Very Fast DOM", "Belowground Fast DOM", "Belowground Slow DOM",
+                                    "Softwood Branch Snag", "Softwood Stem Snag", "Hardwood Branch Snag", "Hardwood Stem Snag"), 
+                                  crossSF)))
+numBiomassStocks <- length(biomassStocks)
+numDOMStocks <- length(DOMStocks)
+
+
+
+#########################################################
+# Start Loop over croswalk rows here
+#########################################################
+
+crosswalkSUSTFull <- read.csv(paste0(crosswalkDir, crosswalkSUSTName), check.names = F)
+
+myScenario <- scenario(myProject, scenario = paste0("Initial Conditions [Non-spatial; Single cell; ", standArea, " ha; Age ", initialStandAge, "]"))
+sheetName <- "stsim_InitialConditionsNonSpatial"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheet[1, "TotalAmount"] <- standArea * nrow(crosswalkSUSTFull)
+mySheet[1, "NumCells"] <- nrow(crosswalkSUSTFull)
+mySheet[1, "CalcFromDist"] <- F
+saveDatasheet(myScenario, mySheet, sheetName)
+
+for (row in 1:nrow(crosswalkSUSTFull)) {
+  # row = 2
+  # price <- stock[row, "apple"]
+  
+  #######################
+  # Read in input files #
+  #######################
+  # Read in CBM-CFS3 Crosswalk for Spatial Unit and Species Type
+  crosswalkSUST <- read.csv(paste0(crosswalkDir, crosswalkSUSTName), check.names = F)[row,]
+  crosswalkSUST$StateLabelX <- gsub("(.*)\\:(.*)","\\1", crosswalkSUST[,"ST-Sim State Class"])
+  crosswalkSUST$StateLabelY <- gsub("(.*)\\:(.*)","\\2", crosswalkSUST[,"ST-Sim State Class"])
+  
+  # Read in CBM-CFS3 Simulation data
+  CBMSimulationData <- read.csv(paste0(CBMDir, crosswalkSUST$CBMSimulationDataFileName), header=TRUE, check.names = F)
+  # Remove blank column that CBM-CFS exports by default
+  CBMSimulationData <- CBMSimulationData[,1:(ncol(CBMSimulationData)-1)]
+  
+  # ST-Sim Primary Strata 
+  sheetName <- "stsim_Stratum"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"ST-Sim Stratum"]
+  #mySheet[1,"ID"] <- 1
+  saveDatasheet(myProject, mySheet, name=sheetName, append = T)
+  
+  # ST-Sim Secondary Strata 
+  sheetName <- "stsim_SecondaryStratum"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"ST-Sim Secondary Stratum"]
+  #mySheet[1,"ID"] <- 1
+  saveDatasheet(myProject, mySheet, name=sheetName)
+  
+  # ST-Sim State Label x
+  sheetName <- "stsim_StateLabelX"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"StateLabelX"]
+  saveDatasheet(myProject, mySheet, name=sheetName)
+  
+  # ST-Sim State Label y
+  sheetName <- "stsim_StateLabelY"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"StateLabelY"]
+  saveDatasheet(myProject, mySheet, name=sheetName)
+  
+  # ST-Sim StateClass
+  sheetName <- "stsim_StateClass"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"ST-Sim State Class"]
+  mySheet[1:nrow(crosswalkSUST),"StateLabelXID"] <- crosswalkSUST[,"StateLabelX"]
+  mySheet[1:nrow(crosswalkSUST),"StateLabelYID"] <- crosswalkSUST[,"StateLabelY"]
+  #mySheet[1, "ID"] <- 1
+  saveDatasheet(myProject, mySheet, name=sheetName)
+  
+  # NB: No transitions for now
+  
+  ##########################
+  # Definitions (CBM-CFS3) #
+  ##########################
+  sheetName <- "stsimcbmcfs3_EcoBoundary"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"CBM-CFS3 Ecological Boundary"]
+  saveDatasheet(myProject, mySheet, name=sheetName)
+  
+  sheetName <- "stsimcbmcfs3_AdminBoundary"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"CBM-CFS3 Administrative Boundary"]
+  saveDatasheet(myProject, mySheet, name=sheetName)
+  
+  sheetName <- "stsimcbmcfs3_SpeciesType"
+  mySheet <- datasheet(myProject, name=sheetName, optional=T)
+  mySheet[1:nrow(crosswalkSUST),"Name"] <- crosswalkSUST[,"CBM-CFS3 Species Type"]
+  saveDatasheet(myProject, mySheet, name=sheetName)
+  
+  # NB: No disturbances for now
+  
+  ####################################
+  # Sub-scenario datasheets (ST-Sim) #
+  ####################################
+  
+  # ST-Sim Transition Pathways
+  myScenario <- scenario(myProject, scenario <- "Pathway Diagram")
+  sheetName <- "stsim_DeterministicTransition"
+  mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+  mySheet[1:nrow(crosswalkSUST), "StratumIDSource"] <- crosswalkSUST[,"ST-Sim Stratum"]
+  mySheet[1:nrow(crosswalkSUST), "StateClassIDSource"] <- crosswalkSUST[,"ST-Sim State Class"]
+  mySheet[1:nrow(crosswalkSUST), "Location"] <- paste0("A", c(row))
+  saveDatasheet(myScenario, mySheet, sheetName, append = T)
+  
+  # NB: No probabilistic transitions for now
+  
+  # ST-Sim Initial conditions
+  myScenario <- scenario(myProject, scenario = paste0("Initial Conditions [Non-spatial; Single cell; ", standArea, " ha; Age ", initialStandAge, "]"))
+  sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
+  mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+  mySheet[1:nrow(crosswalkSUST), "StratumID"] <- crosswalkSUST[,"ST-Sim Stratum"]
+  mySheet[1:nrow(crosswalkSUST), "SecondaryStratumID"] <- crosswalkSUST[,"ST-Sim Secondary Stratum"]
+  mySheet[1:nrow(crosswalkSUST), "StateClassID"] <- crosswalkSUST[,"ST-Sim State Class"]
+  mySheet[1:nrow(crosswalkSUST), "AgeMin"] <- initialStandAge
+  mySheet[1:nrow(crosswalkSUST), "RelativeAmount"] <- standArea
+  saveDatasheet(myScenario, mySheet, sheetName, append = T)
+  
+  #ST-Sim State attribute values
   
   # Connect to CBM-CFS3 "ArchiveIndex_Beta_Install.mdb" to assess if the species is Softwood or Hardwood
   CBMdatabase <- odbcDriverConnect(paste0("Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=", CBMDatabasePath))
   
   # Get Species and Forest Type IDs
   speciesTypeTable <- sqlFetch(CBMdatabase, "tblSpeciesTypeDefault")
-  speciesTypeID <- speciesTypeTable$SpeciesTypeID[speciesTypeTable$SpeciesTypeName == as.character(crosswalkSUST[i, "CBM-CFS3 Species Type"])]
+  speciesTypeID <- speciesTypeTable$SpeciesTypeID[speciesTypeTable$SpeciesTypeName == as.character(crosswalkSUST[1, "CBM-CFS3 Species Type"])]
   forestTypeID <- speciesTypeTable$ForestTypeID[speciesTypeTable$SpeciesTypeID == speciesTypeID]
   
   # Get Forest Type Name
@@ -283,9 +296,9 @@ for(i in 1:nrow(crosswalkSUST)){
   myScenario <- scenario(myProject, scenario = "State Attribute Values")
   sheetName <- "stsim_StateAttributeValue"
   stateAttributeInitialCarbonBiomass <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-  stateAttributeInitialCarbonBiomass[1:(nrow(CBMSimulationData)*numBiomassStocks), "StratumID"] <- crosswalkSUST[i, "ST-Sim Stratum"]             
-  stateAttributeInitialCarbonBiomass[1:(nrow(CBMSimulationData)*numBiomassStocks), "SecondaryStratumID"] <- crosswalkSUST[i, "ST-Sim Secondary Stratum"]
-  stateAttributeInitialCarbonBiomass[1:(nrow(CBMSimulationData)*numBiomassStocks), "StateClassID"] <- crosswalkSUST[i, "ST-Sim State Class"]
+  stateAttributeInitialCarbonBiomass[1:(nrow(CBMSimulationData)*numBiomassStocks), "StratumID"] <- crosswalkSUST[1, "ST-Sim Stratum"]             
+  stateAttributeInitialCarbonBiomass[1:(nrow(CBMSimulationData)*numBiomassStocks), "SecondaryStratumID"] <- crosswalkSUST[1, "ST-Sim Secondary Stratum"]
+  stateAttributeInitialCarbonBiomass[1:(nrow(CBMSimulationData)*numBiomassStocks), "StateClassID"] <- crosswalkSUST[1, "ST-Sim State Class"]
   stateAttributeInitialCarbonBiomass[1:(nrow(CBMSimulationData)*numBiomassStocks), "StateAttributeTypeID"] <- c(rep("Carbon Initial Conditions: Merchantable", nrow(CBMSimulationData)),
                                                                                                                 rep("Carbon Initial Conditions: Other Wood", nrow(CBMSimulationData)),
                                                                                                                 rep("Carbon Initial Conditions: Foliage", nrow(CBMSimulationData)),
@@ -303,9 +316,9 @@ for(i in 1:nrow(crosswalkSUST)){
   # State Attribute Values for initial carbon stocks of DOM components using CBM-CFS3
   sheetName <- "stsim_StateAttributeValue"
   stateAttributeInitialCarbonDOM <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-  stateAttributeInitialCarbonDOM[1:(nrow(CBMSimulationData)*numDOMStocks), "StratumID"] <- crosswalkSUST[i, "ST-Sim Stratum"]             
-  stateAttributeInitialCarbonDOM[1:(nrow(CBMSimulationData)*numDOMStocks), "SecondaryStratumID"] <- crosswalkSUST[i, "ST-Sim Secondary Stratum"]
-  stateAttributeInitialCarbonDOM[1:(nrow(CBMSimulationData)*numDOMStocks), "StateClassID"] <- crosswalkSUST[i, "ST-Sim State Class"]
+  stateAttributeInitialCarbonDOM[1:(nrow(CBMSimulationData)*numDOMStocks), "StratumID"] <- crosswalkSUST[1, "ST-Sim Stratum"]             
+  stateAttributeInitialCarbonDOM[1:(nrow(CBMSimulationData)*numDOMStocks), "SecondaryStratumID"] <- crosswalkSUST[1, "ST-Sim Secondary Stratum"]
+  stateAttributeInitialCarbonDOM[1:(nrow(CBMSimulationData)*numDOMStocks), "StateClassID"] <- crosswalkSUST[1, "ST-Sim State Class"]
   stateAttributeInitialCarbonDOM[1:(nrow(CBMSimulationData)*numDOMStocks), "StateAttributeTypeID"] <- c(rep("Carbon Initial Conditions: Aboveground Very Fast", nrow(CBMSimulationData)),
                                                                                                         rep("Carbon Initial Conditions: Aboveground Fast", nrow(CBMSimulationData)),
                                                                                                         rep("Carbon Initial Conditions: Aboveground Medium", nrow(CBMSimulationData)),
@@ -331,7 +344,9 @@ for(i in 1:nrow(crosswalkSUST)){
   
   # Combine all State Attribute Values
   stateAttributes <- rbind(stateAttributeInitialCarbonBiomass, stateAttributeInitialCarbonDOM)
-  saveDatasheet(myScenario, stateAttributes, sheetName)
+  saveDatasheet(myScenario, stateAttributes, sheetName, append = T)
+  
+  
 }
 
 
@@ -341,13 +356,13 @@ for(i in 1:nrow(crosswalkSUST)){
 myScenario <- scenario(myProject, scenario = "CBM-CFS3 Crosswalk - Spatial Unit and Species Type")
 sheetName <- "stsimcbmcfs3_CrosswalkSpecies"
 mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-mySheet[1:nrow(crosswalkSUST), "EcoBoundaryID"] <- crosswalkSUST[, "CBM-CFS3 Ecological Boundary"]
-mySheet[1:nrow(crosswalkSUST), "AdminBoundaryID"] <- crosswalkSUST[, "CBM-CFS3 Administrative Boundary"]
-mySheet[1:nrow(crosswalkSUST), "SpeciesTypeID"] <- crosswalkSUST[, "CBM-CFS3 Species Type"]
-mySheet[1:nrow(crosswalkSUST), "StratumID"] <- crosswalkSUST[, "ST-Sim Stratum"]
-mySheet[1:nrow(crosswalkSUST), "SecondaryStratumID"] <- crosswalkSUST[, "ST-Sim Secondary Stratum"]
-mySheet[1:nrow(crosswalkSUST), "TertiaryStratumID"] <- crosswalkSUST[, "ST-Sim Tertiary Stratum"]
-mySheet[1:nrow(crosswalkSUST), "StateClassID"] <- crosswalkSUST[, "ST-Sim State Class"]
+mySheet[1:nrow(crosswalkSUSTFull), "EcoBoundaryID"] <- crosswalkSUSTFull[, "CBM-CFS3 Ecological Boundary"]
+mySheet[1:nrow(crosswalkSUSTFull), "AdminBoundaryID"] <- crosswalkSUSTFull[, "CBM-CFS3 Administrative Boundary"]
+mySheet[1:nrow(crosswalkSUSTFull), "SpeciesTypeID"] <- crosswalkSUSTFull[, "CBM-CFS3 Species Type"]
+mySheet[1:nrow(crosswalkSUSTFull), "StratumID"] <- crosswalkSUSTFull[, "ST-Sim Stratum"]
+mySheet[1:nrow(crosswalkSUSTFull), "SecondaryStratumID"] <- crosswalkSUSTFull[, "ST-Sim Secondary Stratum"]
+mySheet[1:nrow(crosswalkSUSTFull), "TertiaryStratumID"] <- crosswalkSUSTFull[, "ST-Sim Tertiary Stratum"]
+mySheet[1:nrow(crosswalkSUSTFull), "StateClassID"] <- crosswalkSUSTFull[, "ST-Sim State Class"]
 saveDatasheet(myScenario, mySheet, sheetName)
 
 #############################
@@ -370,6 +385,8 @@ dependency(myScenario,
              "SF Flow Group Membership",
              "CBM-CFS3 Crosswalk - Carbon Stock",
              "CBM-CFS3 Crosswalk - Spatial Unit and Species Type"))
+
+# TODO: Need to fix transformer.R before being able to run.
 run(myProject, scenario = myScenarioName, summary = TRUE, jobs = 1)
 
 ###################################

@@ -62,9 +62,12 @@ proportionFineRootsToBGVeryFast <- 0.5
 proportionCoarseRootsToAGFast <- 0.5
 proportionCoarseRootsToBGFast <- 0.5
 
+stateAttributesNetGrowthMaster = datasheet(myScenario, name="stsim_StateAttributeValue", empty = T, optional = T)
+flowMultiplierMaster <- datasheet(myScenario, name="stsimsf_FlowMultiplier", empty = T, optional = T)
+
 # Loop over all entries in crosswalkStratumState
 for(i in 1: nrow(crosswalkStratumState)){
-  #i<-1
+  #i<-4
   ####################################
   # CBM parameters from CBM Database # 
   ####################################
@@ -201,7 +204,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   stateAttributeValuesWide <- spread(stateAttributeValues, key="StateAttributeTypeID", value = "Value")
   carbonInitialConditions <- datasheet(myScenario, "stsimsf_InitialStockNonSpatial", empty=FALSE, optional=TRUE)
   
-  volumeToCarbon <- stateAttributeValuesWide
+  volumeToCarbon <- filter(stateAttributeValuesWide, StratumID == crosswalkStratumState$StratumID[i] & SecondaryStratumID == crosswalkStratumState$SecondaryStratumID[i])
   volumeToCarbon$c_m <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Merchantable")])]
   volumeToCarbon$c_foliage <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Foliage")])]
   volumeToCarbon$c_other <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Other")])]
@@ -245,51 +248,47 @@ for(i in 1: nrow(crosswalkStratumState)){
   stateAttributesNetGrowth[1:nrow(volumeToCarbon), "AgeMax"] <- volumeToCarbon$AgeMin[1:nrow(volumeToCarbon)]
   stateAttributesNetGrowth[1:nrow(volumeToCarbon), "Value"] <- volumeToCarbon$g_all[1:nrow(volumeToCarbon)]
   stateAttributesNetGrowth[nrow(volumeToCarbon), "AgeMax"] <- NA
-    
-  saveDatasheet(myScenario, stateAttributesNetGrowth, name = "stsim_StateAttributeValue", append = TRUE)
   
+  stateAttributesNetGrowthMaster = rbind(stateAttributesNetGrowth, stateAttributesNetGrowthMaster)
 
   # SF Flow Pathways
   # Flow Multilpiers for biomass net growth based on volume-to-carbon proportions 
-  flowPathwayNetGrowth <- datasheet(myScenario, name="stsimsf_FlowPathway", empty = T, optional = T)
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FromStratumID"] <- crosswalkStratumState$StratumID[i]
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FromSecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks),"FromStateClassID"] <- crosswalkStratumState$StateClassID[i]
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FromAgeMin"] <- rep(volumeToCarbon$AgeMin[1:nrow(volumeToCarbon)], numBiomassStocks)
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "ToAgeMin"] <- rep(volumeToCarbon$AgeMin[1:nrow(volumeToCarbon)], numBiomassStocks)
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FromStockTypeID"] <- "Atmosphere"
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "ToStockTypeID"] <- c(rep(crossSF("Merchantable"), nrow(volumeToCarbon)),
-                                                                                        rep(crossSF("Other"), nrow(volumeToCarbon)),
-                                                                                        rep(crossSF("Foliage"), nrow(volumeToCarbon)),
-                                                                                        rep(crossSF("Fine root"), nrow(volumeToCarbon)),
-                                                                                        rep(crossSF("Coarse root"), nrow(volumeToCarbon)))
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FlowTypeID"] <- c(rep(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Merchantable"))]), nrow(volumeToCarbon)),
-                                                                                     rep(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Other"))]), nrow(volumeToCarbon)),
-                                                                                     rep(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Foliage"))]), nrow(volumeToCarbon)),
-                                                                                     rep(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Fine root"))]), nrow(volumeToCarbon)),
-                                                                                     rep(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Coarse root"))]), nrow(volumeToCarbon)))
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks),"StateAttributeTypeID"] <- "Net Growth"
-  flowPathwayNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "Multiplier"] <- c(volumeToCarbon$g_m[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
+  flowMultiplierNetGrowth <- datasheet(myScenario, name="stsimsf_FlowMultiplier", empty = T, optional = T)
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "StratumID"] <- crosswalkStratumState$StratumID[i]
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "SecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks),"StateClassID"] <- crosswalkStratumState$StateClassID[i]
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "AgeMin"] <- rep(volumeToCarbon$AgeMin[1:nrow(volumeToCarbon)], numBiomassStocks)
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "AgeMax"] <- rep(volumeToCarbon$AgeMin[1:nrow(volumeToCarbon)], numBiomassStocks)
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FlowGroupID"] <- c(rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Merchantable"))])," [Type]"), nrow(volumeToCarbon)),
+                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Other"))]), " [Type]"),nrow(volumeToCarbon)),
+                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Foliage"))]), " [Type]"), nrow(volumeToCarbon)),
+                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Fine root"))]), " [Type]"), nrow(volumeToCarbon)),
+                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Coarse root"))]), " [Type]"),  nrow(volumeToCarbon)))
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "Value"] <- c(volumeToCarbon$g_m[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
                                                                                      volumeToCarbon$g_other[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
                                                                                      volumeToCarbon$g_foliage[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
                                                                                      volumeToCarbon$g_fineroots[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
                                                                                      volumeToCarbon$g_coarseroots[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)])
-  flowPathwayNetGrowth[flowPathwayNetGrowth$FromAgeMin == volumeToCarbon$AgeMin[nrow(volumeToCarbon)], "ToAgeMin"] <- NA
-  flowPathwayNetGrowth[is.nan.data.frame(flowPathwayNetGrowth)] <- 0
+  #flowMultiplierNetGrowth[flowMultiplierNetGrowth$AgeMin == volumeToCarbon$AgeMin[nrow(volumeToCarbon)], "AgeMax"] <- NA
+  #flowMultiplierNetGrowth[is.nan.data.frame(flowMultiplierNetGrowth)] <- 0
   
-  # Flow Pathways for biomass turnover rates and DOM transfer and decay rates
+  #Flow Pathways for biomass turnover rates and DOM transfer and decay rates
   flowPathwayTable <- rbind(biomassTurnoverTable, DOMTable[,names(biomassTurnoverTable)])
-  flowPathwayTurnoverTransferDecayEmission <- datasheet(myScenario, name="stsimsf_FlowPathway", empty=T, optional=T)
-  flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FromStratumID"] <- crosswalkStratumState$StratumID[i]
-  flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FromSecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]
-  flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FromStateClassID"] <- crosswalkStratumState$StateClassID[i]
-  flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FromStockTypeID"] <- flowPathwayTable$FromStockTypeID
-  flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "ToStockTypeID"] <- flowPathwayTable$ToStockTypeID
-  flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FlowTypeID"] = flowPathwayTable$FlowTypeID
-  flowPathwayTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "Multiplier"] = flowPathwayTable$Multiplier
+  flowMultiplierTurnoverTransferDecayEmission <- datasheet(myScenario, name="stsimsf_FlowMultiplier", empty=T, optional=T)
+  flowMultiplierTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "StratumID"] <- crosswalkStratumState$StratumID[i]
+  flowMultiplierTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "SecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]
+  flowMultiplierTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "StateClassID"] <- crosswalkStratumState$StateClassID[i]
+  flowMultiplierTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "FlowGroupID"] = paste0(flowPathwayTable$FlowTypeID," [Type]")
+  flowMultiplierTurnoverTransferDecayEmission[1:nrow(flowPathwayTable), "Value"] = flowPathwayTable$Multiplier
   
   # Combine all flow multipliers
-  flowPathwayAll <- rbind(flowPathwayNetGrowth, flowPathwayTurnoverTransferDecayEmission)
+  flowMultiplierAll <- rbind(flowMultiplierNetGrowth, flowMultiplierTurnoverTransferDecayEmission)
+  flowMultiplierMaster <- rbind(flowMultiplierAll,flowMultiplierMaster)
   
-  saveDatasheet(myScenario, flowPathwayAll, name="stsimsf_FlowPathway", append=FALSE)
-  }
+  
+}
+
+saveDatasheet(myScenario, stateAttributesNetGrowthMaster, name = "stsim_StateAttributeValue", append = TRUE)
+saveDatasheet(myScenario, flowMultiplierMaster, name="stsimsf_FlowMultiplier", append=T)
+
+
