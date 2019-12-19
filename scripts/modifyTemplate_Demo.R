@@ -28,7 +28,7 @@ CBMDir <- paste0("C:/Users/leona/Documents/Apex Projects/A223 - USGS - Task Orde
   
 # Source external R scripts
 # Function to create a validation scenario
-source("C:/Users/leona/Documents/Apex Projects/A223 - USGS - Task Order 7/CBMCFS3/A200-20_v2.1.16/R scripts/createValidationScenario.R")
+source("C:/gitprojects/stsimcbmcfs3/scripts/createValidationScenario.R")
 
 # CBM-CFS3 Inputs
 # This is the path to the CBM-CFS3 database. The easiest way to get the database is to install the CBM-CFS3 and look for it in the /Admin/DBs folder
@@ -172,7 +172,7 @@ sheetName <- "stsim_InitialConditionsNonSpatial"
 mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
 mySheet[1, "TotalAmount"] <- standArea * nrow(crosswalkSUSTFull)
 mySheet[1, "NumCells"] <- nrow(crosswalkSUSTFull)
-mySheet[1, "CalcFromDist"] <- F
+mySheet[1, "CalcFromDist"] <- T
 saveDatasheet(myScenario, mySheet, sheetName)
 
 for (row in 1:nrow(crosswalkSUSTFull)) {
@@ -404,5 +404,5 @@ dependency(myValidationScenario,
 
 # Go to Syncrosim UI and run ST-Sim for this scenario, then run this next line of code
 # TODO: May need to update "createCBMValidationScenario" to work with multiple crosswalk rows.
-createCBMValidationScenario(myLibraryDir, myLibraryName, myValidationScenarioName, crosswalkSF, crosswalkSUST, forestType, validationDataWide=CBMSimulationData)
+createCBMValidationScenario(myLibraryDir, myLibraryName, myValidationScenarioName, crosswalkSF, crosswalkSUSTFull)
 

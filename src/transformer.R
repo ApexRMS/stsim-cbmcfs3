@@ -67,7 +67,7 @@ flowMultiplierMaster <- datasheet(myScenario, name="stsimsf_FlowMultiplier", emp
 
 # Loop over all entries in crosswalkStratumState
 for(i in 1: nrow(crosswalkStratumState)){
-  #i<-4
+  #i<-1
   ####################################
   # CBM parameters from CBM Database # 
   ####################################
@@ -163,8 +163,16 @@ for(i in 1: nrow(crosswalkStratumState)){
   #####################################################
   # DOM transfer rates
   DOMTransferFlows[DOMTransferFlows$FromStockTypeID==crossSF("Aboveground Slow DOM") & DOMTransferFlows$ToStockTypeID == crossSF("Belowground Slow DOM"), "Multiplier"] <- transferRateSlowAGToBG
-  DOMTransferFlows[DOMTransferFlows$FromStockTypeID==crossSF("Softwood Stem Snag") & DOMTransferFlows$ToStockTypeID == crossSF("Aboveground Medium DOM"), "Multiplier"] <- transferRateStemSnagToDOM
-  DOMTransferFlows[DOMTransferFlows$FromStockTypeID==crossSF("Softwood Branch Snag") & DOMTransferFlows$ToStockTypeID == crossSF("Aboveground Fast DOM"), "Multiplier"] <- transferRateBranchSnagToDOM
+  
+  if(ForestType == "Softwood"){
+    DOMTransferFlows[DOMTransferFlows$FromStockTypeID==crossSF("Softwood Stem Snag") & DOMTransferFlows$ToStockTypeID == crossSF("Aboveground Medium DOM"), "Multiplier"] <- transferRateStemSnagToDOM
+    DOMTransferFlows[DOMTransferFlows$FromStockTypeID==crossSF("Softwood Branch Snag") & DOMTransferFlows$ToStockTypeID == crossSF("Aboveground Fast DOM"), "Multiplier"] <- transferRateBranchSnagToDOM
+  }
+  if(ForestType == "Hardwood"){
+    DOMTransferFlows[DOMTransferFlows$FromStockTypeID==crossSF("Hardwood Stem Snag") & DOMTransferFlows$ToStockTypeID == crossSF("Aboveground Medium DOM"), "Multiplier"] <- transferRateStemSnagToDOM
+    DOMTransferFlows[DOMTransferFlows$FromStockTypeID==crossSF("Hardwood Branch Snag") & DOMTransferFlows$ToStockTypeID == crossSF("Aboveground Fast DOM"), "Multiplier"] <- transferRateBranchSnagToDOM
+  }
+  
   DOMTable <- rbind(DOMTable[,names(DOMTransferFlows)], DOMTransferFlows)
   
   # Biomass turnover rates
@@ -204,7 +212,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   stateAttributeValuesWide <- spread(stateAttributeValues, key="StateAttributeTypeID", value = "Value")
   carbonInitialConditions <- datasheet(myScenario, "stsimsf_InitialStockNonSpatial", empty=FALSE, optional=TRUE)
   
-  volumeToCarbon <- filter(stateAttributeValuesWide, StratumID == crosswalkStratumState$StratumID[i] & SecondaryStratumID == crosswalkStratumState$SecondaryStratumID[i])
+  volumeToCarbon <- filter(stateAttributeValuesWide, StratumID == crosswalkStratumState$StratumID[i] & SecondaryStratumID == crosswalkStratumState$SecondaryStratumID[i] & StateClassID == crosswalkStratumState$StateClassID[i])
   volumeToCarbon$c_m <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Merchantable")])]
   volumeToCarbon$c_foliage <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Foliage")])]
   volumeToCarbon$c_other <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Other")])]
