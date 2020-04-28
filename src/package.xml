@@ -102,6 +102,21 @@
             </datasheet>
           </datasheets>
         </datafeed>
+        <datafeed name="MerchantableVolumeCurve" diplayName="Merchantable Volume Curve" dataScope="Scenario">
+          <datasheets>
+            <datasheet name="MerchantableVolumeCurve" displayName="Merchantable Volume Curve">
+              <columns>
+                <column name="MerchantableVolumeCurveID" dataType="Integer" isPrimary="True"/>
+                <column name="ScenarioID" dataType="Integer" isCompositeIndex="True"/>
+                <column name="StratumID" dataType="Integer" displayName="ST-Sim Stratum" validationType="Datasheet" formula1="stsim_Stratum" isOptional="True" initOptionalVisible="True"/>
+                <column name="SecondaryStratumID" dataType="Integer" displayName="ST-Sim Secondary Stratum" validationType="Datasheet" formula1="stsim_SecondaryStratum" isOptional="True" initOptionalVisible="True"/>
+                <column name="StateClassID" dataType="Integer" displayName="ST-Sim State Class" validationType="Datasheet" formula1="stsim_StateClass" isOptional="True" initOptionalVisible="True" />
+                <column name="Age" dataType="Integer" displayName="Age"/>
+                <column name="MerchantableVolume" dataType="Double" displayName="Merchantable Volume"/>
+              </columns>
+            </datasheet>
+          </datasheets>
+        </datafeed>
       </datafeeds>
     </transformer>
   </transformers>
@@ -123,6 +138,7 @@
         <item name="CrosswalkDisturbance" displayName="Disturbance"/>
         <item name="CrosswalkStock" displayName="Carbon Stock"/>
       </group>
+      <item name="MerchantableVolumeCurve" displayName="Merchantable Volume Curve"/>
     </layout>
   </layouts>
 </package>
