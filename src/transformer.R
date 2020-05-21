@@ -9,6 +9,12 @@ library(RODBC)
 myLibrary <- ssimLibrary()
 myScenario <- scenario()
 
+# Get disturbance flow pathways - currently incomplete
+doDisturbances = F
+
+# Use CBM output to derrive expansion factors?
+useCBMAgeVsCarbonCurves=T
+
 ###################################
 # Get CBM database and crosswalks #
 ###################################
@@ -171,48 +177,53 @@ for(i in 1: nrow(crosswalkStratumState)){
   
   # Disturbance Stuff -----------------------------------------------------------
   
-  #Need to rename DMassociation DistTypeID column
-  names(DMassociation)[1] = "DistTypeID"
+  if (doDisturbances == T)
+  {
+    #Need to rename DMassociation DistTypeID column
+    names(DMassociation)[1] = "DistTypeID"
+    
+    df = DMassociation %>%
+      left_join(disturbanceType, by="DistTypeID") %>% select(DMID,DistTypeID,DistTypeName) %>%
+      left_join(disturbanceMatrix, by="DMID") %>% select(DMID,DistTypeID,DistTypeName,DMStructureID) %>%
+      left_join(dmValuesLookup, by="DMID") %>%
+      left_join(sourceName, by=c("DMStructureID","DMRow")) %>% rename("Source" = "Description") %>%
+      left_join(sinkName, by=c("DMStructureID", "DMColumn")) %>% rename("Sink" = "Description") %>%
+      mutate(Source = as.character(Source), Sink = as.character(Sink)) %>% 
+      filter(DistTypeName %in% crosswalkDisturbance$DisturbanceTypeID)
+    
+    sources = data.frame(CBMSource = unique(df$Source),
+                         FromStockID = "")
+    
+    sinks = data.frame(CBMSink = unique(df$Sink),
+                       ToStockID = "")
+    
+    transitions = data.frame(DistTypeName = unique(df$DistTypeName),
+                             TransitionTypeID = "")
+    
+    #d = data.frame(CBMStocks = df$Source)
+    #d1 = data.frame(CBMStocks = df$Sink)
+    #d2 = bind_rows(d,d1)
+    #d3 = data.frame(CBMStocks = unique(d2$CBMStocks), LUCASStocks = "")
+    
+    
+    d4 = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkStock")
+    d4b = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkDisturbance")
+    d5 = df %>% left_join(d4, by = c("Source" = "CBMStock")) %>% rename("FromStockTypeID"="StockTypeID") %>%
+      left_join(d4, by = c("Sink" = "CBMStock")) %>% rename("ToStockTypeID"="StockTypeID") %>%
+      select(DistTypeName, FromStockTypeID, ToStockTypeID, Proportion) %>%
+      left_join(d4b, by = c("DistTypeName" = "DisturbanceTypeID")) %>%
+      filter(!is.na(TransitionGroupID)) %>% filter(!is.na(FromStockTypeID)) %>%
+      #mutate(FromStockTypeID = ifelse(FromStockTypeID != ToStockTypeID, FromStockTypeID, NA)) %>%
+      filter(!is.na(FromStockTypeID)) %>%
+      rename("Multiplier" = "Proportion") %>%
+      mutate(FlowTypeID = "", Multiplier = round(Multiplier, 4)) %>%
+      select(FromStockTypeID, ToStockTypeID, TransitionGroupID, DistTypeName, FlowTypeID, Multiplier) 
+    head(d5)
+    
+    #write.csv(d5, file = "FlowPathways.csv")
+    
+  }
   
-  df = DMassociation %>%
-    left_join(disturbanceType, by="DistTypeID") %>% select(DMID,DistTypeID,DistTypeName) %>%
-    left_join(disturbanceMatrix, by="DMID") %>% select(DMID,DistTypeID,DistTypeName,DMStructureID) %>%
-    left_join(dmValuesLookup, by="DMID") %>%
-    left_join(sourceName, by=c("DMStructureID","DMRow")) %>% rename("Source" = "Description") %>%
-    left_join(sinkName, by=c("DMStructureID", "DMColumn")) %>% rename("Sink" = "Description") %>%
-    mutate(Source = as.character(Source), Sink = as.character(Sink)) %>% 
-    filter(DistTypeName %in% crosswalkDisturbance$DisturbanceTypeID)
-
-  sources = data.frame(CBMSource = unique(df$Source),
-                       FromStockID = "")
-  
-  sinks = data.frame(CBMSink = unique(df$Sink),
-                     ToStockID = "")
-  
-  transitions = data.frame(DistTypeName = unique(df$DistTypeName),
-                           TransitionTypeID = "")
-  
-  #d = data.frame(CBMStocks = df$Source)
-  #d1 = data.frame(CBMStocks = df$Sink)
-  #d2 = bind_rows(d,d1)
-  #d3 = data.frame(CBMStocks = unique(d2$CBMStocks), LUCASStocks = "")
-  
-  
-  d4 = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkStock")
-  d4b = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkDisturbance")
-  d5 = df %>% left_join(d4, by = c("Source" = "CBMStock")) %>% rename("FromStockTypeID"="StockTypeID") %>%
-    left_join(d4, by = c("Sink" = "CBMStock")) %>% rename("ToStockTypeID"="StockTypeID") %>%
-    select(DistTypeName, FromStockTypeID, ToStockTypeID, Proportion) %>%
-    left_join(d4b, by = c("DistTypeName" = "DisturbanceTypeID")) %>%
-    filter(!is.na(TransitionGroupID)) %>% filter(!is.na(FromStockTypeID)) %>%
-    #mutate(FromStockTypeID = ifelse(FromStockTypeID != ToStockTypeID, FromStockTypeID, NA)) %>%
-    filter(!is.na(FromStockTypeID)) %>%
-    rename("Multiplier" = "Proportion") %>%
-    mutate(FlowTypeID = "", Multiplier = round(Multiplier, 4)) %>%
-    select(FromStockTypeID, ToStockTypeID, TransitionGroupID, DistTypeName, FlowTypeID, Multiplier) 
-  head(d5)
-  
-  #write.csv(d5, file = "FlowPathways.csv")
   
   # Disturbance Stuff -----------------------------------------------------------
   
@@ -274,9 +285,6 @@ for(i in 1: nrow(crosswalkStratumState)){
   # Calculate net growth based on mass-balance equations #
   ########################################################
   
-  
-  # Use CBM output to derrive expansion factors?
-  useCBMAgeVsCarbonCurves=F
   
   # Original approach using CBM Output. Remove eventually...
   if(useCBMAgeVsCarbonCurves==T){
