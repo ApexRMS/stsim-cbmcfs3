@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<update>
+  <action code="Exec" condition="TableExists" criteria=" stsimcbmcfs3_CrosswalkSpecies">
+    <item>ALTER TABLE stsimcbmcfs3_CrosswalkSpecies ADD COLUMN AverageTemperature DOUBLE</item>
+  </action>
+</update>
