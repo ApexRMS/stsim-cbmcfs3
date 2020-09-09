@@ -1,0 +1,35 @@
+CBMStock,SoilPoolID,StockTypeID
+Aboveground Fast DOM,2,DOM: Aboveground Fast
+Aboveground Medium DOM,4,DOM: Aboveground Medium
+Aboveground Slow DOM,5,DOM: Aboveground Slow
+Aboveground Very Fast DOM,0,DOM: Aboveground Very Fast
+Atmosphere,NA,Atmosphere
+Belowground Fast DOM,3,DOM: Belowground Fast
+Belowground Slow DOM,6,DOM: Belowground Slow
+Belowground Very Fast DOM,1,DOM: Belowground Very Fast
+Black Carbon,11,DOM: Black Carbon
+CH4,NA,Atmosphere: CH4
+CO,NA,Atmosphere: CO
+CO2,NA,Atmosphere: CO2
+Coarse root,NA,Biomass: Coarse Root
+Fine root,NA,Biomass: Fine Root
+Foliage,NA,Biomass: Foliage
+Hardwood Branch Snag,10,DOM: Snag Branch
+Hardwood Coarse roots,NA,Biomass: Coarse Root
+Hardwood Fine Roots,NA,Biomass: Fine Root
+Hardwood Foliage,NA,Biomass: Foliage
+Hardwood Merchantable,NA,Biomass: Merchantable
+Hardwood Other,NA,Biomass: Other Wood
+Hardwood Stem Snag,9,DOM: Snag Stem
+Medium DOM,NA,DOM: Aboveground Medium
+Merchantable,NA,Biomass: Merchantable
+Other,NA,Biomass: Other Wood
+Peat,12,NA
+Products,NA,Forestry Sector
+Softwood Branch Snag,8,DOM: Snag Branch
+Softwood Coarse Roots,NA,Biomass: Coarse Root
+Softwood Fine Roots,NA,Biomass: Fine Root
+Softwood Foliage,NA,Biomass: Foliage
+Softwood Merchantable,NA,Biomass: Merchantable
+Softwood Other,NA,Biomass: Other Wood
+Softwood Stem Snag,7,DOM: Snag Stem
