@@ -5,12 +5,13 @@ library(RODBC)
 # Before running script make sure that Microsoft Access Database Engine is installed so that you can connect to a MS Access db from R x64bit
 # On Sept 27 2018, I installed AccessDatabaseEngine_X64.exe from https://www.microsoft.com/en-us/download/details.aspx?id=13255
 
-# Get ST-Sim library and scenario
+# Get ST-Sim library, project and scenario
 myLibrary <- ssimLibrary()
+myProject <- project(myLibrary, 1)
 myScenario <- scenario()
 
 # Get disturbance flow pathways - currently incomplete
-doDisturbances = F
+doDisturbances = T
 
 # Use CBM output to derrive expansion factors?
 useCBMAgeVsCarbonCurves=T
