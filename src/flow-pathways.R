@@ -105,6 +105,11 @@ for(i in 1: nrow(crosswalkStratumState)){
   SPUTable <- sqlFetch(CBMdatabase, "tblSPUDefault")
   SPUID <- SPUTable$SPUID[SPUTable$AdminBoundaryID==adminBoundaryID & SPUTable$EcoBoundaryID==ecoBoundaryID]
   
+  # Get Stratums and stateclass IDs
+  the_stratum <- crosswalkStratumState$StratumID[i]
+  the_secondarystratum <- crosswalkStratumState$SecondaryStratumID[i]
+  the_class <- crosswalkStratumState$StateClassID[i]
+  
   # Get biomass expansion factors
   biomassExpansionTable <- sqlFetch(CBMdatabase,"tblBioTotalStemwoodForestTypeDefault")
   
