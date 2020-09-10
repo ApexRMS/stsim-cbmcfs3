@@ -76,6 +76,10 @@ grossMerchantableVolume = datasheet(myScenario, name = "stsimcbmcfs3_Merchantabl
 crosswalkDisturbance = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkDisturbance")
 
 # Loop over all entries in crosswalkStratumState
+# Set up variable to accumulate during the loop
+pathways_all <- c()
+final_pathways_df <- data.frame()
+
 for(i in 1: nrow(crosswalkStratumState)){
   #i<-1
   ####################################
@@ -212,21 +216,46 @@ for(i in 1: nrow(crosswalkStratumState)){
     #d3 = data.frame(CBMStocks = unique(d2$CBMStocks), LUCASStocks = "")
     
     
-    d4 = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkStock")
-    d4b = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkDisturbance")
-    d5 = df %>% left_join(d4, by = c("Source" = "CBMStock")) %>% rename("FromStockTypeID"="StockTypeID") %>%
-      left_join(d4, by = c("Sink" = "CBMStock")) %>% rename("ToStockTypeID"="StockTypeID") %>%
+    temp_crosswalkStock = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkStock")
+    
+    
+    temp_crosswalkDisturbance = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkDisturbance")
+    
+    temp_pathways_df = df %>% left_join(temp_crosswalkStock, by = c("Source" = "CBMStock")) %>% 
+      rename("FromStockTypeID"="StockTypeID") %>%
+      left_join(temp_crosswalkStock, by = c("Sink" = "CBMStock")) %>% 
+      rename("ToStockTypeID"="StockTypeID") %>%
       select(DistTypeName, FromStockTypeID, ToStockTypeID, Proportion) %>%
-      left_join(d4b, by = c("DistTypeName" = "DisturbanceTypeID")) %>%
-      filter(!is.na(TransitionGroupID)) %>% filter(!is.na(FromStockTypeID)) %>%
+      left_join(temp_crosswalkDisturbance, by = c("DistTypeName" = "DisturbanceTypeID")) %>%
+      filter(!is.na(TransitionGroupID)) %>% 
+      filter(!is.na(FromStockTypeID)) %>%
       #mutate(FromStockTypeID = ifelse(FromStockTypeID != ToStockTypeID, FromStockTypeID, NA)) %>%
       filter(!is.na(FromStockTypeID)) %>%
       rename("Multiplier" = "Proportion") %>%
       mutate(FlowTypeID = "", Multiplier = round(Multiplier, 4)) %>%
       select(FromStockTypeID, ToStockTypeID, TransitionGroupID, DistTypeName, FlowTypeID, Multiplier) 
-    head(d5)
     
-    #write.csv(d5, file = "FlowPathways.csv")
+    head(temp_pathways_df)
+    
+    source("A223_helpers.R")
+    
+    pathways <- temp_pathways_df %>% mutate(left = cut_label(FromStockTypeID, "right"), 
+                              right = cut_label(ToStockTypeID, "right"), 
+                              PathwayType = paste0(DistTypeName, ": ", left, " -> ", right)) %>% 
+      pull(PathwayType)
+    
+    pathways_all <- unique(c(pathways_all, pathways))
+    
+    temp_pathways_df <- temp_pathways_df %>% mutate(FlowTypeID = pathways) %>% 
+      mutate(FromStratumID = the_stratum, # ToStratumID = the_stratum, 
+             FromSecondaryStratumID = the_secondarystratum, #ToSecondaryStratumID = the_secondarystratum,
+             FromStateClassID = the_class#, ToStateClassID = the_class
+             ) %>% 
+      select(-DistTypeName)
+    
+    final_pathways_df <- bind_rows(final_pathways_df, temp_pathways_df)
+    
+    #write.csv(temp_pathways_df, file = "FlowPathways.csv")
     
   }
   
@@ -514,6 +543,15 @@ for(i in 1: nrow(crosswalkStratumState)){
   
   
 }
+
+# Assemble final flowtype at project level scope
+flowtypes <- datasheet(myProject, "stsimsf_FlowType") %>% 
+  bind_rows(data.frame(Name = pathways_all))
+saveDatasheet(myProject, flowtypes, name = "stsimsf_FlowType")
+
+# Save flow pathways to scenario
+#flowPathways_sce <- scenario(ssimObject = myLibrary, 71)
+saveDatasheet(myScenario, final_pathways_df, name = "stsimsf_FlowPathway")
 
 saveDatasheet(myScenario, stateAttributesNetGrowthMaster, name = "stsim_StateAttributeValue", append = TRUE)
 saveDatasheet(myScenario, flowMultiplierMaster, name="stsimsf_FlowMultiplier", append=T)
