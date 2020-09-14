@@ -22,6 +22,9 @@ useCBMAgeVsCarbonCurves=T
 CBMDatabase <- datasheet(myLibrary, "stsimcbmcfs3_Database")[1,"Path"]
 crosswalkStratumState <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkSpecies")
 crosswalkStock <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkStock")
+
+crosswalkStock[16, 1] <- "Products"
+
 #crosswalkTransition <- datasheet(myScenario, "CBMCFS3_CrosswalkDisturbance")
 
 # Crosswalk functions
@@ -218,6 +221,7 @@ for(i in 1: nrow(crosswalkStratumState)){
     
     temp_crosswalkStock = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkStock")
     
+    temp_crosswalkStock[16,1] <- "Products"
     
     temp_crosswalkDisturbance = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkDisturbance")
     
