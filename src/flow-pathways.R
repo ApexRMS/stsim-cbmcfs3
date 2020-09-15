@@ -23,7 +23,7 @@ CBMDatabase <- datasheet(myLibrary, "stsimcbmcfs3_Database")[1,"Path"]
 crosswalkStratumState <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkSpecies")
 crosswalkStock <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkStock")
 
-#crosswalkStock[16, 1] <- "Products"
+# crosswalkStock[16, 1] <- "Products"
 
 #crosswalkTransition <- datasheet(myScenario, "CBMCFS3_CrosswalkDisturbance")
 
