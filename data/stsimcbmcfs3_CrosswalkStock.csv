@@ -14,6 +14,7 @@ CO2,Atmosphere: CO2
 Coarse root,Biomass: Coarse Root
 Fine root,Biomass: Fine Root
 Foliage,Biomass: Foliage
+Products,Forestry Sector
 Hardwood Branch Snag,DOM: Snag Branch
 Hardwood Coarse roots,Biomass: Coarse Root
 Hardwood Fine Roots,Biomass: Fine Root
@@ -24,8 +25,6 @@ Hardwood Stem Snag,DOM: Snag Stem
 Medium DOM,DOM: Aboveground Medium
 Merchantable,Biomass: Merchantable
 Other,Biomass: Other Wood
-Peat,NA
-Products,Forestry Sector
 Softwood Branch Snag,DOM: Snag Branch
 Softwood Coarse Roots,Biomass: Coarse Root
 Softwood Fine Roots,Biomass: Fine Root
