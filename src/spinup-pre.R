@@ -122,6 +122,10 @@ for (rownb in 1:nrow_unique){
 
 final_df <- final_df %>% arrange(timestep)
 
+unique_tertiary <- data.frame(Name = unique(final_df$TertiaryStratumID))
+
+saveDatasheet(myProject, data = unique_tertiary, 
+              name = "stsim_TertiaryStratum")
 saveDatasheet(myScenario, data = final_df, 
               name = "stsim_TransitionMultiplierValue")
 
