@@ -143,5 +143,3 @@ output_options$SummaryOutputTSTTimesteps <- 1
 
 saveDatasheet(myScenario, data = output_options, 
               name = "stsim_OutputOptions")
-
-
