@@ -493,6 +493,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   }
   
   volumeToCarbon[is.nan.data.frame(volumeToCarbon)] <- 0
+  volumeToCarbon <- volumeToCarbon %>% mutate_if(is.factor, as.character)
   volumeToCarbon <- cbind(volumeToCarbon[,c("StratumID", "SecondaryStratumID", "StateClassID")], do.call(data.frame,lapply(volumeToCarbon[,!(names(volumeToCarbon) %in% c("StratumID", "SecondaryStratumID", "StateClassID"))], function(x) replace(x, is.infinite(x),0))))
   
   #######################
