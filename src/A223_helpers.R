@@ -25,3 +25,10 @@ strip_type <- function(labels) {
   
   return(output)
 }
+
+paste_type <- function(labels) {
+  
+  output <- sapply(labels, function(x){paste0(x, " [Type]")})
+  
+  return(output)
+}
