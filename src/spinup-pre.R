@@ -120,7 +120,7 @@ for (rownb in 1:nrow_unique){
   final_df <- bind_rows(final_df, temp_df)
 }
 
-final_df <- final_df %>% arrange(timestep)
+final_df <- final_df %>% arrange(Timestep)
 
 unique_tertiary <- data.frame(Name = unique(final_df$TertiaryStratumID))
 
