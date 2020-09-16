@@ -190,8 +190,8 @@ for(i in 1: nrow(crosswalkStratumState)){
   
   # Disturbance Stuff -----------------------------------------------------------
   
-  if (doDisturbances == T)
-  {
+  if (doDisturbances == T){
+    
     #Need to rename DMassociation DistTypeID column
     names(DMassociation)[1] = "DistTypeID"
     
