@@ -129,3 +129,19 @@ saveDatasheet(myProject, data = unique_tertiary,
 saveDatasheet(myScenario, data = final_df, 
               name = "stsim_TransitionMultiplierValue")
 
+
+# (6) Set Output Options --------------------------------------------------
+
+output_options <- datasheet(myScenario, "stsim_OutputOptions")
+
+output_options$SummaryOutputSC <- TRUE
+output_options$SummaryOutputSCTimesteps <- 1
+output_options$SummaryOutputTR <- TRUE
+output_options$SummaryOutputTRTimesteps <- 1
+output_options$SummaryOutputTST <- TRUE
+output_options$SummaryOutputTSTTimesteps <- 1
+
+saveDatasheet(myScenario, data = output_options, 
+              name = "stsim_OutputOptions")
+
+
