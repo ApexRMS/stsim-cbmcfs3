@@ -141,3 +141,28 @@ output_options$SummaryOutputTRTimesteps <- 1
 
 saveDatasheet(myScenario, data = output_options, 
               name = "stsim_OutputOptions")
+
+
+# (7) Transition Pathways -------------------------------------------------
+
+transitions <- datasheet(myScenario, "stsim_Transition") %>% 
+  mutate_if(is.factor, as.character)
+deter_transitions <- datasheet(myScenario, "stsim_DeterministicTransition")
+
+if (nrow(deter_transitions) == 0){
+  stop("Deterministic Transitions datasheet is empty, transitions pathways could not be set")
+}
+
+all_disturbances <- 
+  strip_type(unique(c(spinup_unique$MostRecentDisturbanceTGID, 
+                      spinup_unique$HistoricalDisturbanceTGID)))
+
+new_transitions <- deter_transitions %>% 
+  select(-Location) %>% 
+  expand_grid(TransitionTypeID = all_disturbances,
+                Probability = 1) %>% 
+  mutate_if(is.factor, as.character) %>% 
+  as.data.frame()
+transitions <- bind_rows(transitions, new_transitions)
+
+saveDatasheet(myScenario, data = new_transitions, name = "stsim_Transition")
