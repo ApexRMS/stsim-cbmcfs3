@@ -79,7 +79,7 @@ for (rownb in 1:nrow_unique){
   dist_hist <- the_row$HistoricalDisturbanceTGID
   dist_last <- the_row$MostRecentDisturbanceTGID
   
-  cell_archetype <- paste0(strip_type(dist_hist), ": ", 
+  cell_archetype <- paste0("Last Disturbance: ", 
                            strip_type(dist_last))
   
   spinup_duration <- the_row$SpinupDuration
