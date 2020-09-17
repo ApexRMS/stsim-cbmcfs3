@@ -562,9 +562,8 @@ flowtypes <- datasheet(myProject, "stsimsf_FlowType") %>%
 saveDatasheet(myProject, flowtypes, name = "stsimsf_FlowType")
 
 # Save flow pathways to scenario
-final_pathways_df_unique <- final_pathways_df %>% 
-  unique(final_pathways_df)
-saveDatasheet(myScenario, final_pathways_df, name = "stsimsf_FlowPathway")
+final_pathways_df_unique <- final_pathways_df %>% unique()
+saveDatasheet(myScenario, final_pathways_df_unique, name = "stsimsf_FlowPathway")
 
 saveDatasheet(myScenario, stateAttributesNetGrowthMaster, name = "stsim_StateAttributeValue", append = TRUE)
 saveDatasheet(myScenario, flowMultiplierMaster, name="stsimsf_FlowMultiplier", append=T)
