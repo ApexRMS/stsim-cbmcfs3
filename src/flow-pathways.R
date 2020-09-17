@@ -53,10 +53,10 @@ growthFlows <- flowPathways[flowPathways$FromStockTypeID == crossSF("Atmosphere"
 emissionFlows <- flowPathways[flowPathways$ToStockTypeID == crossSF("Atmosphere"),]
 biomassTurnoverFlows <- flowPathways[(flowPathways$FromStockTypeID %in% biomassStocks & flowPathways$ToStockTypeID %in% DOMStocks),]
 DOMTransferFlows <- distinct(rbind(flowPathways[flowPathways$FromStockTypeID==crossSF("Aboveground Slow DOM") & flowPathways$ToStockTypeID == crossSF("Belowground Slow DOM"),],
-                          flowPathways[flowPathways$FromStockTypeID==crossSF("Softwood Stem Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Medium DOM"),],
-                          flowPathways[flowPathways$FromStockTypeID==crossSF("Softwood Branch Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Fast DOM"),],
-                          flowPathways[flowPathways$FromStockTypeID==crossSF("Hardwood Stem Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Medium DOM"),],
-                          flowPathways[flowPathways$FromStockTypeID==crossSF("Hardwood Branch Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Fast DOM"),]))
+                                   flowPathways[flowPathways$FromStockTypeID==crossSF("Softwood Stem Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Medium DOM"),],
+                                   flowPathways[flowPathways$FromStockTypeID==crossSF("Softwood Branch Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Fast DOM"),],
+                                   flowPathways[flowPathways$FromStockTypeID==crossSF("Hardwood Stem Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Medium DOM"),],
+                                   flowPathways[flowPathways$FromStockTypeID==crossSF("Hardwood Branch Snag") & flowPathways$ToStockTypeID == crossSF("Aboveground Fast DOM"),]))
 decayFlows <- rbind(flowPathways[(flowPathways$FromStockTypeID %in% DOMStocks & flowPathways$ToStockTypeID %in% DOMStocks) & (!(flowPathways$FlowTypeID %in% DOMTransferFlows$FlowTypeID)),])
 
 ####################################################
@@ -245,9 +245,10 @@ for(i in 1: nrow(crosswalkStratumState)){
     
     head(temp_pathways_df)
     
-    pathways <- temp_pathways_df %>% mutate(left = cut_label(FromStockTypeID, "right"), 
-                              right = cut_label(ToStockTypeID, "right"), 
-                              PathwayType = paste0(DistTypeName, ": ", left, " -> ", right)) %>% 
+    pathways <- temp_pathways_df %>% 
+      mutate(left = cut_label(FromStockTypeID, "right"), 
+             right = cut_label(ToStockTypeID, "right"), 
+             PathwayType = paste0(DistTypeName, ": ", left, " -> ", right)) %>% 
       pull(PathwayType)
     
     pathways_all <- unique(c(pathways_all, pathways))
@@ -256,7 +257,7 @@ for(i in 1: nrow(crosswalkStratumState)){
       mutate(FromStratumID = the_stratum, # ToStratumID = the_stratum, 
              FromSecondaryStratumID = the_secondarystratum, #ToSecondaryStratumID = the_secondarystratum,
              FromStateClassID = the_class#, ToStateClassID = the_class
-             ) %>% 
+      ) %>% 
       select(-DistTypeName)
     
     final_pathways_df <- bind_rows(final_pathways_df, temp_pathways_df)
@@ -300,12 +301,12 @@ for(i in 1: nrow(crosswalkStratumState)){
   if(ForestType == "Softwood"){
     turnOverRateBranch <- signif(ecoBoundaryTable$SoftwoodBranchTurnOverRate[ecoBoundaryTable$EcoBoundaryName == as.character(crosswalkStratumState$EcoBoundaryID[i])],6)
     turnOverRateFoliage <- signif(ecoBoundaryTable$SoftwoodFoliageFallRate[ecoBoundaryTable$EcoBoundaryName == as.character(crosswalkStratumState$EcoBoundaryID[i])],6)
-    }
+  }
   if(ForestType == "Hardwood"){
     turnOverRateBranch <- signif(ecoBoundaryTable$HardwoodBranchTurnOverRate[ecoBoundaryTable$EcoBoundaryName == as.character(crosswalkStratumState$EcoBoundaryID[i])],6)
     turnOverRateFoliage <- signif(ecoBoundaryTable$HardwoodFoliageFallRate[ecoBoundaryTable$EcoBoundaryName == as.character(crosswalkStratumState$EcoBoundaryID[i])],6)
-    }
-    
+  }
+  
   # Turnover proportions
   proportionOtherToBranchSnag <- signif(turnoverRates$BranchesToBranchSnag,6)
   proportionOtherToAGFast <- 1 - proportionOtherToBranchSnag
@@ -320,7 +321,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   biomassTurnoverTable$Multiplier[biomassTurnoverTable$FromStockTypeID == crossSF("Fine root") & biomassTurnoverTable$ToStockTypeID == crossSF("Belowground Very Fast DOM")] <- turnOverRateFineRootsBGVeryFast * proportionFineRootsToBGVeryFast
   biomassTurnoverTable$Multiplier[biomassTurnoverTable$FromStockTypeID == crossSF("Coarse root") & biomassTurnoverTable$ToStockTypeID == crossSF("Aboveground Fast DOM")] <- turnOverRateCoarseRootsAGFast * proportionCoarseRootsToAGFast
   biomassTurnoverTable$Multiplier[biomassTurnoverTable$FromStockTypeID == crossSF("Coarse root") & biomassTurnoverTable$ToStockTypeID == crossSF("Belowground Fast DOM")] <- turnOverRateCoarseRootsBGFast * proportionCoarseRootsToBGFast
-
+  
   ########################################################
   # Calculate net growth based on mass-balance equations #
   ########################################################
@@ -339,7 +340,7 @@ for(i in 1: nrow(crosswalkStratumState)){
     volumeToCarbon$c_fineroots <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Fine root")])]
     volumeToCarbon$c_coarseroots <- volumeToCarbon[, as.character(carbonInitialConditions$StateAttributeTypeID[carbonInitialConditions$StockTypeID == crossSF("Coarse root")])]
     
-    }
+  }
   
   # Approach using equations from Boudewyn et al. 2007 (aboveground) and Li et al 2003 (belowground). 
   if(useCBMAgeVsCarbonCurves==F){
@@ -453,10 +454,10 @@ for(i in 1: nrow(crosswalkStratumState)){
     # Parameters from Li et al. 2003
     if(isSoftwood) {
       volumeToCarbon$b_roots <- 0.2222 * volumeToCarbon$b
-      } 
+    } 
     else {
       volumeToCarbon$b_roots <- 1.576 * volumeToCarbon$b ^ 0.615
-      }
+    }
     volumeToCarbon$p_fineroots <- 0.072 + 0.354 * exp(-0.060 * volumeToCarbon$b_roots)
     volumeToCarbon$b_fineroots <- volumeToCarbon$p_fineroots * volumeToCarbon$b_roots
     volumeToCarbon$b_coarseroots <- volumeToCarbon$b_root - volumeToCarbon$b_fineroots
@@ -513,7 +514,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   stateAttributesNetGrowth[nrow(volumeToCarbon), "AgeMax"] <- NA
   
   stateAttributesNetGrowthMaster = rbind(stateAttributesNetGrowth, stateAttributesNetGrowthMaster)
-
+  
   # SF Flow Pathways
   # Flow Multilpiers for biomass net growth based on volume-to-carbon proportions 
   flowMultiplierNetGrowth <- datasheet(myScenario, name="stsimsf_FlowMultiplier", empty = T, optional = T)
@@ -523,15 +524,15 @@ for(i in 1: nrow(crosswalkStratumState)){
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "AgeMin"] <- rep(volumeToCarbon$AgeMin[1:nrow(volumeToCarbon)], numBiomassStocks)
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "AgeMax"] <- rep(volumeToCarbon$AgeMax[1:nrow(volumeToCarbon)], numBiomassStocks)
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FlowGroupID"] <- c(rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Merchantable"))])," [Type]"), nrow(volumeToCarbon)),
-                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Other"))]), " [Type]"),nrow(volumeToCarbon)),
-                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Foliage"))]), " [Type]"), nrow(volumeToCarbon)),
-                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Fine root"))]), " [Type]"), nrow(volumeToCarbon)),
-                                                                                     rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Coarse root"))]), " [Type]"),  nrow(volumeToCarbon)))
+                                                                                         rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Other"))]), " [Type]"),nrow(volumeToCarbon)),
+                                                                                         rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Foliage"))]), " [Type]"), nrow(volumeToCarbon)),
+                                                                                         rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Fine root"))]), " [Type]"), nrow(volumeToCarbon)),
+                                                                                         rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Coarse root"))]), " [Type]"),  nrow(volumeToCarbon)))
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "Value"] <- c(volumeToCarbon$g_m[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
-                                                                                     volumeToCarbon$g_other[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
-                                                                                     volumeToCarbon$g_foliage[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
-                                                                                     volumeToCarbon$g_fineroots[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
-                                                                                     volumeToCarbon$g_coarseroots[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)])
+                                                                                   volumeToCarbon$g_other[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
+                                                                                   volumeToCarbon$g_foliage[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
+                                                                                   volumeToCarbon$g_fineroots[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)],
+                                                                                   volumeToCarbon$g_coarseroots[1:nrow(volumeToCarbon)] / volumeToCarbon$g_all[1:nrow(volumeToCarbon)])
   #flowMultiplierNetGrowth[flowMultiplierNetGrowth$AgeMin == volumeToCarbon$AgeMin[nrow(volumeToCarbon)], "AgeMax"] <- NA
   #flowMultiplierNetGrowth[is.nan.data.frame(flowMultiplierNetGrowth)] <- 0
   
