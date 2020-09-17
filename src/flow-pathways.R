@@ -16,6 +16,10 @@ doDisturbances = T
 # Use CBM output to derrive expansion factors?
 useCBMAgeVsCarbonCurves=T
 
+# Source helper functions
+pkg_dir <- (Sys.getenv("ssim_package_directory"))
+source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
+
 ###################################
 # Get CBM database and crosswalks #
 ###################################
@@ -240,8 +244,6 @@ for(i in 1: nrow(crosswalkStratumState)){
       select(FromStockTypeID, ToStockTypeID, TransitionGroupID, DistTypeName, FlowTypeID, Multiplier) 
     
     head(temp_pathways_df)
-    
-    source("A223_helpers.R")
     
     pathways <- temp_pathways_df %>% mutate(left = cut_label(FromStockTypeID, "right"), 
                               right = cut_label(ToStockTypeID, "right"), 
