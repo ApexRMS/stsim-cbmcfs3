@@ -557,7 +557,8 @@ for(i in 1: nrow(crosswalkStratumState)){
 
 # Assemble final flowtype at project level scope
 flowtypes <- datasheet(myProject, "stsimsf_FlowType") %>% 
-  bind_rows(data.frame(Name = pathways_all))
+  mutate_if(is.factor, as.character) %>% 
+  bind_rows(data.frame(Name = pathways_all, stringsAsFactors = F))
 saveDatasheet(myProject, flowtypes, name = "stsimsf_FlowType")
 
 # Save flow pathways to scenario
