@@ -10,7 +10,6 @@ myLibrary <- ssimLibrary()
 myProject <- project(myLibrary, 1)
 myScenario <- scenario()
 
-source("A223_helpers.R")
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
 source(file.path(pkg_dir, "A223_helpers.R"))
 
