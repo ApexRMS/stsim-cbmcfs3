@@ -18,13 +18,22 @@ source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
 # spinup <- read.csv("C:/Users/Administrator/Documents/stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>%
 #   mutate_if(is.factor, as.character)
 
+# Extract and create tertiary stratum
 spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>%
-  mutate_if(is.factor, as.character)
+  mutate_if(is.factor, as.character) %>% 
+  mutate(TertiaryStratumID = paste0("Last Disturbance: ", 
+                                    strip_type(MostRecentDisturbanceTGID)))
+saveDatasheet(myScenario, data = spinup, 
+              name = "stsimcbmcfs3_Spinup")
+
+# Save tertiary stratum
+unique_tertiary <- data.frame(Name = unique(spinup$TertiaryStratumID))
+saveDatasheet(myProject, data = unique_tertiary, 
+              name = "stsim_TertiaryStratum")
 
 # Throw error if empty
 if (nrow(spinup) == 0){
   stop("Spinup datasheet is empty, conditions could not be initiated")
-
 }
 
 # (2) Impute Spinup params from CBM ---------------------------------------
@@ -83,13 +92,11 @@ for (rownb in 1:nrow_unique){
   the_row <- slice(spinup, rownb)
   stratum <- the_row$StratumID
   secondary_stratum <- the_row$SecondaryStratumID
+  tertiary_stratum <- the_row$TertiaryStratumID
   
   state_class <- the_row$StateClassID
   dist_hist <- the_row$HistoricalDisturbanceTGID
   dist_last <- the_row$MostRecentDisturbanceTGID
-  
-  cell_archetype <- paste0("Last Disturbance: ", 
-                           strip_type(dist_last))
   
   spinup_duration <- the_row$SpinupDuration
   interval_dist <- the_row$ReturnInterval
@@ -123,7 +130,7 @@ for (rownb in 1:nrow_unique){
   temp_df <-  temp_df %>% 
     mutate(StratumID = stratum, 
            SecondaryStratumID = secondary_stratum, 
-           TertiaryStratumID = cell_archetype,
+           TertiaryStratumID = tertiary_stratum,
            StateClassID = state_class)
   
   final_df <- bind_rows(final_df, temp_df)
@@ -133,11 +140,6 @@ final_df <- final_df %>%
   arrange(Timestep) %>% 
   unique()
 
-unique_tertiary <- data.frame(Name = unique(final_df$TertiaryStratumID)) %>% 
-  unique()
-
-saveDatasheet(myProject, data = unique_tertiary, 
-              name = "stsim_TertiaryStratum")
 saveDatasheet(myScenario, data = final_df, 
               name = "stsim_TransitionMultiplierValue")
 
