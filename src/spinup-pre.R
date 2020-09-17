@@ -26,15 +26,15 @@ spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>%
 saveDatasheet(myScenario, data = spinup, 
               name = "stsimcbmcfs3_Spinup")
 
-# Save tertiary stratum
-unique_tertiary <- data.frame(Name = unique(spinup$TertiaryStratumID))
-saveDatasheet(myProject, data = unique_tertiary, 
-              name = "stsim_TertiaryStratum")
-
 # Throw error if empty
 if (nrow(spinup) == 0){
   stop("Spinup datasheet is empty, conditions could not be initiated")
 }
+
+# Save tertiary stratum
+unique_tertiary <- data.frame(Name = unique(spinup$TertiaryStratumID))
+saveDatasheet(myProject, data = unique_tertiary, 
+              name = "stsim_TertiaryStratum")
 
 # (2) Impute Spinup params from CBM ---------------------------------------
 
