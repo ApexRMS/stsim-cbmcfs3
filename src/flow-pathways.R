@@ -255,7 +255,7 @@ for(i in 1: nrow(crosswalkStratumState)){
     
     pathways_all <- unique(c(pathways_all, pathways))
     
-    temp_pathways_df <- temp_pathways_df %>% mutate(FlowTypeID = pathways) %>% 
+    temp_pathways_df_clean <- temp_pathways_df %>% mutate(FlowTypeID = pathways) %>% 
       mutate(FromStratumID = the_stratum, # ToStratumID = the_stratum, 
              FromSecondaryStratumID = the_secondarystratum, #ToSecondaryStratumID = the_secondarystratum,
              FromStateClassID = the_class#, ToStateClassID = the_class
