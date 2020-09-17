@@ -63,10 +63,7 @@ run_control <- data.frame(MinimumIteration = 1,
                           IsSpatial = FALSE)
 saveDatasheet(myScenario, data = run_control, name = "stsim_RunControl")
 
-# (4) Populate  Multipliers ----------------------------------------
-
 # (4) Populate Transition Multipliers -------------------------------------
-
 
 # For each spinup unique row, determine the appropriate set of IC
 spinup_unique <- unique(spinup)
