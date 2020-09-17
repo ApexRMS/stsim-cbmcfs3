@@ -14,14 +14,16 @@ pkg_dir <- (Sys.getenv("ssim_package_directory"))
 source(file.path(pkg_dir, "A223_helpers.R"))
 
 # (1) Extract spinup datasheet from library -------------------------------
-# spinup <- read.csv("../../../stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>% 
+# spinup <- read.csv("C:/Users/Administrator/Documents/stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>%
 #   mutate_if(is.factor, as.character)
-spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>% 
+
+spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>%
   mutate_if(is.factor, as.character)
 
-# Throw warnings if empty
+# Throw error if empty
 if (nrow(spinup) == 0){
   stop("Spinup datasheet is empty, conditions could not be initiated")
+
 }
 
 # (2) Impute Spinup params from CBM ---------------------------------------
