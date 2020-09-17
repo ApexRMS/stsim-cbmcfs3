@@ -63,7 +63,10 @@ run_control <- data.frame(MinimumIteration = 1,
                           IsSpatial = FALSE)
 saveDatasheet(myScenario, data = run_control, name = "stsim_RunControl")
 
-# (4) Populate Spatial Multipliers ----------------------------------------
+# (4) Populate  Multipliers ----------------------------------------
+
+# (4) Populate Transition Multipliers -------------------------------------
+
 
 # For each spinup unique row, determine the appropriate set of IC
 spinup_unique <- unique(spinup)
@@ -177,6 +180,8 @@ new_transitions <- deter_transitions %>%
               Probability = 1) %>% 
   mutate_if(is.factor, as.character) %>% 
   as.data.frame()
-transitions <- bind_rows(transitions, new_transitions)
 
-saveDatasheet(myScenario, data = new_transitions, name = "stsim_Transition")
+transitions_final <- bind_rows(transitions, new_transitions) %>% 
+  unique()
+
+saveDatasheet(myScenario, data = transitions_final, name = "stsim_Transition")
