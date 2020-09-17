@@ -260,9 +260,10 @@ for(i in 1: nrow(crosswalkStratumState)){
              FromSecondaryStratumID = the_secondarystratum, #ToSecondaryStratumID = the_secondarystratum,
              FromStateClassID = the_class#, ToStateClassID = the_class
       ) %>% 
-      select(-DistTypeName)
+      select(-DistTypeName) %>% 
+      filter(FromStockTypeID != ToStockTypeID)
     
-    final_pathways_df <- bind_rows(final_pathways_df, temp_pathways_df)
+    final_pathways_df <- bind_rows(final_pathways_df, temp_pathways_df_clean)
     
     #write.csv(temp_pathways_df, file = "FlowPathways.csv")
     
