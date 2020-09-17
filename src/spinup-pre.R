@@ -63,26 +63,11 @@ run_control <- data.frame(MinimumIteration = 1,
                           IsSpatial = FALSE)
 saveDatasheet(myScenario, data = run_control, name = "stsim_RunControl")
 
-# (4) Populate initial Conditions -----------------------------------------
+# (4) Populate Spatial Multipliers ----------------------------------------
 
 # For each spinup unique row, determine the appropriate set of IC
 spinup_unique <- unique(spinup)
 nrow_unique <- nrow(spinup_unique)
-
-IC_nonspatial <- data.frame(TotalAmount = nrow_unique,
-                            NumCells = nrow_unique,
-                            CalcFromDist = TRUE)
-
-IC_nonspatial_dist <- spinup %>% 
-  select(StratumID, SecondaryStratumID, TertiaryStratumID, StratumID, StateClassID) %>% 
-  mutate(AgeMin = 0, AgeMax = 0, RelativeAmount = 1)
-
-saveDatasheet(myScenario, data = IC_nonspatial,
-              name = "stsim_InitialConditionsNonSpatial")
-saveDatasheet(myScenario, data = IC_nonspatial_dist,
-              name = "stsim_InitialConditionsNonSpatialDistribution")
-
-# (5) Populate Spatial Multipliers ----------------------------------------
 
 final_df <- data.frame()
 
@@ -142,6 +127,21 @@ final_df <- final_df %>%
 
 saveDatasheet(myScenario, data = final_df, 
               name = "stsim_TransitionMultiplierValue")
+
+# (5) Populate initial Conditions -----------------------------------------
+
+IC_nonspatial <- data.frame(TotalAmount = nrow_unique,
+                            NumCells = nrow_unique,
+                            CalcFromDist = TRUE)
+
+IC_nonspatial_dist <- spinup %>% 
+  select(StratumID, SecondaryStratumID, TertiaryStratumID, StratumID, StateClassID) %>% 
+  mutate(AgeMin = 0, AgeMax = 0, RelativeAmount = 1)
+
+saveDatasheet(myScenario, data = IC_nonspatial,
+              name = "stsim_InitialConditionsNonSpatial")
+saveDatasheet(myScenario, data = IC_nonspatial_dist,
+              name = "stsim_InitialConditionsNonSpatialDistribution")
 
 
 # (6) Set Output Options --------------------------------------------------
