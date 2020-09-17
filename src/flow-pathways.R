@@ -24,7 +24,8 @@ source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
 # Get CBM database and crosswalks #
 ###################################
 CBMDatabase <- datasheet(myLibrary, "stsimcbmcfs3_Database")[1,"Path"]
-crosswalkStratumState <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkSpecies")
+crosswalkStratumState <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkSpecies", 
+                                   optional = T)
 crosswalkStock <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkStock")
 
 # crosswalkStock[16, 1] <- "Products"
@@ -134,7 +135,11 @@ for(i in 1: nrow(crosswalkStratumState)){
   climateTable <- sqlFetch(CBMdatabase,"tblClimateDefault")
   # There are 2 reference years but they seem to have the same values, I'm arbitrarily choosing 1980
   climateRefYear <- 1980
-  meanAnnualTemp <- climateTable[climateTable$DefaultSPUID==SPUID & climateTable$Year == climateRefYear, "MeanAnnualTemp"]
+  if (!is.na(crosswalkStratumState$AverageTemperature[i])){
+    meanAnnualTemp <- crosswalkStratumState$AverageTemperature[i]
+  } else {
+    meanAnnualTemp <- climateTable[climateTable$DefaultSPUID==SPUID & climateTable$Year == climateRefYear, "MeanAnnualTemp"]
+  }
   # Stand modifier parameters
   # Note that the maxDecayMult in CBM-CFS3 is 1 which makes the StandMod = 1
   # Do not calculate StandMod this round
