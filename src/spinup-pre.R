@@ -129,9 +129,12 @@ for (rownb in 1:nrow_unique){
   final_df <- bind_rows(final_df, temp_df)
 }
 
-final_df <- final_df %>% arrange(Timestep)
+final_df <- final_df %>% 
+  arrange(Timestep) %>% 
+  unique()
 
-unique_tertiary <- data.frame(Name = unique(final_df$TertiaryStratumID))
+unique_tertiary <- data.frame(Name = unique(final_df$TertiaryStratumID)) %>% 
+  unique()
 
 saveDatasheet(myProject, data = unique_tertiary, 
               name = "stsim_TertiaryStratum")
