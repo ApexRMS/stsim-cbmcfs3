@@ -104,8 +104,8 @@ for (rownb in 1:nrow_unique){
   ts_seq_add <- ts_seq + 1
   
   # Bind them
-  temp_df <- bind_rows(data.frame(Timestep = ts_seq, Amount = 0), 
-                       data.frame(Timestep = ts_seq_add, Amount = 1)) %>% 
+  temp_df <- bind_rows(data.frame(Timestep = ts_seq, Amount = 1), 
+                       data.frame(Timestep = ts_seq_add, Amount = 0)) %>% 
     mutate(TransitionGroupID = dist_hist) %>% 
     mutate_if(is.factor, as.character)
   
@@ -168,7 +168,7 @@ all_disturbances <-
 new_transitions <- deter_transitions %>% 
   select(-Location) %>% 
   expand_grid(TransitionTypeID = all_disturbances,
-                Probability = 1) %>% 
+              Probability = 1) %>% 
   mutate_if(is.factor, as.character) %>% 
   as.data.frame()
 transitions <- bind_rows(transitions, new_transitions)
