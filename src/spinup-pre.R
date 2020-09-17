@@ -29,7 +29,12 @@ if (nrow(spinup) == 0){
 # (2) Impute Spinup params from CBM ---------------------------------------
 
 if (is.null(spinup$HistoricalDisturbanceTGID)){
-  # TODO script for inputation, need to do the crosswalk with the CBM database
+  # TODO script for inputation
+  # Spinup duration, stratums and state class
+  # can impute max age => use return interval
+  # Can impute return invterval
+  # historic can always be imputed => need to find it 
+  # most recent => take historic 
 }
 
 # (3) Populate Run Control ------------------------------------------------
