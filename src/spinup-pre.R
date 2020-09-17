@@ -11,6 +11,8 @@ myProject <- project(myLibrary, 1)
 myScenario <- scenario()
 
 source("A223_helpers.R")
+pkg_dir <- (Sys.getenv("ssim_package_directory"))
+source(file.path(pkg_dir, "A223_helpers.R"))
 
 # (1) Extract spinup datasheet from library -------------------------------
 # spinup <- read.csv("../../../stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>% 
