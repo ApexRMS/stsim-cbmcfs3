@@ -55,7 +55,7 @@ for (rownb in 1:nrow_unique){
     filter(Timestep >= spinup_duration ) %>% 
     mutate(TSTMin = Timestep - spinup_duration, 
            TSTMax = TSTMin, 
-           TSTGroupID = TSTGroupID) %>%
+           TSTGroupID = the_TSTGroup) %>%
     rename(Value = Amount) %>% 
     select(-c(StockGroupID, StockTypeID))
   
@@ -65,5 +65,5 @@ for (rownb in 1:nrow_unique){
 }
 
 # Save 
-saveDatasheet(myScenario, data = state_attributes_final, 
+saveDatasheet(myScenario, data = unique(state_attributes_final), 
               name = "stsim_StateAttributeValue")
