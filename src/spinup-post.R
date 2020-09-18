@@ -57,7 +57,7 @@ for (rownb in 1:nrow_unique){
            TSTMax = TSTMin, 
            TSTGroupID = the_TSTGroup) %>%
     rename(Value = Amount) %>% 
-    select(-c(StockGroupID, StockTypeID))
+    select(-c(StockGroupID, StockTypeID, TertiaryStratumID))
   
   state_attributes_final <- state_attributes_final %>% 
     bind_rows(output_stocks_filtered)
