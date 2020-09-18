@@ -26,5 +26,18 @@ output_stocks <- datasheet(myScenario, "stsimsf_OutputStock") %>%
 state_attributes <- datasheet(myScenario, "stsim_StateAttributeValue") %>% 
   mutate_if(is.factor, as.character)
 
+# (2) Wrangle outputs into state attribute table --------------------------
 
+spinup_unique <- unique(spinup)
+nrow_unique <- nrow(spinup_unique)
 
+for (rownb in 1:nrow_unique){
+  
+  # Determine spinup duration for this cell
+  the_row <- slice(spinup, rownb)
+  spinup_duration <- the_row$SpinupDuration
+  
+  output_stocks_filtered <- output_stocks %>% 
+    filter(Timestep >= spinup_duration )
+  
+}
