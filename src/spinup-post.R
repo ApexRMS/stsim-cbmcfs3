@@ -49,11 +49,13 @@ for (rownb in 1:nrow_unique){
   # Determine spinup duration for this cell
   the_row <- slice(spinup, rownb)
   spinup_duration <- the_row$SpinupDuration
+  the_TSTGroup <- the_row$MostRecentDisturbanceTGID
   
   output_stocks_filtered <- output_stocks_noNA %>% 
     filter(Timestep >= spinup_duration ) %>% 
     mutate(TSTMin = Timestep - spinup_duration, 
-           TSTMax = TSTMin) %>%
+           TSTMax = TSTMin, 
+           TSTGroupID = TSTGroupID) %>%
     rename(Value = Amount) %>% 
     select(-c(StockGroupID, StockTypeID))
   
