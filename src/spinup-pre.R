@@ -1,6 +1,6 @@
 #######################################################
 ## A223 - LandCarbon - Spinnup pre-processing script ##
-## Prepared bt VL sept 14 2020 - ????                ##
+## Prepared bt VL sept 2020                          ##
 #######################################################
 
 library(rsyncrosim)
