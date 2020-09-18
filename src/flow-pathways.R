@@ -218,20 +218,26 @@ for(i in 1: nrow(crosswalkStratumState)){
       mutate(Source = as.character(Source), Sink = as.character(Sink)) %>% 
       filter(DistTypeName %in% crosswalkDisturbance$DisturbanceTypeID)
     
-    sources = data.frame(CBMSource = unique(df$Source),
+    # discriminate between hardwood and softwood
+    
+    opposite <- ifelse(ForestType == "Softwood", "Hardwood", "Softwood")
+    
+    df_filtered <- df %>% 
+      filter(!str_detect(Source, opposite))
+    
+    sources = data.frame(CBMSource = unique(df_filtered$Source),
                          FromStockID = "")
     
-    sinks = data.frame(CBMSink = unique(df$Sink),
+    sinks = data.frame(CBMSink = unique(df_filtered$Sink),
                        ToStockID = "")
     
-    transitions = data.frame(DistTypeName = unique(df$DistTypeName),
+    transitions = data.frame(DistTypeName = unique(df_filtered$DistTypeName),
                              TransitionTypeID = "")
     
-    #d = data.frame(CBMStocks = df$Source)
-    #d1 = data.frame(CBMStocks = df$Sink)
+    #d = data.frame(CBMStocks = df_filtered$Source)
+    #d1 = data.frame(CBMStocks = df_filtered$Sink)
     #d2 = bind_rows(d,d1)
     #d3 = data.frame(CBMStocks = unique(d2$CBMStocks), LUCASStocks = "")
-    
     
     temp_crosswalkStock = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkStock")
     
