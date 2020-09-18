@@ -39,6 +39,12 @@ for (rownb in 1:nrow_unique){
   spinup_duration <- the_row$SpinupDuration
   
   output_stocks_filtered <- output_stocks %>% 
-    filter(Timestep >= spinup_duration )
+    filter(Timestep >= spinup_duration ) %>% 
+    mutate(StateAttributeTypeID = "Disturbances", 
+           TSTMin = spinup_duration - Timestep, 
+           TSTMax = TSTMin, 
+           TSTGroupID = "Disturbances") %>%
+    rename(value = Amount)
+  
   
 }
