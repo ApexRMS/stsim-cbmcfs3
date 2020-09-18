@@ -48,11 +48,20 @@ for (rownb in 1:nrow_unique){
   
   # Determine spinup duration for this cell
   the_row <- slice(spinup, rownb)
+  
   spinup_duration <- the_row$SpinupDuration
-  the_TSTGroup <- the_row$MostRecentDisturbanceTGID
+  last_cycle_duration <- the_row$MaxAgeForLastCycle
+  TSTGroup <- the_row$MostRecentDisturbanceTGID
+  stratum <- the_row$StratumID
+  secondary_stratum <- the_row$SecondaryStratumID
+  state_class <- the_row$StateClassID
   
   output_stocks_filtered <- output_stocks_noNA %>% 
-    filter(Timestep >= spinup_duration ) %>% 
+    filter(Timestep >= spinup_duration, 
+           Timestep <= (spinup_duration + last_cycle_duration),
+           StratumID == stratum,
+           SecondaryStratumID == secondary_stratum, 
+           StateClassID == state_class) %>% 
     mutate(TSTMin = Timestep - spinup_duration, 
            TSTMax = TSTMin, 
            TSTGroupID = TSTGroup) %>%
