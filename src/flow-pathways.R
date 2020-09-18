@@ -246,7 +246,7 @@ for(i in 1: nrow(crosswalkStratumState)){
     temp_crosswalkDisturbance = datasheet(myScenario, name = "stsimcbmcfs3_CrosswalkDisturbance") %>% 
       mutate_if(is.factor, as.character)
     
-    temp_pathways_df = df %>% left_join(temp_crosswalkStock, by = c("Source" = "CBMStock")) %>% 
+    temp_pathways_df = df_filtered %>% left_join(temp_crosswalkStock, by = c("Source" = "CBMStock")) %>% 
       rename("FromStockTypeID"="StockTypeID") %>%
       left_join(temp_crosswalkStock, by = c("Sink" = "CBMStock")) %>% 
       rename("ToStockTypeID"="StockTypeID") %>%
