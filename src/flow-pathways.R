@@ -47,7 +47,8 @@ numBiomassStocks <- length(biomassStocks)
 numDOMStocks <- length(DOMStocks)
 
 # SF Flow Pathways
-flowPathways = datasheet(myScenario, name="stsimsf_FlowPathway", empty=F, optional=T)
+flowPathways = datasheet(myScenario, name="stsimsf_FlowPathway", empty=F, optional=T) %>% 
+  mutate_if(is.factor, as.character)
 
 # Identify growth, biomass transfer, emission, decay, and DOM transfer flows
 growthFlows <- flowPathways[flowPathways$FromStockTypeID == crossSF("Atmosphere")]
@@ -572,7 +573,9 @@ flowtypes <- datasheet(myProject, "stsimsf_FlowType") %>%
 saveDatasheet(myProject, flowtypes, name = "stsimsf_FlowType")
 
 # Save flow pathways to scenario
-final_pathways_df_unique <- final_pathways_df %>% unique()
+final_pathways_df_unique <- final_pathways_df %>% 
+  bind_rows(flowPathways) %>% 
+  unique()
 saveDatasheet(myScenario, final_pathways_df_unique, name = "stsimsf_FlowPathway")
 
 saveDatasheet(myScenario, stateAttributesNetGrowthMaster, name = "stsim_StateAttributeValue", append = TRUE)
