@@ -205,11 +205,15 @@ for(i in 1: nrow(crosswalkStratumState)){
     names(DMassociation)[1] = "DistTypeID"
     
     df = DMassociation %>%
-      left_join(disturbanceType, by="DistTypeID") %>% select(DMID,DistTypeID,DistTypeName) %>%
-      left_join(disturbanceMatrix, by="DMID") %>% select(DMID,DistTypeID,DistTypeName,DMStructureID) %>%
+      left_join(disturbanceType, by="DistTypeID") %>% 
+      select(DMID,DistTypeID,DistTypeName) %>%
+      left_join(disturbanceMatrix, by="DMID") %>% 
+      select(DMID,DistTypeID,DistTypeName,DMStructureID) %>%
       left_join(dmValuesLookup, by="DMID") %>%
-      left_join(sourceName, by=c("DMStructureID","DMRow")) %>% rename("Source" = "Description") %>%
-      left_join(sinkName, by=c("DMStructureID", "DMColumn")) %>% rename("Sink" = "Description") %>%
+      left_join(sourceName, by=c("DMStructureID","DMRow")) %>% 
+      rename("Source" = "Description") %>%
+      left_join(sinkName, by=c("DMStructureID", "DMColumn")) %>% 
+      rename("Sink" = "Description") %>%
       mutate(Source = as.character(Source), Sink = as.character(Sink)) %>% 
       filter(DistTypeName %in% crosswalkDisturbance$DisturbanceTypeID)
     
