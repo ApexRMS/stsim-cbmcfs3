@@ -55,7 +55,7 @@ for (rownb in 1:nrow_unique){
     filter(Timestep >= spinup_duration ) %>% 
     mutate(TSTMin = Timestep - spinup_duration, 
            TSTMax = TSTMin, 
-           TSTGroupID = the_TSTGroup) %>%
+           TSTGroupID = TSTGroup) %>%
     rename(Value = Amount) %>% 
     select(-c(StockGroupID, StockTypeID, TertiaryStratumID))
   
