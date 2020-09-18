@@ -580,6 +580,7 @@ saveDatasheet(myProject, flowtypes, name = "stsimsf_FlowType")
 
 # Save flow pathways to scenario
 final_pathways_df_unique <- final_pathways_df %>% 
+  mutate_if(is.factor, as.character) %>% 
   bind_rows(flowPathways) %>% 
   unique()
 saveDatasheet(myScenario, final_pathways_df_unique, name = "stsimsf_FlowPathway")
