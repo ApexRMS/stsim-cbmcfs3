@@ -16,12 +16,22 @@ source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
 
 # (1) Extract source and destination datasheets ---------------------------
 
-spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>%
+spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>% 
   mutate_if(is.factor, as.character)
 
-output_stocks <- datasheet(myScenario, "stsimsf_OutputStock") %>% 
+initial_stocks <- datasheet(myScenario, "stsimsf_InitialStockNonSpatial") %>% 
+  mutate_if(is.factor, as.character)
+
+output_stocks <- datasheet(myScenario, "stsimsf_OutputStock") %>%
   mutate_if(is.factor, as.character) %>% 
-  filter()
+  mutate(StockTypeID = strip_type(StockGroupID)) %>% 
+  left_join(initial_stocks, by = "StockTypeID")
+
+# remove all entries with no match in the initial_stocks table
+# To see what is removed:
+# output_stocks %>% filter(is.na(StateAttributeTypeID)) %>% pull(StockTypeID) %>% table
+
+output_stocks_noNA <- output_stocks %>% drop_na()
 
 state_attributes <- datasheet(myScenario, "stsim_StateAttributeValue", optional = T) %>% 
   mutate_if(is.factor, as.character) %>% 
@@ -32,19 +42,26 @@ state_attributes <- datasheet(myScenario, "stsim_StateAttributeValue", optional 
 spinup_unique <- unique(spinup)
 nrow_unique <- nrow(spinup_unique)
 
+state_attributes_final <- state_attributes
+
 for (rownb in 1:nrow_unique){
   
   # Determine spinup duration for this cell
   the_row <- slice(spinup, rownb)
   spinup_duration <- the_row$SpinupDuration
   
-  output_stocks_filtered <- output_stocks %>% 
+  output_stocks_filtered <- output_stocks_noNA %>% 
     filter(Timestep >= spinup_duration ) %>% 
-    mutate(StateAttributeTypeID = "Disturbances", 
-           TSTMin = spinup_duration - Timestep, 
-           TSTMax = TSTMin, 
-           TSTGroupID = "Disturbances") %>%
-    rename(value = Amount)
+    mutate(TSTMin = Timestep - spinup_duration, 
+           TSTMax = TSTMin) %>%
+    rename(Value = Amount) %>% 
+    select(-c(StockGroupID, StockTypeID))
   
+  state_attributes_final <- state_attributes_final %>% 
+    bind_rows(output_stocks_filtered)
   
 }
+
+# Save 
+saveDatasheet(myScenario, data = state_attributes_final, 
+              name = stsim_StateAttributeValue)
