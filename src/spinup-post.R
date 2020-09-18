@@ -23,8 +23,9 @@ output_stocks <- datasheet(myScenario, "stsimsf_OutputStock") %>%
   mutate_if(is.factor, as.character) %>% 
   filter()
 
-state_attributes <- datasheet(myScenario, "stsim_StateAttributeValue") %>% 
-  mutate_if(is.factor, as.character)
+state_attributes <- datasheet(myScenario, "stsim_StateAttributeValue", optional = T) %>% 
+  mutate_if(is.factor, as.character) %>% 
+  filter(!str_detect(StateAttributeTypeID, "Carbon Initial Conditions"))
 
 # (2) Wrangle outputs into state attribute table --------------------------
 
