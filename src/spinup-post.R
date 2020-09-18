@@ -64,4 +64,4 @@ for (rownb in 1:nrow_unique){
 
 # Save 
 saveDatasheet(myScenario, data = state_attributes_final, 
-              name = stsim_StateAttributeValue)
+              name = "stsim_StateAttributeValue")
