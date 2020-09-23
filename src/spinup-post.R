@@ -73,6 +73,9 @@ for (rownb in 1:nrow_unique){
   
 }
 
+state_attributes_final$Iteration = NA
+state_attributes_final$Timestep = NA
+
 # Save 
 saveDatasheet(myScenario, data = unique(state_attributes_final), 
               name = "stsim_StateAttributeValue")
