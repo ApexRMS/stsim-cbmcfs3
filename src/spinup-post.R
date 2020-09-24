@@ -54,6 +54,7 @@ for (rownb in 1:nrow_unique){
   TSTGroup <- the_row$MostRecentDisturbanceTGID
   stratum <- the_row$StratumID
   secondary_stratum <- the_row$SecondaryStratumID
+  tertiary_stratum <- the_row$TertiaryStratumID
   state_class <- the_row$StateClassID
   
   output_stocks_filtered <- output_stocks_noNA %>% 
@@ -61,10 +62,12 @@ for (rownb in 1:nrow_unique){
            Timestep <= (spinup_duration + last_cycle_duration),
            StratumID == stratum,
            SecondaryStratumID == secondary_stratum, 
+           TertiaryStratumID == tertiary_stratum,
            StateClassID == state_class) %>% 
     mutate(TSTMin = Timestep - spinup_duration, 
            TSTMax = TSTMin, 
-           TSTGroupID = TSTGroup) %>%
+           TSTGroupID = TSTGroup,
+           TertiaryStratumID = NA) %>%
     rename(Value = Amount) %>% 
     select(-c(StockGroupID, StockTypeID, TertiaryStratumID))
   

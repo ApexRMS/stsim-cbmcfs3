@@ -111,6 +111,21 @@ for (rownb in 1:nrow_unique){
                        TransitionGroupID = dist_last)
   }
   
+  # If there are any transition groups that are not 
+  # included in the multipliers, set them to 
+  # zero for the run.
+  includedTransGroups = unique(temp_df$TransitionGroupID)
+  allTransitionGroups = datasheet(myScenario, name = "TransitionGroup")
+  excludeTransitionGroups = filter(allTransitionGroups, Name != includedTransGroups)
+  nExclude = nrow(excludeTransitionGroups)
+  
+  if(nExclude>0){
+    for (r in 1:nExclude){
+      tg = excludeTransitionGroups[r,1]
+      temp_df = addRow(temp_df, c(0,0,tg))
+    }
+  }
+  
   # Add row params
   temp_df <-  temp_df %>% 
     mutate(StratumID = stratum, 
