@@ -17,7 +17,6 @@ source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
 # (1) Extract spinup datasheet from library -------------------------------
 # spinup <- read.csv("C:/Users/Administrator/Documents/stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>%
 #   mutate_if(is.factor, as.character)
-
 # Extract and create tertiary stratum
 spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>%
   mutate_if(is.factor, as.character) %>% 
@@ -83,7 +82,6 @@ for (rownb in 1:nrow_unique){
   dist_hist <- the_row$HistoricalDisturbanceTGID
   dist_last <- the_row$MostRecentDisturbanceTGID
   
-  spinup_duration <- the_row$SpinupDuration
   interval_dist <- the_row$ReturnInterval
   
   # Determine duration
