@@ -118,6 +118,11 @@ for(i in 1: nrow(crosswalkStratumState)){
   SPUTable <- sqlFetch(CBMdatabase, "tblSPUDefault")
   SPUID <- SPUTable$SPUID[SPUTable$AdminBoundaryID==adminBoundaryID & SPUTable$EcoBoundaryID==ecoBoundaryID]
   
+  # Throw error if SPUID is empty
+  if(is.na(SPUID) || is.null(SPUID) || length(SPUID) == 0){
+    stop("SPUID is of length 0 or is NA or null")
+  }
+  
   # Get Stratums and stateclass IDs
   the_stratum <- crosswalkStratumState$StratumID[i]
   the_secondarystratum <- crosswalkStratumState$SecondaryStratumID[i]
