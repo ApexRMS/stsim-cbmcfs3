@@ -12,7 +12,7 @@ myScenario <- scenario()
 
 # Source helper functions
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
-source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
+source(file.path(pkg_dir, "helpers.R"))
 
 # (1) Extract spinup datasheet from library -------------------------------
 # spinup <- read.csv("C:/Users/Administrator/Documents/stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>%
@@ -82,17 +82,25 @@ for (rownb in 1:nrow_unique){
   dist_hist <- the_row$HistoricalDisturbanceTGID
   dist_last <- the_row$MostRecentDisturbanceTGID
   
+  # Spinup cycles
+  nb_cycles <- the_row$SpinupDuration
   interval_dist <- the_row$ReturnInterval
+  
+  spinup_duration <- nb_cycles*interval_dist
+  
+  if (spinup_duration != interval_dist*nb_cycles){
+    stop("Spinup duration must be equal to number of cylce multiplied by the disturbance interval")
+  }
+  
+  # Create sequences
+  ts_seq <- seq(from = 0, to = spinup_duration, by = interval_dist)
+  ts_seq_add <- ts_seq + 1
   
   # Determine duration
   max_duration <- spinup %>% 
     select(ReturnInterval, SpinupDuration) %>% 
     rowSums() %>% 
     max()
-  
-  # Create sequences
-  ts_seq <- seq(from = 0, to = spinup_duration, by = interval_dist)
-  ts_seq_add <- ts_seq + 1
   
   # Bind them
   temp_df <- bind_rows(data.frame(Timestep = ts_seq, Amount = 1), 

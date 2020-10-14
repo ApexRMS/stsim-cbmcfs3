@@ -12,7 +12,7 @@ myScenario <- scenario()
 
 # Source helper functions
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
-source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
+source(file.path(pkg_dir, "helpers.R"))
 
 # (1) Extract source and destination datasheets ---------------------------
 
