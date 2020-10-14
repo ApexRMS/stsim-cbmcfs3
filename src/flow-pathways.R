@@ -546,7 +546,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "SecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks),"StateClassID"] <- crosswalkStratumState$StateClassID[i]
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "AgeMin"] <- rep(volumeToCarbon$AgeMin[1:nrow(volumeToCarbon)], numBiomassStocks)
-  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "AgeMax"] <- rep(volumeToCarbon$AgeMax[1:nrow(volumeToCarbon)], numBiomassStocks)
+  flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "AgeMax"] <- rep(stateAttributesNetGrowth$AgeMax, numBiomassStocks)
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "FlowGroupID"] <- c(rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Merchantable"))])," [Type]"), nrow(volumeToCarbon)),
                                                                                          rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Other"))]), " [Type]"),nrow(volumeToCarbon)),
                                                                                          rep(paste0(as.character(flowPathways$FlowTypeID[(flowPathways$FromStockTypeID==crossSF("Atmosphere") & flowPathways$ToStockTypeID==crossSF("Foliage"))]), " [Type]"), nrow(volumeToCarbon)),
