@@ -18,7 +18,7 @@ useCBMAgeVsCarbonCurves=T
 
 # Source helper functions
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
-source(file.path(pkg_dir, "stsimcbmcfs3_helpers.R"))
+source(file.path(pkg_dir, "helpers.R"))
 
 ###################################
 # Get CBM database and crosswalks #
