@@ -15,6 +15,7 @@ doDisturbances = T
 
 # Use CBM output to derrive expansion factors?
 useCBMAgeVsCarbonCurves=T
+# useCBMAgeVsCarbonCurves=F
 
 # Source helper functions
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
@@ -494,6 +495,9 @@ for(i in 1: nrow(crosswalkStratumState)){
     volumeToCarbon$c_coarseroots <- volumeToCarbon$b_coarseroots * biomassToCarbonTable[biomassToCarbonTable$BiomassComponentName=="Coarse root biomass component" & 
                                                                                           biomassToCarbonTable$Softwood==isSoftwood, "Multiplier"]
     volumeToCarbon$c_belowground <- volumeToCarbon$c_fineroots + volumeToCarbon$c_coarseroots
+    
+    volumeToCarbon$AgeMin <- volumeToCarbon$age
+    volumeToCarbon$AgeMax <- volumeToCarbon$age
     
   }
   
