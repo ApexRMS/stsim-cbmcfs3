@@ -7,7 +7,7 @@ library(rsyncrosim)
 library(tidyverse)
 
 myLibrary <- ssimLibrary()
-myProject <- project(myLibrary, 1)
+myProject <- project()
 myScenario <- scenario()
 
 # Source helper functions
@@ -51,9 +51,9 @@ if (is.null(spinup$HistoricalDisturbanceTGID)){
 # Determine start and end
 the_start <-  0
 the_end <- spinup %>% 
-  select(SpinupDuration, MaxAgeForLastCycle) %>% 
-  rowSums() %>%
-  max()
+  mutate(EndPerSpinupCombination = SpinupDuration * ReturnInterval + MaxAgeForLastCycle) %>%
+  summarize(max(EndPerSpinupCombination)) %>%
+  pull()
 
 run_control <- data.frame(MinimumIteration = 1,
                           MaximumIteration = 1, 
@@ -121,8 +121,8 @@ for (rownb in 1:nrow_unique){
   # included in the multipliers, set them to 
   # zero for the run.
   includedTransGroups = unique(temp_df$TransitionGroupID)
-  allTransitionGroups = datasheet(myScenario, name = "TransitionGroup")
-  excludeTransitionGroups = filter(allTransitionGroups, Name != includedTransGroups)
+  allTransitionGroups = datasheet(myProject, name = "TransitionGroup")
+  excludeTransitionGroups = filter(allTransitionGroups, Name != includedTransGroups & IsAuto == TRUE)
   nExclude = nrow(excludeTransitionGroups)
   
   if(nExclude>0){
