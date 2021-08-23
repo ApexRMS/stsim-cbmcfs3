@@ -156,7 +156,7 @@
       isRunnable="True">
       <runtime>
         <transformer name="SpinupPreProcess"/>
-        <transformer name="stsim_Runtime"/>
+        <transformer name="LandscapeChange"/>
         <transformer name="SpinupPostProcess"/>
       </runtime>
     </transformer>
@@ -165,6 +165,12 @@
       displayName="CBM-CFS3 Spin-up Pre-Process"
       programName="Rscript.exe"
       programArguments="spinup-pre.R">
+    </transformer>
+    <transformer
+      name="LandscapeChange"
+      displayName ="Landscape Change"
+      isRunnable="True"
+      isProxyFor="stsim_Primary">
     </transformer>
     <transformer
       name="SpinupPostProcess"
@@ -198,7 +204,7 @@
     </layout>
   </layouts>
   <updateProvider 
-    schemaVersion="1" 
+    schemaVersion="2" 
     minPackageVersion="1.0.6" 
     className="SyncroSim.Core.XMLUpdateProvider" 
     classAssembly="SyncroSim.Core"/>
