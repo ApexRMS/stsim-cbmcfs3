@@ -2,10 +2,11 @@
 <package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.8" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://github.com/ApexRMS/stsimcbmcfs3">
   <transformers>
     <transformer name="Primary" isPrimary="True">
-      <runtime>
+      <include>
         <transformer name="FlowPathways"/>
-        <transformer name="Spinup"/>
-      </runtime>
+        <transformer name="SpinupPreProcess"/>
+        <transformer name="SpinupPostProcess"/>      
+      </include>
     </transformer>
     <transformer
       name="FlowPathways"
@@ -151,32 +152,18 @@
       </datafeeds>
     </transformer>
     <transformer
-      name="Spinup"
-      displayName="CBM-CFS3 Spin-up"
-      isRunnable="True">
-      <runtime>
-        <transformer name="SpinupPreProcess"/>
-        <transformer name="LandscapeChange"/>
-        <transformer name="SpinupPostProcess"/>
-      </runtime>
-    </transformer>
-    <transformer
       name="SpinupPreProcess"
       displayName="CBM-CFS3 Spin-up Pre-Process"
       programName="Rscript.exe"
-      programArguments="spinup-pre.R">
-    </transformer>
-    <transformer
-      name="LandscapeChange"
-      displayName ="Landscape Change"
-      isRunnable="True"
-      isProxyFor="stsim_Primary">
+      programArguments="spinup-pre.R"
+      isRunnable="True">
     </transformer>
     <transformer
       name="SpinupPostProcess"
       displayName="CBM-CFS3 Spin-up Post-Process"
       programName="Rscript.exe"
-      programArguments="spinup-post.R">
+      programArguments="spinup-post.R"
+      isRunnable="True">
     </transformer>
   </transformers>
   <layouts>
