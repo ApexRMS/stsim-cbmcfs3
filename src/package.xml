@@ -157,6 +157,12 @@
       programName="Rscript.exe"
       programArguments="spinup-pre.R"
       isRunnable="True">
+      <pipeline>
+        <datafeed name="Spinup"/>
+        <datafeed name="stsimsf_InitialStocks"/>
+        <datafeed name="stsimsf_OutputStock"/>
+        <datafeed name="stsim_StateAttributeValue"/>
+      </pipeline>
     </transformer>
     <transformer
       name="SpinupPostProcess"
@@ -164,6 +170,11 @@
       programName="Rscript.exe"
       programArguments="spinup-post.R"
       isRunnable="True">
+      <pipeline>
+        <datafeed name="Spinup"/>
+        <datafeed name="stsim_OutputOptions"/>
+        <datafeed name="stsim_Transition"/>
+      </pipeline>
     </transformer>
   </transformers>
   <layouts>
