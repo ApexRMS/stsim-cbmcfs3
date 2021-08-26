@@ -4,8 +4,7 @@
     <transformer name="Primary" isPrimary="True">
       <include>
         <transformer name="FlowPathways"/>
-        <transformer name="SpinupPreProcess"/>
-        <transformer name="SpinupPostProcess"/>      
+        <transformer name="Spinup"/>      
       </include>
     </transformer>
     <transformer
@@ -152,29 +151,34 @@
       </datafeeds>
     </transformer>
     <transformer
-      name="SpinupPreProcess"
-      displayName="CBM-CFS3 Spin-up Pre-Process"
-      programName="Rscript.exe"
-      programArguments="spinup-pre.R"
+      name="Spinup"
+      displayName="CBM-CFS3 Spin-up"
       isRunnable="True">
+      <runtime>
+        <transformer name="SpinupPreProcess"/>
+        <transformer name="stsim_Primary"/>
+        <transformer name="SpinupPostProcess"/>
+      </runtime>
       <pipeline>
         <datafeed name="Spinup"/>
         <datafeed name="stsimsf_InitialStocks"/>
         <datafeed name="stsimsf_OutputStock"/>
         <datafeed name="stsim_StateAttributeValue"/>
-      </pipeline>
+        <datafeed name="stsim_OutputOptions"/>
+        <datafeed name="stsim_Transition"/>        
+      </pipeline>      
+    </transformer>
+    <transformer
+      name="SpinupPreProcess"
+      displayName="CBM-CFS3 Spin-up Pre-Process"
+      programName="Rscript.exe"
+      programArguments="spinup-pre.R">
     </transformer>
     <transformer
       name="SpinupPostProcess"
       displayName="CBM-CFS3 Spin-up Post-Process"
       programName="Rscript.exe"
-      programArguments="spinup-post.R"
-      isRunnable="True">
-      <pipeline>
-        <datafeed name="Spinup"/>
-        <datafeed name="stsim_OutputOptions"/>
-        <datafeed name="stsim_Transition"/>
-      </pipeline>
+      programArguments="spinup-post.R">
     </transformer>
   </transformers>
   <layouts>

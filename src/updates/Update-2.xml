@@ -9,15 +9,8 @@
   </action>
   <action
     code="UpdateTransformerTable"
-    transformerName="stsimcbmcfs3_SpinupPreProcess"
-    transformerDisplayName="CBM-CFS3 Spin-up Pre-Process"
-    packageName="stsimcbmcfs3"
-    packageDisplayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.">
-  </action>
-  <action
-    code="UpdateTransformerTable"
-    transformerName="stsimcbmcfs3_SpinupPostProcess"
-    transformerDisplayName="CBM-CFS3 Spin-up Post-Process"
+    transformerName="stsimcbmcfs3_Spinup"
+    transformerDisplayName="CBM-CFS3 Spin-up"
     packageName="stsimcbmcfs3"
     packageDisplayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.">
   </action>
