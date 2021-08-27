@@ -2,19 +2,18 @@
 <package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.8" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://github.com/ApexRMS/stsimcbmcfs3">
   <transformers>
     <transformer name="Primary" isPrimary="True">
-      <runtime>
+      <include>
         <transformer name="FlowPathways"/>
-        <transformer name="Spinup"/>
-      </runtime>
+        <transformer name="Spinup"/>      
+      </include>
     </transformer>
     <transformer
       name="FlowPathways"
       displayName="CBM-CFS3 Flow Pathways"
-      extendsTransformer="stsim_Runtime"
-      userRunnable="True"
-      runContext="LocalOnly"
+      isRunnable="True"
       programName="Rscript.exe"
-      programArguments="flow-pathways.R">
+      programArguments="flow-pathways.R"
+      transformerSpecificOutput="False">
       <datafeeds>
         <datafeed name="Database" displayName="CBM-CFS3 Database" dataScope="Library">
           <datasheets>
@@ -155,25 +154,31 @@
     <transformer
       name="Spinup"
       displayName="CBM-CFS3 Spin-up"
-      extendsTransformer="stsim_Runtime"
-      userRunnable="True">
+      isRunnable="True"
+      transformerSpecificOutput="False">
       <runtime>
         <transformer name="SpinupPreProcess"/>
-        <transformer name="stsim_Runtime"/>
+        <transformer name="stsim_Primary"/>
         <transformer name="SpinupPostProcess"/>
       </runtime>
+      <pipeline>
+        <datafeed name="Spinup"/>
+        <datafeed name="stsimsf_InitialStocks"/>
+        <datafeed name="stsimsf_OutputStock"/>
+        <datafeed name="stsim_StateAttributeValue"/>
+        <datafeed name="stsim_OutputOptions"/>
+        <datafeed name="stsim_Transition"/>        
+      </pipeline>      
     </transformer>
     <transformer
       name="SpinupPreProcess"
       displayName="CBM-CFS3 Spin-up Pre-Process"
-      runContext="LocalOnly"
       programName="Rscript.exe"
       programArguments="spinup-pre.R">
     </transformer>
     <transformer
       name="SpinupPostProcess"
       displayName="CBM-CFS3 Spin-up Post-Process"
-      runContext="LocalOnly"
       programName="Rscript.exe"
       programArguments="spinup-post.R">
     </transformer>
@@ -203,7 +208,7 @@
     </layout>
   </layouts>
   <updateProvider 
-    schemaVersion="1" 
+    schemaVersion="2" 
     minPackageVersion="1.0.6" 
     className="SyncroSim.Core.XMLUpdateProvider" 
     classAssembly="SyncroSim.Core"/>

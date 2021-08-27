@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<update>
+  <action
+    code="UpdateTransformerTable"
+    transformerName="stsimcbmcfs3_FlowPathways"
+    transformerDisplayName="CBM-CFS3 Flow Pathways"
+    packageName="stsimcbmcfs3"
+    packageDisplayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.">
+  </action>
+  <action
+    code="UpdateTransformerTable"
+    transformerName="stsimcbmcfs3_Spinup"
+    transformerDisplayName="CBM-CFS3 Spin-up"
+    packageName="stsimcbmcfs3"
+    packageDisplayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model.">
+  </action>
+</update>
