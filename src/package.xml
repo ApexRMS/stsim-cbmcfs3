@@ -12,7 +12,8 @@
       displayName="CBM-CFS3 Flow Pathways"
       isRunnable="True"
       programName="Rscript.exe"
-      programArguments="flow-pathways.R">
+      programArguments="flow-pathways.R"
+      transformerSpecificOutput="False">
       <datafeeds>
         <datafeed name="Database" displayName="CBM-CFS3 Database" dataScope="Library">
           <datasheets>
@@ -153,7 +154,8 @@
     <transformer
       name="Spinup"
       displayName="CBM-CFS3 Spin-up"
-      isRunnable="True">
+      isRunnable="True"
+      transformerSpecificOutput="False">
       <runtime>
         <transformer name="SpinupPreProcess"/>
         <transformer name="stsim_Primary"/>
