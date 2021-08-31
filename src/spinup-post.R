@@ -7,7 +7,7 @@ library(rsyncrosim)
 library(tidyverse)
 
 myLibrary <- ssimLibrary()
-myProject <- project(myLibrary, 1)
+myProject <- project()
 myScenario <- scenario()
 
 # Source helper functions
