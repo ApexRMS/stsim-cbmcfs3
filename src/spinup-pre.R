@@ -18,7 +18,7 @@ source(file.path(pkg_dir, "helpers.R"))
 # spinup <- read.csv("C:/Users/Administrator/Documents/stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>%
 #   mutate_if(is.factor, as.character)
 # Extract and create tertiary stratum
-spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>%
+spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup", optional=TRUE) %>%
   mutate_if(is.factor, as.character) %>% 
   mutate(TertiaryStratumID = paste0("Last Disturbance: ", 
                                     strip_type(MostRecentDisturbanceTGID)))
@@ -87,10 +87,6 @@ for (rownb in 1:nrow_unique){
   interval_dist <- the_row$ReturnInterval
   
   spinup_duration <- nb_cycles*interval_dist
-  
-  if (spinup_duration != interval_dist*nb_cycles){
-    stop("Spinup duration must be equal to number of cylce multiplied by the disturbance interval")
-  }
   
   # Create sequences
   ts_seq <- seq(from = 0, to = spinup_duration, by = interval_dist)
