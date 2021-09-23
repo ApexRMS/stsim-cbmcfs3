@@ -157,8 +157,8 @@ saveDatasheet(myScenario, data = final_df,
               name = "stsim_TransitionMultiplierValue")
 
 spinup$StratumID <- stratum_col
-saveDatasheet(myScenario, data = spinup, 
-              name = "stsimcbmcfs3_Spinup")
+# saveDatasheet(myScenario, data = spinup, 
+#               name = "stsimcbmcfs3_Spinup")
 
 # (5) Populate initial Conditions -----------------------------------------
 

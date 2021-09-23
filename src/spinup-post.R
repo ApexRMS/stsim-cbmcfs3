@@ -16,7 +16,7 @@ source(file.path(pkg_dir, "helpers.R"))
 
 # (1) Extract source and destination datasheets ---------------------------
 
-spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup") %>% 
+spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup", optional=TRUE) %>% 
   mutate_if(is.factor, as.character)
 
 initial_stocks <- datasheet(myScenario, "stsimsf_InitialStockNonSpatial") %>% 
@@ -31,7 +31,7 @@ output_stocks <- datasheet(myScenario, "stsimsf_OutputStock") %>%
 # To see what is removed:
 # output_stocks %>% filter(is.na(StateAttributeTypeID)) %>% pull(StockTypeID) %>% table
 
-output_stocks_noNA <- output_stocks %>% drop_na()
+output_stocks_noNA <- output_stocks %>% drop_na(StateAttributeTypeID)
 
 state_attributes <- datasheet(myScenario, "stsim_StateAttributeValue", optional = T) %>% 
   mutate_if(is.factor, as.character) %>% 
@@ -56,12 +56,26 @@ for (rownb in 1:nrow_unique){
   secondary_stratum <- the_row$SecondaryStratumID
   tertiary_stratum <- the_row$TertiaryStratumID
   state_class <- the_row$StateClassID
+
+  # If primary stratum is blank create a new primary stratum called "All"
+  # NB: this primary stratum was added to project definitions in spinup_pre.R
+  remove_stratum <- FALSE # keep track of whether stratum needs to be removed later
+  if(is.na(stratum)){
+    stratum <- "All"
+    remove_stratum <- TRUE # remove stratum from state attribute datasheet before saving
+  }
   
-  output_stocks_filtered <- output_stocks_noNA %>% 
+  if(is.na(secondary_stratum)){
+    output_stocks_filtered_secondary_stratum <- output_stocks_noNA
+  } else{
+    output_stocks_filtered_secondary_stratum <- output_stocks_noNA %>% 
+      filter(SecondaryStratumID == secondary_stratum)
+  }
+  
+  output_stocks_filtered <- output_stocks_filtered_secondary_stratum %>% 
     filter(Timestep >= spinup_duration, 
            Timestep <= (spinup_duration + last_cycle_duration),
            StratumID == stratum,
-           SecondaryStratumID == secondary_stratum, 
            TertiaryStratumID == tertiary_stratum,
            StateClassID == state_class) %>% 
     mutate(TSTMin = Timestep - spinup_duration, 
@@ -70,6 +84,10 @@ for (rownb in 1:nrow_unique){
            TertiaryStratumID = NA) %>%
     rename(Value = Amount) %>% 
     select(-c(StockGroupID, StockTypeID, TertiaryStratumID))
+  
+  if(remove_stratum){
+    output_stocks_filtered$StratumID = NA
+  }
   
   state_attributes_final <- state_attributes_final %>% 
     bind_rows(output_stocks_filtered)
