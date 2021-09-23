@@ -69,6 +69,7 @@ spinup_unique <- unique(spinup)
 nrow_unique <- nrow(spinup_unique)
 
 final_df <- data.frame()
+stratum_col <- c()
 
 for (rownb in 1:nrow_unique){
   
@@ -81,6 +82,15 @@ for (rownb in 1:nrow_unique){
   state_class <- the_row$StateClassID
   dist_hist <- the_row$HistoricalDisturbanceTGID
   dist_last <- the_row$MostRecentDisturbanceTGID
+  
+  # If primary stratum is blank create a new primary stratum called "All"
+  if(is.na(stratum)){
+    stratum <- "All"
+    
+    stratum_definition <- data.frame(Name = stratum)
+    saveDatasheet(myProject, data = stratum_definition, 
+                  name = "stsim_Stratum")
+  }
   
   # Spinup cycles
   nb_cycles <- the_row$SpinupDuration
@@ -136,6 +146,7 @@ for (rownb in 1:nrow_unique){
            StateClassID = state_class)
   
   final_df <- bind_rows(final_df, temp_df)
+  stratum_col <- c(stratum_col, stratum)
 }
 
 final_df <- final_df %>% 
@@ -144,6 +155,10 @@ final_df <- final_df %>%
 
 saveDatasheet(myScenario, data = final_df, 
               name = "stsim_TransitionMultiplierValue")
+
+spinup$StratumID <- stratum_col
+saveDatasheet(myScenario, data = spinup, 
+              name = "stsimcbmcfs3_Spinup")
 
 # (5) Populate initial Conditions -----------------------------------------
 
