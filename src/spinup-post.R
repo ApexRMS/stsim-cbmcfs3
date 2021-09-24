@@ -1,6 +1,7 @@
 ########################################################
 ## A223 - LandCarbon - Spinnup post-processing script ##
-## Prepared bt VL sept 2020                           ##
+## Prepared by Valentin Lucet sept 2020               ##
+## Modified by Bronwyn Rayfield sept 2021             ##
 ########################################################
 
 library(rsyncrosim)
