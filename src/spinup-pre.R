@@ -1,6 +1,7 @@
 #######################################################
 ## A223 - LandCarbon - Spinnup pre-processing script ##
-## Prepared bt VL sept 2020                          ##
+## Prepared by Valentin Lucet sept 2020              ##
+## Modified by Bronwyn Rayfield sept 2021            ##
 #######################################################
 
 library(rsyncrosim)
@@ -15,11 +16,25 @@ pkg_dir <- (Sys.getenv("ssim_package_directory"))
 source(file.path(pkg_dir, "helpers.R"))
 
 # (1) Extract spinup datasheet from library -------------------------------
-# spinup <- read.csv("C:/Users/Administrator/Documents/stsimcbmcfs3/data/stsimcbmcfs3_Spinup.csv")  %>%
-#   mutate_if(is.factor, as.character)
-# Extract and create tertiary stratum
 spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup", optional=TRUE) %>%
-  mutate_if(is.factor, as.character) %>% 
+  mutate_if(is.factor, as.character) 
+
+# Check that primary stratum does not mix unspecified (wildcard) and specified (non-wildcard) values
+stratum_check <- spinup %>%
+  mutate(StratumIsSpecified = ifelse(is.na(StratumID), 0, 1)) %>%
+  summarize(Valid = ifelse(sum(StratumIsSpecified) == 0 | sum(StratumIsSpecified) == nrow(spinup), TRUE, FALSE))
+if(!stratum_check$Valid)
+  stop("The ST-Sim Stratum in the Spin-up datasheet has both specified and unspecified values.")
+
+# Check that secondary stratum does not mix unspecified (wildcard) and specified (non-wildcard) values
+secondary_stratum_check <- spinup %>%
+  mutate(SecondaryStratumIsSpecified = ifelse(is.na(SecondaryStratumID), 0, 1)) %>%
+  summarize(Valid = ifelse(sum(SecondaryStratumIsSpecified) == 0 | sum(SecondaryStratumIsSpecified) == nrow(spinup), TRUE, FALSE))
+if(!secondary_stratum_check$Valid)
+  stop("The ST-Sim Secondary Stratum in the Spin-up datasheet has both specified and unspecified values.")
+
+# Create tertiary stratum
+spinup <- spinup %>% 
   mutate(TertiaryStratumID = paste0("Last Disturbance: ", 
                                     strip_type(MostRecentDisturbanceTGID)))
 saveDatasheet(myScenario, data = spinup, 
