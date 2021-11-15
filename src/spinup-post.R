@@ -50,14 +50,16 @@ for (rownb in 1:nrow_unique){
   # Determine spinup duration for this cell
   the_row <- slice(spinup, rownb)
   
-  spinup_duration <- the_row$SpinupDuration
+  nb_cycles <- the_row$SpinupDuration
+  interval_dist <- the_row$ReturnInterval
+  spinup_duration <- nb_cycles*interval_dist
   last_cycle_duration <- the_row$MaxAgeForLastCycle
   TSTGroup <- the_row$MostRecentDisturbanceTGID
   stratum <- the_row$StratumID
   secondary_stratum <- the_row$SecondaryStratumID
   tertiary_stratum <- the_row$TertiaryStratumID
   state_class <- the_row$StateClassID
-
+  
   # If primary stratum is blank create a new primary stratum called "All"
   # NB: this primary stratum was added to project definitions in spinup_pre.R
   remove_stratum <- FALSE # keep track of whether stratum needs to be removed later
