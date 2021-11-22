@@ -150,6 +150,24 @@
           </datasheets>
         </datafeed>
       </datafeeds>
+	  <pipeline>
+        <datafeed name="Spinup"/>
+        <datafeed name="CrosswalkSpecies"/>        
+        <datafeed name="CrosswalkDisturbance"/>        
+        <datafeed name="CrosswalkStock"/>           
+        <datafeed name="stsimsf_InitialStocks"/>
+        <datafeed name="stsimsf_OutputOptions"/> 
+        <datafeed name="stsimsf_FlowPathways"/>        
+        <datafeed name="stsimsf_StockGroupMembership"/>  
+        <datafeed name="stsimsf_FlowGroupMembership"/>  
+        <datafeed name="stsimsf_FlowMultiplier"/>         
+        <datafeed name="stsimsf_FlowOrder"/>                    
+        <datafeed name="stsim_StateAttributeValue"/>
+        <datafeed name="stsim_OutputOptions"/>
+        <datafeed name="stsim_Transition"/> 
+		    <datafeed name="stsimsf_FlowType"/>	
+		    <datafeed name="MerchantableVolumeCurve"/>		
+      </pipeline>     
     </transformer>
     <transformer
       name="Spinup"
