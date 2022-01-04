@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.11" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://github.com/ApexRMS/stsimcbmcfs3">
+<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.13" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://github.com/ApexRMS/stsimcbmcfs3">
   <transformers>
     <transformer name="Primary" isPrimary="True">
       <include>
+	<transformer name="LoadCBMCFS3Output"/>
         <transformer name="FlowPathways"/>
         <transformer name="Spinup"/>      
       </include>
+    </transformer>
+    <transformer
+      name="LoadCBMCFS3Output"
+      displayName="Load CBM-CFS3 Output"
+      isRunnable="True"
+      programName="Rscript.exe"
+      programArguments="load-cbmcfs3-output.R"
+      transformerSpecificOutput="False">
+      <pipeline>
+        <datafeed name="CrosswalkSpecies"/>        
+        <datafeed name="stsim_StateAttributeValue"/>     
+      </pipeline>  
     </transformer>
     <transformer
       name="FlowPathways"
@@ -73,6 +86,18 @@
             </datasheet>
           </datasheets>
         </datafeed>
+	<datafeed name="CBMCFS3Stock" displayName="CBM-CFS3 Stock" dataScope="Project">
+          <datasheets>
+            <datasheet name="CBMCFS3Stock" displayName="CBM-CFS3 Stock" valueMember="CBMCFS3StockID" displayMember="Name">
+              <columns>
+                <column name="CBMCFS3StockID" dataType="Integer" isPrimary="True"/>
+                <column name="ProjectID" dataType="Integer"/>
+		<column name="Name" dataType="String"/>
+                <column name="Description" dataType="String" isOptional="True"/>
+              </columns>
+            </datasheet>
+          </datasheets>
+        </datafeed>
         <datafeed name="CrosswalkSpecies" displayName="CBM-CFS3 Crosswalk Spatial Unit and Species Type" dataScope="Scenario">
           <datasheets>
             <datasheet name="CrosswalkSpecies" displayName="CBM-CFS3 Crosswalk Species">
@@ -82,11 +107,12 @@
                 <column name="EcoBoundaryID" dataType="Integer" displayName="CBM-CFS3 Ecological Boundary" validationType="Datasheet" formula1="EcoBoundary" allowDbNull="False"/>
                 <column name="AdminBoundaryID" dataType="Integer" displayName="CBM-CFS3 Administrative Boundary" validationType="Datasheet" formula1="AdminBoundary" allowDbNull="False"/>
                 <column name="SpeciesTypeID" dataType="Integer" displayName="CBM-CFS3 Species Type" validationType="Datasheet" formula1="SpeciesType" allowDbNull="False"/>
-                <column name="StratumID" dataType="Integer" displayName="ST-Sim Stratum" validationType="Datasheet" formula1="stsim_Stratum" isOptional="True" initOptionalVisible="True"/>
-                <column name="SecondaryStratumID" dataType="Integer" displayName="ST-Sim Secondary Stratum" validationType="Datasheet" formula1="stsim_SecondaryStratum" isOptional="True" initOptionalVisible="True"/>
+                <column name="StratumID" dataType="Integer" displayName="ST-Sim Stratum" validationType="Datasheet" formula1="stsim_Stratum" isOptional="True"/>
+                <column name="SecondaryStratumID" dataType="Integer" displayName="ST-Sim Secondary Stratum" validationType="Datasheet" formula1="stsim_SecondaryStratum" isOptional="True"/>
                 <column name="TertiaryStratumID" dataType="Integer" displayName="ST-Sim Tertiary Stratum" validationType="Datasheet" formula1="stsim_TertiaryStratum" isOptional="True" displayNameSource="stsim_Terminology" displayNameColumn="TertiaryStratumLabel"/>
                 <column name="StateClassID" dataType="Integer" displayName="ST-Sim State Class" validationType="Datasheet" formula1="stsim_StateClass" isOptional="True" initOptionalVisible="True" />
                 <column name="AverageTemperature" dataType="Double" displayName="Average Temperature" isOptional="True"/> 
+		<column name="CBMOutputFile" displayName="CBM-CFS3 Output File" dataType="String" isExternalFile="True" isOptional="True" initOptionalVisible="True"/> 
             </columns>
             </datasheet>
           </datasheets>
@@ -109,7 +135,7 @@
               <columns>
                 <column name="CrosswalkStockID" dataType="Integer" isPrimary="True"/>
                 <column name="ScenarioID" dataType="Integer" isCompositeIndex="True"/>
-                <column name="CBMStock" dataType="String" displayName="CBM-CFS3 Stock" allowDbNull="False"/>
+                <column name="CBMStock" displayName="CBM-CFS3 Stock" dataType="String" allowDbNull="False"/>
                 <column name="StockTypeID" dataType="Integer" displayName="ST-Sim Stock Type" validationType="Datasheet" formula1="stsimsf_StockType" allowDbNull="False"/>
               </columns>
             </datasheet>
@@ -165,8 +191,8 @@
         <datafeed name="stsim_StateAttributeValue"/>
         <datafeed name="stsim_OutputOptions"/>
         <datafeed name="stsim_Transition"/> 
-		    <datafeed name="stsimsf_FlowType"/>	
-		    <datafeed name="MerchantableVolumeCurve"/>		
+	<datafeed name="stsimsf_FlowType"/>	
+	<datafeed name="MerchantableVolumeCurve"/>		
       </pipeline>     
     </transformer>
     <transformer
@@ -219,6 +245,7 @@
         <item name="AdminBoundary"/>
         <item name="SpeciesType"/>
         <item name="DisturbanceType"/>
+	<item name="CBMCFS3Stock"/>
       </group>
     </layout>
     <layout name="coreforms_ScenarioDatafeeds" appendTo="stsim_Advanced">
@@ -234,8 +261,8 @@
     </layout>
   </layouts>
   <updateProvider 
-    schemaVersion="2" 
-    minPackageVersion="1.0.6" 
+    schemaVersion="3" 
+    minPackageVersion="1.0.13" 
     className="SyncroSim.Core.XMLUpdateProvider" 
     classAssembly="SyncroSim.Core"/>
 </package>

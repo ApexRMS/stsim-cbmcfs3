@@ -38,13 +38,19 @@ crossSF <- function(CBMStock){ as.character(crosswalkStock$StockTypeID[crosswalk
 #crossTG  <- function(CBMDisturbace){ as.character(crosswalkTransition$DisturbanceTypeID[crosswalkTransition$CBMTransitionGroupID==CBMDisturbance])}
 
 # Identify biomass and DOM stocks
-biomassStocks <- unlist(lapply(c("Merchantable", "Foliage", "Other", "Coarse root", "Fine root"), crossSF))
-DOMStocks <- unique(unlist(lapply(c("Aboveground Very Fast DOM", "Aboveground Fast DOM", "Aboveground Medium DOM", "Aboveground Slow DOM",
-                                    "Belowground Very Fast DOM", "Belowground Fast DOM", "Belowground Slow DOM",
-                                    "Softwood Branch Snag", "Softwood Stem Snag",
-                                    "Hardwood Branch Snag", "Hardwood Stem Snag"), 
-                                  crossSF)))
+biomassStocks <- c("Merchantable", "Foliage", "Other", "Coarse Roots", "Fine Roots")
+biomassStateAtts <- c("Merchantable", "Foliage", "Other Wood", "Coarse Roots", "Fine Roots")
+biomassStateAtts <- as.list(str_c("Carbon Initial Conditions: ", biomassStateAtts))
 numBiomassStocks <- length(biomassStocks)
+
+DOMStocks <- c("Aboveground Very Fast DOM", "Aboveground Fast DOM", "Medium DOM", "Aboveground Slow DOM",
+               "Belowground Very Fast DOM", "Belowground Fast DOM", "Belowground Slow DOM",
+               "Branch Snag", "Stem Snag")
+DOMStocks_hw <- c(DOMStocks[1:7], "Hardwood Branch Snag", "Hardwood Stem Snag")
+DOMStocks_sw <- c(DOMStocks[1:7],"Softwood Branch Snag", "Softwood Stem Snag")
+DOMStateAtts <- c("Aboveground Very Fast", "Aboveground Fast", "Aboveground Medium", "Aboveground Slow",
+                  "Belowground Very Fast", "Belowground Fast", "Belowground Slow", "Snag Branch", "Snag Stem")
+DOMStateAtts <- as.list(str_c("Carbon Initial Conditions: ", DOMStateAtts))
 numDOMStocks <- length(DOMStocks)
 
 # SF Flow Pathways
