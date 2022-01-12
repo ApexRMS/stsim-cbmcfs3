@@ -7,7 +7,7 @@ permalink: /
 
 # **stsimcbmcfs3** SyncroSim Package
 <img align="right" style="padding: 13px" width="180" src="assets/images/logo/stsimsf-sticker.png">
-[![GitHub release](https://img.shields.io/github/v/release/ApexRMS/Package_Name.svg?style=for-the-badge&color=d68a06)](https://GitHub.com/ApexRMS/stsimcbmcfs3/releases/tag/1.0.12/)    <a href="https://github.com/ApexRMS/stsimcbmcfs3"><img align="middle" style="padding: 1px" width="30" src="assets/images/logo/github-trans2.png">
+[![GitHub release](https://img.shields.io/github/v/release/ApexRMS/Package_Name.svg?style=for-the-badge&color=d68a06)](https://GitHub.com/ApexRMS/stsimcbmcfs3/releases/)    <a href="https://github.com/ApexRMS/stsimcbmcfs3"><img align="middle" style="padding: 1px" width="30" src="assets/images/logo/github-trans2.png">
 <br>
 ## A one-line description of what the package is
 ### A two-line introduction to the gist of the package
