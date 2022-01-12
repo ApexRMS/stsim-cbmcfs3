@@ -1,11 +1,11 @@
 ---
 layout: default
 title: Home
-description: "Landing page for the Package"
+description: "Landing page for stsimcbmcfs3"
 permalink: /
 ---
 
-# **Package_Name** SyncroSim Package
+# **stsimcbmcfs3** SyncroSim Package
 <img align="right" style="padding: 13px" width="180" src="assets/images/logo/test-sticker.png">
 [![GitHub release](https://img.shields.io/github/v/release/ApexRMS/Package_Name.svg?style=for-the-badge&color=d68a06)](https://GitHub.com/ApexRMS/Package_Name/releases/)    <a href="https://github.com/ApexRMS/Package_Name"><img align="middle" style="padding: 1px" width="30" src="assets/images/logo/github-trans2.png">
 <br>
@@ -25,14 +25,14 @@ This package requires SyncroSim [Insert_version_here](https://syncrosim.com/down
 <br>
 ## How to Install
 
-Open SyncroSim and select **File -> Packages… -> Install…**, then select the **Package_Name** package and click OK.
+Open SyncroSim and select **File -> Packages… -> Install…**, then select the **stsimcbmcfs3** package and click OK.
 
 Alternatively, download [the latest release from Github](https://github.com/ApexRMS/Package_Name/releases/). Open SyncroSim and navigate to packages, then install from file.
 <br>
 <br>
 ## Getting Started
 
-For more information on **Package_Name**, including a Quickstart Tutorial, see the [Getting Started](https://apexrms.github.io/Package_Name/getting_started.html) page.
+For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see the [Getting Started](https://apexrms.github.io/Package_Name/getting_started.html) page.
 <br>
 <br>
 ## Links
