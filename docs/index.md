@@ -38,10 +38,10 @@ For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see t
 ## Links
 
 Browse source code at
-[http://github.com/ApexRMS/Package_Name/](http://github.com/ApexRMS/stsimcbmcfs3/)
+[http://github.com/ApexRMS/stsimcbmcfs3/](http://github.com/ApexRMS/stsimcbmcfs3/)
 <br>
 Report a bug at
-[http://github.com/ApexRMS/Package_Name/issues](http://github.com/ApexRMS/stsimcbmcfs3/issues)
+[http://github.com/ApexRMS/stsimcbmcfs3/issues](http://github.com/ApexRMS/stsimcbmcfs3/issues)
 <br>
 <br>
 ## Developers
