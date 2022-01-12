@@ -20,7 +20,7 @@ An image can be inserted within the body text with the following code below
 
 ## Requirements
 
-This package requires The <a href="https://syncrosim.com/download/" target="_blank">latest version</a> of Syncrosim.
+This package requires the <a href="https://syncrosim.com/download/" target="_blank">latest version</a> of Syncrosim.
 <br>
 <br>
 ## How to Install
