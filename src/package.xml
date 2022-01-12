@@ -3,31 +3,11 @@
   <transformers>
     <transformer name="Primary" isPrimary="True">
       <include>
-	<transformer name="LoadCBMCFS3Output"/>
+		<transformer name="LoadCBMCFS3Output"/>
         <transformer name="FlowPathways"/>
         <transformer name="Spinup"/>      
       </include>
-    </transformer>
-    <transformer
-      name="LoadCBMCFS3Output"
-      displayName="Load CBM-CFS3 Output"
-      isRunnable="True"
-      programName="Rscript.exe"
-      programArguments="load-cbmcfs3-output.R"
-      transformerSpecificOutput="False">
-      <pipeline>
-        <datafeed name="CrosswalkSpecies"/>        
-        <datafeed name="stsim_StateAttributeValue"/>     
-      </pipeline>  
-    </transformer>
-    <transformer
-      name="FlowPathways"
-      displayName="CBM-CFS3 Flow Pathways"
-      isRunnable="True"
-      programName="Rscript.exe"
-      programArguments="flow-pathways.R"
-      transformerSpecificOutput="False">
-      <datafeeds>
+	  <datafeeds>
         <datafeed name="Database" displayName="CBM-CFS3 Database" dataScope="Library">
           <datasheets>
             <datasheet name="Database" displayName="CBM-CFS3 Database" isSingleRow="True">
@@ -86,13 +66,13 @@
             </datasheet>
           </datasheets>
         </datafeed>
-	<datafeed name="CBMCFS3Stock" displayName="CBM-CFS3 Stock" dataScope="Project">
+		<datafeed name="CBMCFS3Stock" displayName="CBM-CFS3 Stock" dataScope="Project">
           <datasheets>
             <datasheet name="CBMCFS3Stock" displayName="CBM-CFS3 Stock" valueMember="CBMCFS3StockID" displayMember="Name">
               <columns>
                 <column name="CBMCFS3StockID" dataType="Integer" isPrimary="True"/>
                 <column name="ProjectID" dataType="Integer"/>
-		<column name="Name" dataType="String"/>
+				<column name="Name" dataType="String"/>
                 <column name="Description" dataType="String" isOptional="True"/>
               </columns>
             </datasheet>
@@ -112,7 +92,7 @@
                 <column name="TertiaryStratumID" dataType="Integer" displayName="ST-Sim Tertiary Stratum" validationType="Datasheet" formula1="stsim_TertiaryStratum" isOptional="True" displayNameSource="stsim_Terminology" displayNameColumn="TertiaryStratumLabel"/>
                 <column name="StateClassID" dataType="Integer" displayName="ST-Sim State Class" validationType="Datasheet" formula1="stsim_StateClass" isOptional="True" initOptionalVisible="True" />
                 <column name="AverageTemperature" dataType="Double" displayName="Average Temperature" isOptional="True"/> 
-		<column name="CBMOutputFile" displayName="CBM-CFS3 Output File" dataType="String" isExternalFile="True" isOptional="True" initOptionalVisible="True"/> 
+				<column name="CBMOutputFile" displayName="CBM-CFS3 Output File" dataType="String" isExternalFile="True" isOptional="True" initOptionalVisible="True"/> 
             </columns>
             </datasheet>
           </datasheets>
@@ -176,6 +156,28 @@
           </datasheets>
         </datafeed>
       </datafeeds>
+    </transformer>
+    <transformer
+      name="LoadCBMCFS3Output"
+      displayName="Load CBM-CFS3 Output"
+      isRunnable="True"
+      programName="Rscript.exe"
+      programArguments="1-load-cbmcfs3-output.R"
+      transformerSpecificOutput="False">
+	  <pipeline>
+        <datafeed name="CrosswalkSpecies"/>   
+		<datafeed name="CrosswalkStock"/>  
+        <datafeed name="stsim_StateAttributeValue"/>
+		<datafeed name="stsim_RunControl"/>  
+      </pipeline>  
+    </transformer>
+    <transformer
+      name="FlowPathways"
+      displayName="CBM-CFS3 Flow Pathways"
+      isRunnable="True"
+      programName="Rscript.exe"
+      programArguments="2-flow-pathways.R"
+      transformerSpecificOutput="False">
 	  <pipeline>
         <datafeed name="Spinup"/>
         <datafeed name="CrosswalkSpecies"/>        
@@ -191,8 +193,8 @@
         <datafeed name="stsim_StateAttributeValue"/>
         <datafeed name="stsim_OutputOptions"/>
         <datafeed name="stsim_Transition"/> 
-	<datafeed name="stsimsf_FlowType"/>	
-	<datafeed name="MerchantableVolumeCurve"/>		
+		<datafeed name="stsimsf_FlowType"/>	
+		<datafeed name="MerchantableVolumeCurve"/>		
       </pipeline>     
     </transformer>
     <transformer
@@ -226,13 +228,13 @@
       name="SpinupPreProcess"
       displayName="CBM-CFS3 Spin-up Pre-Process"
       programName="Rscript.exe"
-      programArguments="spinup-pre.R">
+      programArguments="3-spinup-pre.R">
     </transformer>
     <transformer
       name="SpinupPostProcess"
       displayName="CBM-CFS3 Spin-up Post-Process"
       programName="Rscript.exe"
-      programArguments="spinup-post.R">
+      programArguments="4-spinup-post.R">
     </transformer>
   </transformers>
   <layouts>

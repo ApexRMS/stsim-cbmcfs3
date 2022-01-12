@@ -1,37 +1,18 @@
-library(rsyncrosim)
-library(tidyverse)
-library(RODBC)
+
+# source constants 
+pkg_dir <- (Sys.getenv("ssim_package_directory"))
+source(file.path(pkg_dir, "0-constants.R"))
 
 options(stringsAsFactors=FALSE)
-
-# mySession <- session()
-# libDir <- "C:/Users/Administrator/Desktop/A249/Demo/"
-# myLibrary <- ssimLibrary(name = paste0(libDir,"Lucas Base Model Demo"), session = mySession)
-# myProject <- rsyncrosim::project(myLibrary, 1)
-# myScenario = scenario(myProject, scenario = "Load CBM-CFS3 Output")
 
 # Get ST-Sim library, project and scenario ----
 myLibrary <- ssimLibrary()
 myProject <- project()
-myScenario <- scenario()
+myScenario <- scenario() 
 
-# Identify biomass and DOM stocks ----
-
-biomassStocks <- c("Merchantable", "Foliage", "Other", "Coarse Roots", "Fine Roots")
-biomassStateAtts <- c("Merchantable", "Foliage", "Other Wood", "Coarse Roots", "Fine Roots")
-biomassStateAtts <- as.list(str_c("Carbon Initial Conditions: ", biomassStateAtts))
-numBiomassStocks <- length(biomassStocks)
-
-DOMStocks <- c("Aboveground Very Fast DOM", "Aboveground Fast DOM", "Medium DOM", "Aboveground Slow DOM",
-                                    "Belowground Very Fast DOM", "Belowground Fast DOM", "Belowground Slow DOM",
-                                    "Branch Snag", "Stem Snag")
-DOMStocks_hw <- c(DOMStocks[1:7], "Hardwood Branch Snag", "Hardwood Stem Snag")
-DOMStocks_sw <- c(DOMStocks[1:7],"Softwood Branch Snag", "Softwood Stem Snag")
-DOMStateAtts <- c("Aboveground Very Fast", "Aboveground Fast", "Aboveground Medium", "Aboveground Slow",
-                  "Belowground Very Fast", "Belowground Fast", "Belowground Slow", "Snag Branch", "Snag Stem")
-DOMStateAtts <- as.list(str_c("Carbon Initial Conditions: ", DOMStateAtts))
-numDOMStocks <- length(DOMStocks)
-
+# load run control data - to get maxTimestep
+sheetName <- "stsim_RunControl"
+maxTimestep <- datasheet(myScenario, name = sheetName)$MaximumTimestep 
 
 # Pull in crosswalk table
 sheetName <- "stsimcbmcfs3_CrosswalkSpecies"
@@ -46,6 +27,7 @@ speciesTypeTable <- sqlFetch(CBMdatabase, "tblSpeciesTypeDefault")
 forestTypeTable <- sqlFetch(CBMdatabase, "tblForestTypeDefault")
 close(CBMdatabase)
 
+biomassStocks
 
 ## State Attributes for Living Biomass
 
@@ -58,6 +40,9 @@ for(i in seq(1:nrow(crosswalkSUSTFull))) {
   crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
   CBMSimulationData <- read.csv(crosswalkSUST$CBMOutputFile, header=TRUE, check.names = F)
   CBMSimulationData <- CBMSimulationData[,1:(ncol(CBMSimulationData)-1)]
+  
+  # Remove time steps above run control maxTimestep
+  CBMSimulationData <- CBMSimulationData[CBMSimulationData$`Time Step` <= maxTimestep,]
   
   # Get Species and Forest Type IDs
   speciesTypeID <- speciesTypeTable$SpeciesTypeID[speciesTypeTable$SpeciesTypeName == as.character(crosswalkSUST$SpeciesTypeID)]
@@ -88,6 +73,8 @@ for(i in seq(1:nrow(crosswalkSUSTFull))) {
   crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
   CBMSimulationData <- read.csv(crosswalkSUST$CBMOutputFile, header=TRUE, check.names = F)
   CBMSimulationData <- CBMSimulationData[,1:(ncol(CBMSimulationData)-1)]
+  # Remove time steps above run control maxTimestep
+  CBMSimulationData <- CBMSimulationData[CBMSimulationData$`Time Step` <= maxTimestep,]
   
   # Get Species and Forest Type IDs
   speciesTypeID <- speciesTypeTable$SpeciesTypeID[speciesTypeTable$SpeciesTypeName == as.character(crosswalkSUST$SpeciesTypeID)]
@@ -110,10 +97,63 @@ for(i in seq(1:nrow(crosswalkSUSTFull))) {
   stateAttributeInitialCarbonDOMFull = rbind(stateAttributeInitialCarbonDOM, stateAttributeInitialCarbonDOMFull)
 }
 
-## Combine the state attribute datasheets.
-# Combine all State Attribute Values and select only the first 300 years since the 301-600 years are the result of initiating a harvest in the CBM run.
+## Combine the state attribute datasheets
 stateAttributesMerged <- rbind(stateAttributeInitialCarbonBiomassFull, stateAttributeInitialCarbonDOMFull)
 saveDatasheet(myScenario, stateAttributesMerged, sheetName)
 
-# outputScenario <- scenario(myProject, "State Attribute Values")
-# saveDatasheet(outputScenario, stateAttributesMerged, sheetName)
+#########################################################
+# Generate Validation Scenario Stock Outputs (STSim SF) #
+#########################################################
+
+# load CBM carbon stock crosswalk
+sheetName <- "stsimcbmcfs3_CrosswalkStock"
+crosswalkStock  <- datasheet(myScenario, name = sheetName, optional = T)
+
+
+## loop over the rows in the croswalkSUSTFull
+Validation_OutputStock <- data.frame()
+for (row in 1:nrow(crosswalkSUSTFull)) { # row = 1
+ 
+  # Read in CBM-CFS3 Crosswalk for Spatial Unit and Species Type
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(row)
+  
+  # Get Species and Forest Type IDs
+  speciesTypeID <- speciesTypeTable$SpeciesTypeID[speciesTypeTable$SpeciesTypeName == as.character(crosswalkSUST[1, "SpeciesTypeID"])]
+  forestTypeID <- speciesTypeTable$ForestTypeID[speciesTypeTable$SpeciesTypeID == speciesTypeID]
+   
+  # Get Forest Type Name
+  forestType <- as.character(forestTypeTable$ForestTypeName[forestTypeTable$ForestTypeID == forestTypeID])
+  
+  CBMSimulationData <- read.csv(crosswalkSUST$CBMOutputFile, header=TRUE, check.names = F)
+  
+  # Remove blank column that CBM-CFS exports by default
+  validationDataWide <- CBMSimulationData[,1:(ncol(CBMSimulationData)-1)]
+  
+  # Remove time steps above run control maxTimestep
+  validationDataWide <- validationDataWide[validationDataWide$`Time Step` <= maxTimestep,]
+  
+  # convert validation carbon data from wide to long format
+  if(forestType == "Softwood"){ validationStocks <- CBM_Stocks_SW }
+  if(forestType == "Hardwood"){ validationStocks <- CBM_Stocks_HW }
+  validationDataWide <- cbind("Timestep"=validationDataWide[, "Time Step"], validationDataWide[, names(validationDataWide) %in% validationStocks])
+  validationCarbon <- gather(validationDataWide, Name, Amount, names(validationDataWide)[2:ncol(validationDataWide)], factor_key = TRUE)
+  validationCarbon$Name <- as.character(validationCarbon$Name)
+  validationCarbon$Name <- unlist(lapply(validationCarbon$Name, crossSF))
+  validationCarbon$Name <- paste(validationCarbon$Name, "[Type]")
+  
+  validationCarbon$Iteration <- 1
+  if(is.na(crosswalkSUST$StratumID)){validationCarbon$StratumID <- "[Unspecified]" }else{ validationCarbon$StratumID <- crosswalkSUST$StratumID }
+  validationCarbon$SecondaryStratumID <- crosswalkSUST$SecondaryStratumID
+  validationCarbon$TertiaryStratumID <- crosswalkSUST$TertiaryStratumID
+  validationCarbon$StateClassID <- crosswalkSUST$StateClassID
+  names(validationCarbon)[which(names(validationCarbon) == "Name")] <- "StockGroupID"
+  Validation_OutputStock <- rbind(Validation_OutputStock, validationCarbon)
+  
+}
+
+# output validation carbon stocks to result scenario
+SF_OutputStock <- datasheet(myScenario, name = "stsimsf_OutputStock") 
+SF_OutputStock1 <- add_row(SF_OutputStock, Validation_OutputStock)
+
+saveDatasheet(myScenario, SF_OutputStock1, name = "stsimsf_OutputStock") 
+

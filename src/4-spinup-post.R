@@ -13,7 +13,7 @@ myScenario <- scenario()
 
 # Source helper functions
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
-source(file.path(pkg_dir, "helpers.R"))
+source(file.path(pkg_dir, "0-helper-functions.R"))
 
 # (1) Extract source and destination datasheets ---------------------------
 
@@ -60,11 +60,11 @@ for (rownb in 1:nrow_unique){
   tertiary_stratum <- the_row$TertiaryStratumID
   state_class <- the_row$StateClassID
   
-  # If primary stratum is blank create a new primary stratum called "All"
+  # If primary stratum is blank create a new primary stratum called "All" (changed to "[Unspecified]")
   # NB: this primary stratum was added to project definitions in spinup_pre.R
   remove_stratum <- FALSE # keep track of whether stratum needs to be removed later
   if(is.na(stratum)){
-    stratum <- "All"
+    stratum <- "[Unspecified]" # "All"
     remove_stratum <- TRUE # remove stratum from state attribute datasheet before saving
   }
   

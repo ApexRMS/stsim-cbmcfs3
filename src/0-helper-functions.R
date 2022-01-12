@@ -32,3 +32,7 @@ paste_type <- function(labels) {
   
   return(output)
 }
+
+is.nan.data.frame <- function(x){
+  do.call(cbind, lapply(x, is.nan))
+}
