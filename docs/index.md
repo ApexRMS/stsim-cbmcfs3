@@ -27,12 +27,12 @@ This package requires SyncroSim [Insert_version_here](https://syncrosim.com/down
 
 Open SyncroSim and select **File -> Packages… -> Install…**, then select the **stsimcbmcfs3** package and click OK.
 
-Alternatively, download [the latest release from Github](https://github.com/ApexRMS/Package_Name/releases/). Open SyncroSim and navigate to packages, then install from file.
+Alternatively, download [the latest release from Github](https://github.com/ApexRMS/stsimcbmcfs3/releases/). Open SyncroSim and navigate to packages, then install from file.
 <br>
 <br>
 ## Getting Started
 
-For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see the [Getting Started](https://apexrms.github.io/Package_Name/getting_started.html) page.
+For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see the [Getting Started](https://apexrms.github.io/stsimcbmcfs3/getting_started.html) page.
 <br>
 <br>
 ## Links
