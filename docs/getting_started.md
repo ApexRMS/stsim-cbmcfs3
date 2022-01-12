@@ -3,7 +3,7 @@ layout: default
 title: Getting started
 ---
 
-# Getting started with **Package_Name**
+# Getting started with **stsimcbmcfs3**
 
 ## Quickstart Tutorial
 
