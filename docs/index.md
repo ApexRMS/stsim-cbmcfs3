@@ -12,9 +12,9 @@ permalink: /
 ## Landscape scale forest carbon simulations
 ### stsimcbmcfs3 is an open-source <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> add-on package to <a href="http://docs.stsim.net" target="_blank">ST-Sim</a> for forecasting landscape scale forest carbon.
 
-**stsimcbmcfs3** integrates inputs and outputs from the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into landscape scale simulations using the ST-Sim and stsimsf SyncroSim packages. The package allows users to load outputs from the CBM-CFS3, calculate flow rates by carbon pool based on CBM-CFS3 parameters and user defined temperatures, run spin up simulations to create initial carbon maps based on forest type and recent disturbance, and generate spatially explicit forecasts of forest carbon under alternative scenarios.
+**stsimcbmcfs3** integrates inputs and outputs from the <a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/climate-change-impacts-forests/carbon-accounting/carbon-budget-model/13107" target="_blank">Carbon Budget Model for the Canadian Forest Sector</a> (CBM-CFS3) into landscape scale simulations using the <a href="http://docs.stsim.net" target="_blank">ST-Sim</a> and <a href="https://apexrms.github.io/stsimsf/" target="_blank">stsimsf</a> <a href="https://syncrosim.com/" target="_blank">Syncrosim</a> packages. The package allows users to load outputs from the CBM-CFS3, calculate flow rates by carbon pool based on CBM-CFS3 parameters and user defined temperatures, run spin up simulations to create initial carbon maps based on forest type and recent disturbance, and generate spatially explicit forecasts of forest carbon under alternative scenarios.
 
-**stsimcbmcfs3** is a package that plugs into the <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> modeling framework. It can also be run from the R programming language using the rsyncrosim R package.
+**stsimcbmcfs3** is a package that plugs into the <a href="https://syncrosim.com/" target="_blank">Syncrosim</a> modeling framework. It can also be run from the R programming language using the rsyncrosim R package.
 
 ## Requirements
 
