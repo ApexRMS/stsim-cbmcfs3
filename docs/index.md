@@ -18,7 +18,8 @@ permalink: /
 
 ## Requirements
 
-This package requires the <a href="https://syncrosim.com/download/" target="_blank">latest version</a> of Syncrosim.
+This package requires the following software:
+The <a href="https://syncrosim.com/download/" target="_blank">latest version</a> of Syncrosim.
 
 ## How to Install
 
