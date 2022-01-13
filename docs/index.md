@@ -19,27 +19,23 @@ permalink: /
 ## Requirements
 
 This package requires the <a href="https://syncrosim.com/download/" target="_blank">latest version</a> of Syncrosim.
-<br>
-<br>
+
 ## How to Install
 
 Open SyncroSim and select **File -> Packages… -> Install…**, then select the **stsimcbmcfs3** package and click OK.
 
 Alternatively, download the <a href="https://github.com/ApexRMS/stsimcbmcfs3/releases/" target="_blank">latest release</a> from Github. Open SyncroSim and navigate to packages, then install from file.
-<br>
-<br>
+
 ## Getting Started
 
 For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see the [Getting Started](https://apexrms.github.io/stsimcbmcfs3/getting_started.html) page.
-<br>
-<br>
+
 ## Links
 
 Browse source code at <a href="https://github.com/ApexRMS/stsimcbmcfs3/" target="_blank">https://github.com/ApexRMS/stsimcbmcfs3/</a>
 <br>
 Report a bug at <a href="https://github.com/ApexRMS/stsimcbmcfs3/issues" target="_blank">https://github.com/ApexRMS/stsimcbmcfs3/issues</a>
-<br>
-<br>
+
 ## Developers
 
 Leonardo Frid (Author, maintainer) <a href="https://orcid.org/0000-0002-5489-2337"><img align="middle" style="padding: 0.5px" width="17" src="assets/images/ORCID.png"></a>
