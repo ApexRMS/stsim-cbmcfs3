@@ -44,8 +44,12 @@ Report a bug at <a href="https://github.com/ApexRMS/stsimcbmcfs3/issues" target=
 <br>
 ## Developers
 
-Developer_Name (Author, maintainer)
+Leonardo Frid (Author, maintainer)
 <br>
-Developer_Name (Author) <a href="https://orcid.org/Enter_Your_Link_Here"><img align="middle" style="padding: 0.5px" width="17" src="assets/images/ORCID.png"></a>
+Bronwyn Rayfield (Author) <a href="https://orcid.org/Enter_Your_Link_Here"><img align="middle" style="padding: 0.5px" width="17" src="assets/images/ORCID.png"></a>
 <br>
-Developer_Name (Author)
+Ben Sleeter (Author)
+<br>
+Skye Pearman-Gillman (Author)
+<br>
+Colin Daniel (Author)
