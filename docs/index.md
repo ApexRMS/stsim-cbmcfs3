@@ -9,14 +9,12 @@ permalink: /
 <img align="right" style="padding: 13px" width="180" src="assets/images/logo/stsimcbmcfs3-sticker.png">
 [![GitHub release](https://img.shields.io/github/v/release/ApexRMS/stsimcbmcfs3.svg?style=for-the-badge&color=d68a06)](https://GitHub.com/ApexRMS/stsimcbmcfs3/releases/)    <a href="https://github.com/ApexRMS/stsimcbmcfs3"><img align="middle" style="padding: 1px" width="30" src="assets/images/logo/github-trans2.png">
 <br>
-## A one-line description of what the package is
-### A two-line introduction to the gist of the package
+## Landscape scale forest carbon simulations
+### stsimcbmcfs3 is an open-source <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> add-on package to <a href="http://docs.stsim.net" target="_blank">ST-Sim</a> for forecasting landscape scale forest carbon.
 
+**stsimcbmcfs3** integrates inputs and outputs from the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into landscape scale simulations using the ST-Sim and stsimsf SyncroSim packages. The package allows users to load outputs from the CBM-CFS3, calculate flow rates by carbon pool based on CBM-CFS3 parameters and user defined temperatures, run spin up simulations to create initial carbon maps based on forest type and recent disturbance, and generate spatially explicit forecasts of forest carbon under alternative scenarios.
 
-Body text: Description of package to go here. Approximately 1 to 2 paragraphs.
-
-An image can be inserted within the body text with the following code below
-< img align="right" style="padding: 15px" width="400" src="assets/images/name_of_image.png" >
+**stsimcbmcfs3** is a package that plugs into the <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> modeling framework. It can also be run from the R programming language using the rsyncrosim R package.
 
 ## Requirements
 
