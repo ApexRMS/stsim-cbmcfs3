@@ -10,7 +10,7 @@ permalink: /
 [![GitHub release](https://img.shields.io/github/v/release/ApexRMS/stsimcbmcfs3.svg?style=for-the-badge&color=d68a06)](https://GitHub.com/ApexRMS/stsimcbmcfs3/releases/)    <a href="https://github.com/ApexRMS/stsimcbmcfs3"><img align="middle" style="padding: 1px" width="30" src="assets/images/logo/github-trans2.png">
 <br>
 ## Landscape scale forest carbon simulations
-### stsimcbmcfs3 is an open-source <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> add-on package to <a href="http://docs.stsim.net" target="_blank">ST-Sim</a> for forecasting landscape scale forest carbon.
+### *stsimcbmcfs3* is an open-source <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> add-on package to <a href="http://docs.stsim.net" target="_blank">ST-Sim</a> for forecasting landscape scale forest carbon.
 
 **stsimcbmcfs3** integrates inputs and outputs from the <a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/climate-change-impacts-forests/carbon-accounting/carbon-budget-model/13107" target="_blank">Carbon Budget Model for the Canadian Forest Sector</a> (CBM-CFS3) into landscape scale simulations using the <a href="http://docs.stsim.net" target="_blank">ST-Sim</a> and <a href="https://apexrms.github.io/stsimsf/" target="_blank">stsimsf</a> <a href="https://syncrosim.com/" target="_blank">Syncrosim</a> packages. The package allows users to load outputs from the CBM-CFS3, calculate flow rates by carbon pool based on CBM-CFS3 parameters and user defined temperatures, run spin up simulations to create initial carbon maps based on forest type and recent disturbance, and generate spatially explicit forecasts of forest carbon under alternative scenarios.
 
