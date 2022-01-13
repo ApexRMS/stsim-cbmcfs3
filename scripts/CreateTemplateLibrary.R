@@ -12,7 +12,7 @@ mySession <- session("C:/Users/Administrator/Desktop/SyncroSim Versions/2-3-9")
 # version(mySession)
 libraryName <- "model/lucas-example"
 myProjectName <- "Definitions"
-initialInputsDirectory <- "../data/"
+initialInputsDirectory <- "C:/GitHub/stsimcbmcfs3/data/" # "../data/"
 
 # Build base library ----
 
@@ -24,6 +24,7 @@ dir.create("model/", showWarnings = FALSE)
 myLibrary <- ssimLibrary(libraryName, 
                          addon = c("stsimsf", "stsimcbmcfs3"),
                          session = mySession, overwrite = TRUE)
+name(myLibrary) <- "LUCAS Example"
 myProject <- project(myLibrary, project=myProjectName)
 
 #######################
@@ -52,36 +53,36 @@ saveDatasheet(myLibrary, mySheet, sheetname)
 #   data.frame()
 # saveDatasheet(myProject, mySheetFull, sheetName)
 
-## Strata ----
-
-# Add [unspecified] strata as a default option
-sheetName <- "stsim_Stratum"
-mySheet <- datasheet(myProject, name = sheetName)
-mySheetFull <- add_row(mySheet, Name = "[Unspecified]")
-saveDatasheet(myProject, mySheetFull, sheetName, append = F)
+# ## Strata ----
+# 
+# # Add [unspecified] strata as a default option
+# sheetName <- "stsim_Stratum"
+# mySheet <- datasheet(myProject, name = sheetName)
+# mySheetFull <- add_row(mySheet, Name = "[Unspecified]")
+# saveDatasheet(myProject, mySheetFull, sheetName, append = F)
 
 ## Transitions ----
 
 ### Transition type
-distTypes <- read_xlsx(path = "../CBM-CFS3 database/tblDisturbanceTypeDefault.xlsx", sheet = "tblDisturbanceTypeDefault") %>%
+distTypes <- read_xlsx(path = paste0(initialInputsDirectory, "Disturbance Type.xlsx"), sheet = "Disturbance Type") %>%
   data.frame() %>%
-  select(DistTypeID, DistTypeName) %>% 
-  filter(DistTypeName %in% c("Wildfire", "97% clear-cut")) %>%
+  select(DistTypeID, Name) %>% 
+  filter(Name %in% c("Wildfire", "97% clear-cut")) %>%
 #   mutate(transitions = case_when(str_detect(DistTypeName, "fire") ~ "Fire",
 #                                  str_detect(DistTypeName, "cut") ~ "Clearcut"))
 # transitionTypes <- distTypes[!is.na(distTypes$transitions),]
 # transitionTypes <- transitionTypes[-which(transitionTypes$DistTypeName %in% c("Partial cutting", "Salvage logging after fire")),]
 # tranistionTypes <- transitionTypes %>%
   mutate(
-    color = case_when(str_detect(DistTypeName, "fire") ~ "255,255,0,0",
-                                   str_detect(DistTypeName, "cut") ~ "255,255,255,0"))
+    color = case_when(str_detect(Name, "fire") ~ "255,255,0,0",
+                                   str_detect(Name, "cut") ~ "255,255,255,0"))
 
 transitionTypes <- distTypes %>%
-  mutate(transitions = paste0(DistTypeName, " [Type]"))
+  mutate(transitions = paste0(Name, " [Type]"))
 
 sheetName <- "stsim_TransitionType"
 mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
-mySheetFull <- data.frame(Name = distTypes$DistTypeName, 
+mySheetFull <- data.frame(Name = distTypes$Name, 
                           ID = distTypes$DistTypeID,
                           Color = distTypes$color ) 
 saveDatasheet(myProject, mySheetFull, sheetName)
@@ -172,7 +173,8 @@ saveDatasheet(myProject, mySheetFull, sheetName)
 sheetName <- "stsimcbmcfs3_DisturbanceType"
 mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
 mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "Disturbance Type.xlsx"), sheet = "Disturbance Type") %>%
-  data.frame()
+  data.frame() %>%
+  select(Name)
 saveDatasheet(myProject, mySheetFull, sheetName)
 
 #### CBM-CFS3 stock
@@ -229,6 +231,11 @@ mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "Flow Order.xlsx"
 names(mySheetFull) <- names(mySheet)
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
+sheetName <- "stsimsf_FlowOrderOptions"
+mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
+mySheetFull <- addRow(mySheet, data.frame(ApplyEquallyRankedSimultaneously = T))
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
 ## Flow group membership
 myScenarioName <- "Flow Group Membership"
 myScenario = scenario(myProject, scenario = myScenarioName)
@@ -281,7 +288,7 @@ myScenario = scenario(myProject, scenario = myScenarioName)
 sheetName <- "stsimcbmcfs3_CrosswalkDisturbance" # datasheet containing the LUCAS-CBM Stock crosswalk table
 mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
 mySheetFull <- transitionTypes %>% 
-  select(DistTypeName,transitions)
+  select(Name,transitions)
 names(mySheetFull) <- names(mySheet)
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
@@ -321,8 +328,119 @@ saveDatasheet(myScenario, mySheet, sheetName)
 #########################
 # generate scenarios for all required user inputs
 
+## Library Definitions ----
+
+# Define the path/connection to the CBM database if other then default
+# CBMDatabasePath <- "C:/Users/Administrator/Desktop/A249/CBM-CFS3 database/ArchiveIndex_Beta_Install.mdb"
+# 
+# sheetname <- "stsimcbmcfs3_Database"
+# mySheet <- datasheet(myLibrary, name=sheetname)
+# mySheet[1, "Path"] <- CBMDatabasePath
+# saveDatasheet(myLibrary, mySheet, sheetname)
+
+## Project Definitions ---- [Needed for Load CMBCFS3 Transformer]
+
+# load in SUST crosswalk data
+## user could also define these values in Syncrosim UI 
+
+CBMDir <- "C:/GitHub/stsimcbmcfs3/data/user-example-inputs/cbm-cfs3-simulation-results/"
+crosswalkSUSTPath <- "../data/user-example-inputs/Crosswalk - Spatial Unit and Species Type.csv"
+crosswalkSUSTFull <- read.csv(crosswalkSUSTPath, check.names = F)
+crosswalkSUSTFull$CBMSimulationDataFilePath <- paste0(CBMDir, crosswalkSUSTFull$CBMSimulationDataFileName)
+crosswalkSUSTFull$CBMSimulationDataFileName <- NULL
+
+
+### Primary stratum [OPTIONAL]
+## This adds all unique primary stratum names from the crosswalk table to the definitions of the new model
+sheetName <- "stsim_Stratum"
+mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  myValue = crosswalkSUST$`ST-Sim Stratum`
+  mySheet = addRow(mySheet, data.frame(Name = myValue,
+                                       ID = 1))
+  mySheetFull = bind_rows(mySheetFull, mySheet) %>% unique()
+}
+saveDatasheet(myProject, mySheetFull, sheetName)
+
+
+### Secondary stratum [OPTIONAL]
+sheetName <- "stsim_SecondaryStratum"
+mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  myValue = crosswalkSUST$`ST-Sim Secondary Stratum`
+  mySheet = addRow(mySheet, data.frame(Name = myValue,
+                                       ID = 1))
+  mySheetFull = bind_rows(mySheetFull, mySheet) %>% unique()
+}
+saveDatasheet(myProject, mySheetFull, sheetName)
+
+
+### State Label X 
+sheetName <- "stsim_StateLabelX"
+mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  myValue = crosswalkSUST$`ST-Sim State Class`
+  mySheet = addRow(mySheet, data.frame(Name = myValue))
+  mySheetFull = bind_rows(mySheetFull, mySheet) %>% unique()
+}
+saveDatasheet(myProject, mySheetFull, sheetName)
+
+
+### State Label Y 
+sheetName <- "stsim_StateLabelY"
+mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  myValue = crosswalkSUST$`ST-Sim State Class`
+  mySheet = addRow(mySheet, data.frame(Name = myValue))
+  mySheetFull = bind_rows(mySheetFull, mySheet) %>% unique()
+}
+saveDatasheet(myProject, mySheetFull, sheetName)
+
+
+### State Class Type [REQUIRED]
+sheetName <- "stsim_StateClass"
+mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "user-example-inputs/State Class.xlsx"), sheet = "State Class") %>%
+  data.frame()
+names(mySheetFull) <- names(mySheet)
+saveDatasheet(myProject, mySheetFull, sheetName)
+
+
+## Project Definitions ---- [Needed for Flow-pathways/spin-up Transformers]
+
+maxAge <- 300 
+initialStandAge <- 0
+standArea <- 1
+
+# Age type 
+sheetName <- "stsim_AgeType"
+mySheet <- datasheet(myProject, name=sheetName, optional=T)
+mySheet[1,"Frequency"] <- 1
+mySheet[1,"MaximumAge"] <- maxAge
+saveDatasheet(myProject, mySheet, name=sheetName)
+
+## Age group
+sheetName <- "stsim_AgeGroup"
+mySheet <- datasheet(myProject, name=sheetName, optional=T)
+mySheet[1:(maxAge/20),"MaximumAge"] <- c(seq(from=20, to=(maxAge-1), by=20), maxAge-1)
+saveDatasheet(myProject, mySheet, name=sheetName)
+
+
+### Scenario Definitions ----
+
+#### Load CBM-CFS3 Output Dependencies ---- 
+
 ### Run Control - set as default
-maxTimestep <- 300
+
+maxTimestep <- maxAge
 maxIteration <- 1
 minTimestep <- 0
 minIteration <- 1
@@ -337,55 +455,179 @@ mySheet[1,"MaximumTimestep"] <- maxTimestep
 mySheet[1,"IsSpatial"] <- FALSE
 saveDatasheet(myScenario, mySheet, sheetName)
 
-### Initial Conditions 
-myScenarioName <- "Initial Conditions" # paste0("Initial Conditions [Non-spatial; Single cell; ", standArea, " ha; Age ", initialStandAge, "]")
-myScenario = scenario(myProject, scenario = myScenarioName)
-# sheetName <- "stsim_InitialConditionsNonSpatial"
-# mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-# mySheet[1, "TotalAmount"] <- standArea * nrow(crosswalkSUSTFull)
-# mySheet[1, "NumCells"] <- nrow(crosswalkSUSTFull)
-# mySheet[1, "CalcFromDist"] <- T
-# saveDatasheet(myScenario, mySheet, sheetName)
-# 
-# sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
-# mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-# mySheetFull = data.frame()
-# 
-# for(i in seq(1:nrow(crosswalkSUSTFull))) {
-#   crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
-#   mySheet = addRow(mySheet, data.frame(StratumID = "[Unspecified]",
-#                                        # StratumID = crosswalkSUST$`ST-Sim Stratum`,
-#                                        # SecondaryStratumID = crosswalkSUST$`ST-Sim Secondary Stratum`,
-#                                        StateClassID = crosswalkSUST$`ST-Sim State Class`,
-#                                        AgeMin = initialStandAge,
-#                                        RelativeAmount = standArea))
-#   mySheetFull = bind_rows(mySheetFull, mySheet) %>% unique()
-# }
-# saveDatasheet(myScenario, mySheetFull, sheetName, append = F)
-
 ### Species Type Crosswalk 
 myScenarioName <- "CBM-CFS3 Crosswalk - Spatial Unit and Species Type"
 myScenario = scenario(myProject, scenario = myScenarioName)
-# sheetName <- "stsimcbmcfs3_CrosswalkSpecies"
-# mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-# mySheetFull <- crosswalkSUSTFull
-# names(mySheetFull) <- names(mySheet)
-# saveDatasheet(myScenario, mySheetFull, sheetName)
+sheetName <- "stsimcbmcfs3_CrosswalkSpecies"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheetFull <- crosswalkSUSTFull
+names(mySheetFull) <- names(mySheet)
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
+#### Generate Flow Multiplier Dependencies ---- 
+
+### Initial Conditions 
+myScenarioName <- "Initial Conditions" # paste0("Initial Conditions [Non-spatial; Single cell; ", standArea, " ha; Age ", initialStandAge, "]")
+myScenario = scenario(myProject, scenario = myScenarioName)
+sheetName <- "stsim_InitialConditionsNonSpatial"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheet[1, "TotalAmount"] <- standArea * nrow(crosswalkSUSTFull)
+mySheet[1, "NumCells"] <- nrow(crosswalkSUSTFull)
+mySheet[1, "CalcFromDist"] <- T
+saveDatasheet(myScenario, mySheet, sheetName)
+
+sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheetFull = data.frame()
+
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  mySheet = addRow(mySheet, data.frame(StratumID = crosswalkSUST$`ST-Sim Stratum`,
+                                       SecondaryStratumID = crosswalkSUST$`ST-Sim Secondary Stratum`,
+                                       StateClassID = crosswalkSUST$`ST-Sim State Class`,
+                                       AgeMin = initialStandAge,
+                                       RelativeAmount = standArea))
+  mySheetFull = bind_rows(mySheetFull, mySheet) %>% unique()
+}
+saveDatasheet(myScenario, mySheetFull, sheetName, append = F)
+
+#### CBM-CFS3 Spin-up Dependencies ---- 
 
 ### Transition Pathways Diagram 
 # Note, only deterministic transitions are defined here.
 myScenario <- scenario(myProject, scenario <- "Transition Pathways")
-
+sheetName <- "stsim_DeterministicTransition"
+mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  myValue = crosswalkSUST$`ST-Sim State Class`
+  mySheet = addRow(mySheet, data.frame(StateClassIDSource = myValue,
+                                       Location = paste0("A", c(i))))
+} 
+mySheetFull = bind_rows(mySheetFull, mySheet)
+saveDatasheet(myScenario, mySheetFull, sheetName)
 
 ### CBM spin-up 
 myScenarioName = "Spin-up"
 myScenario = scenario(myProject, scenario = myScenarioName)
-# sheetName = "stsimcbmcfs3_Spinup"
-# sheetData = datasheet(myScenario, sheetName, empty = T)
-# sheetData = read.csv("data/input/cbm-spin-up.csv")
+sheetName = "stsimcbmcfs3_Spinup"
+sheetData = datasheet(myScenario, sheetName, empty = T)
+sheetData = read.csv("../data/user-example-inputs/Spin-up.csv")
 # sheetData$StratumID <- NA
 # sheetData$SecondaryStratumID <- NA
-# saveDatasheet(myScenario, sheetData, sheetName)
+saveDatasheet(myScenario, sheetData, sheetName)
+
+#### Single Cell Dependencies ----
+
+### Initial Conditions - Single Cell
+myScenarioName <- "Initial Conditions - Single Cell" 
+myScenario = scenario(myProject, scenario = myScenarioName)
+sheetName <- "stsim_InitialConditionsNonSpatial"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheet[1, "TotalAmount"] <- 1
+mySheet[1, "NumCells"] <- 1
+mySheet[1, "CalcFromDist"] <- T
+saveDatasheet(myScenario, mySheet, sheetName)
+
+sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheetFull = data.frame()
+
+crosswalkSUST <- crosswalkSUSTFull %>% slice(2)
+mySheet = addRow(mySheet, data.frame(StratumID = crosswalkSUST$`ST-Sim Stratum`,
+                                       SecondaryStratumID = crosswalkSUST$`ST-Sim Secondary Stratum`,
+                                       StateClassID = crosswalkSUST$`ST-Sim State Class`,
+                                       AgeMin = initialStandAge,
+                                       RelativeAmount = standArea))
+saveDatasheet(myScenario, mySheet, sheetName, append = F)
+
+
+#### Landscape Dependencies ---- 
+
+myScenario <- scenario(myProject, scenario = "Run Control - Landscape" )
+sheetName <- "stsim_RunControl"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheet[1,"MinimumIteration"] <- 0
+mySheet[1,"MaximumIteration"] <- 3
+mySheet[1,"MinimumTimestep"] <- 2021
+mySheet[1,"MaximumTimestep"] <- 2030
+mySheet[1,"IsSpatial"] <- T
+saveDatasheet(myScenario, mySheet, sheetName)
+
+### Initial Conditions - Landscape
+myScenarioName <- "Initial Conditions - Landscape" 
+myScenario = scenario(myProject, scenario = myScenarioName)
+sheetName <- "stsim_InitialConditionsSpatial"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheetFull <- addRow(mySheet, data.frame(StratumFileName = paste0(initialInputsDirectory, "user-example-inputs/spatial/eco-boundary.tif"),
+                           SecondaryStratumFileName = paste0(initialInputsDirectory, "user-example-inputs/spatial/admin-boundary.tif"),
+                           StateClassFileName = paste0(initialInputsDirectory, "user-example-inputs/spatial/state-class.tif"), 
+                           AgeFileName = paste0(initialInputsDirectory, "user-example-inputs/spatial/age.tif")))
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
+sheetName <- "stsim_InitialTSTSpatial"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheetFull <- addRow(mySheet, data.frame(TransitionGroupID = "Wildfire [Type]",
+                                          TSTFileName = paste0(initialInputsDirectory, "user-example-inputs/spatial/age.tif")))
+saveDatasheet(myScenario, mySheet, sheetName)
+
+
+### Transition Pathways Diagram 
+# Note, only deterministic transitions are defined here.
+myScenario <- scenario(myProject, scenario <- "Transition Pathways - Landscape")
+sheetName <- "stsim_DeterministicTransition"
+mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  myValue = crosswalkSUST$`ST-Sim State Class`
+  mySheet = addRow(mySheet, data.frame(StateClassIDSource = myValue,
+                                       Location = paste0("A", c(i))))
+} 
+mySheetFull = bind_rows(mySheetFull, mySheet)
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
+sheetName <- "stsim_Transition"
+mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+for(i in seq(1:nrow(crosswalkSUSTFull))) {
+  crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+  myValue = crosswalkSUST$`ST-Sim State Class`
+  mySheet = addRow(mySheet, data.frame(StateClassIDSource = myValue,
+                                       TransitionTypeID = "Wildfire",
+                                       Probability = 0.01))
+} 
+mySheetFull = bind_rows(mySheetFull, mySheet)
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
+### Transition Multiplier - Landscape
+myScenario <- scenario(myProject, scenario <- "Transition Multiplier - Landscape")
+sheetName <- "stsim_TransitionMultiplierValue"
+mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+mySheet = addRow(mySheet, data.frame(TransitionGroupID = "Wildfire [Type]",
+                                     Amount = 1, 
+                                     DistributionType = "Beta", 
+                                     DistributionFrequencyID = "Iteration and Timestep",
+                                     DistributionSD = 2,
+                                     DistributionMin = 0, 
+                                     DistributionMax = 10))
+mySheetFull = bind_rows(mySheetFull, mySheet)
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
+### Fire Size - Landscape
+myScenario <- scenario(myProject, scenario <- "Fire Size - Landscape")
+sheetName <- "stsim_TransitionSizeDistribution"
+mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
+mySheetFull = data.frame()
+mySheet = addRow(mySheet, data.frame(TransitionGroupID = c("Wildfire [Type]","Wildfire [Type]"),
+                                     MaximumArea = c(90, 80),
+                                     RelativeAmount = c(0.9, 0.1)))
+mySheetFull = bind_rows(mySheetFull, mySheet)
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
+
 
 ###############
 ## RUN SETUP ##
@@ -448,6 +690,8 @@ mySheetFull <- data.frame(StageNameID = "CBM-CFS3 Spin-up",
                           RunOrder = 1)
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
+### IN UI: set ignore dependencies for "OutputStock"
+
 ##################
 ## Run Forecast ##
 ##################
@@ -457,7 +701,12 @@ myScenarioName <- "Single Cell - No Disturbance"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
            c("Run Control",
+             "Initial Conditions - Single Cell",
+             "Transition Pathways",
              "Generate Flow Multipliers"))
+
+### IN UI: set ignore dependencies for "OutputStock" and "Pipeline" 
+
 
 # # set "stsim" transformer to run for this scenario
 # sheetName <- "core_Pipeline"
@@ -469,14 +718,20 @@ dependency(myScenario,
 myScenarioName <- "Landscape"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
-           c("Run Control",
+           c("Run Control - Landscape",
+             "Initial Conditions - Landscape",
+             "Transition Pathways - Landscape",
+             "Transition Multiplier - Landscape", 
+             "Fire Size - Landscape",
              "CBM Spin-up"))
 
 # # set "stsim" transformer to run for this scenario
 # sheetName <- "core_Pipeline"
 # mySheetFull <- data.frame(StageNameID = "ST-Sim",
 #                           RunOrder = 1)
-# saveDatasheet(myScenario, mySheetFull, sheetName)           
+# saveDatasheet(myScenario, mySheetFull, sheetName)    
+
+### IN UI: set ignore dependencies for "OutputStock" and "Pipeline" 
 
 ##########################
 ## create folders in UI ##
@@ -484,6 +739,9 @@ dependency(myScenario,
 
 # 1 - Predefined Inputs ## make this folder read-only
 # 2 - User Defined Inputs
+## 1 - Scenario Inputs [Load CBM-CFS3 Outputs]
+## 2 - Scenario Inputs [Generate Flow Multipliers]
+## 3 - Scenario Inputs [CBM Spin-up]
 # 3 - Run Setup
 # 4 - Run Forecast
 
