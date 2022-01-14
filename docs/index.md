@@ -19,16 +19,14 @@ permalink: /
 ## Requirements
 
 This package requires the following software: <br>
-<a href="https://syncrosim.com/download/" target="_blank">SyncroSim</a> version 2.3.9 or higher. <br>
-<a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/climate-change-impacts-forests/carbon-accounting/carbon-budget-model/13107" target="_blank">Carbon Budget Model for the Canadian Forest Sector</a> <br>
+The <a href="https://syncrosim.com/download/" target="_blank">latest version</a> of SyncroSim. <br>
+<a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/climate-change-impacts-forests/carbon-accounting/carbon-budget-model/13107" target="_blank">Carbon Budget Model</a> for the Canadian Forest Sector. <br>
 R [version 4.0.2](https://www.r-project.org/){:target="_blank"} or higher. <br>
 Syncrosim packages <a href="https://docs.stsim.net/" target="_blank">*stsim* and *stsimsf*</a>.
 
 ## How to Install
 
-Open SyncroSim and select **File -> Packages… -> Install…**, then select the **stsimcbmcfs3** package and click OK.
-
-Alternatively, download the <a href="https://github.com/ApexRMS/stsimcbmcfs3/releases/" target="_blank">latest release</a> from Github. Open SyncroSim and navigate to packages, then install from file.
+For installation instructions, see the **Install stsimcbmcfs3** section on the [Getting Started](https://apexrms.github.io/stsimcbmcfs3/getting_started.html) page.
 
 ## Getting Started
 
