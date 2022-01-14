@@ -55,7 +55,7 @@ Because you chose the **LUCAS Example** template when you created your Library
 The **Predefined Inputs** folder contains pre-configured Scenarios that act as inputs for the **Run Setup** and **Run Forecast** Scenarios. The **User Defined Inputs** folder contains two sub-folders Run Setup Inputs and Run Forecast Inputs that house user input Scenarios that need to be populated before running the Run Setup and Run Forecast Scenarios.
 >**Note:** The **User Defined Inputs** have been populated to provide an executable example to help you get started quickly.
 
-<img align="middle" style="padding: 3px" width="450" src="assets/images/screencap-3.png">
+<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-3.png">
 <br>
 In the **User Defined Inputs** folder, select and review the inputs for the Scenarios in the **Run Setup Inputs** sub-folder.
 * Select the Scenario named **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** in the Library Explorer.
@@ -77,7 +77,7 @@ Looking at the **Spin-up** Scenario we see that each ST-Sim State Class defined 
 <br>
 With all Scenarios in the **User Defined Inputs** folder populated, the **Run Setup** Scenarios can now be run.
 <br>
-<img align="middle" style="padding: 3px" width="450" src="assets/images/screencap-7.png">
+<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-7.png">
 <br>
 Click on the Scenarios in **Run Setup** to view dependencies and familiarize yourself with each Scenario's inputs.  
 
