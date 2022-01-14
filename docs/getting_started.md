@@ -25,6 +25,12 @@ Once all required programs are installed, open **SyncroSim** and select **
 * **Stock-Flow Add-On for ST-Sim:** package for modelling stocks and flows within state-and-transition simulation models. See <a href="https://docs.stsim.net/" target="_blank">documentation</a>.
 
 ## **Step 2: Create a new stsimcbmcfs3 Library**
+Having installed the **stsimcbmcfs3** Package, you are now ready to create your first SyncroSim Library. A Library is a file (with extension *.ssim*) that contains all of your model inputs and outputs. Note that the format of each Library is specific to the Package for which it was initially created. To create a new Library, choose **New Library...** from the **File** menu.
+<br>
+<img align="middle" style="padding: 3px" width="680" src="assets/images/screencap-1.PNG">
+<br>
+In this window:
+<br>
 
 ## **Step 3: Configure library settings**
 
