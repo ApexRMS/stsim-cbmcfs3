@@ -18,7 +18,7 @@ This quickstart tutorial will introduce you to the basics of working with stsimc
 
 ## **Step 1: Install stsimcbmcfs3**
 **stsimcbmcfs3** is a Package within the <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> simulation modeling framework; as such, running **stsimcbmcfs3** requires that the **SyncroSim** software be installed on your computer. Download and install the latest version **SyncroSim** <a href="https://syncrosim.com/download/" target="_blank">here</a>. **stsimcbmcfs3** also requires installation of the CBM-CFS3 <a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/impacts-forests/carbon-accounting/carbon-budget-model/13107?utm_campaign=DFATD&utm_medium=twitter&utm_source=tweet44" target="_blank">Database</a> and R version <a href="https://www.r-project.org/" target="_blank">4.0.2</a> or later.
-> **Note**: stsimcbmcfs3 also requires the following R packages:  rsyncrosim, tidyverse, and RODBC.
+> **Note:** stsimcbmcfs3 also requires the following R packages:  rsyncrosim, tidyverse, and RODBC.
 
 Once all required programs are installed, open **SyncroSim** and select **File -> Packages... -> Install...**, and select the **stsim**, **stsimsf**, and **stsimcbmcfs3** packages and click OK. Alternatively, download the <a href="https://github.com/ApexRMS/stsimcbmcfs3/releases" target="_blank">latest release</a> from GitHub. Open **SyncroSim** and select **File -> Packages... -> Install From File...**, then navigate to the downloaded package file with the extension *.ssimpkg*.
 * **ST-Sim:** package for creating and running state-and-transition simulation models. See <a href="https://docs.stsim.net/" target="_blank">documentation</a>.
@@ -31,6 +31,12 @@ Having installed the **stsimcbmcfs3** Package, you are now ready to create you
 <br>
 In this window:
 <br>
+* Select the row for **stsim**. Note that as you select a row, the list of Templates available and suggested **File name** for that base package are updated.
+* Select the **LUCAS Example Template** as shown above.
+* Optionally type in a new **File name** for the Library (or accept the default); you can also change the target **Folder** using the **Browse...** button.
+> **Note:** If you intend on using Multiprocessing (recommended), ensure your SyncroSim Library is saved to the C: Drive. Saving your library to OneDrive will result in an error when completing a model run.
+
+When you are ready to create the Library file, click OK. A new Library will be created and loaded into the Library Explorer.
 
 ## **Step 3: Configure library settings**
 
