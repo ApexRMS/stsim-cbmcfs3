@@ -9,7 +9,7 @@ title: Getting started
 
 This quickstart tutorial will introduce you to the basics of working with stsimcbmcfs3. The steps include:
 <br>
-* Installing ST-Connect
+* Installing stsimcbmcfs3
 * Creating a new stsimcbmcfs3 Library
 * Configuring the stsimcbmcfs3 Library
 * Viewing model inputs
