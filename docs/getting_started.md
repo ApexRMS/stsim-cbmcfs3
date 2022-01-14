@@ -88,7 +88,7 @@ In the toolbar, enable **Multiprocessing** with 3 jobs. This will cut down t
 <br>
 Right-click on the **Load CBM-CFS3 Output** Scenario in the **Scenario Manager** window and select **Run** from the context menu. If prompted to save your project, click **Yes**. If the run is successful, you will see a Status of **Done** in the **Run Monitor** window, at which point you can close the **Run Monitor** window; otherwise, click on the **Run Log** link to see a report of any problems. Make any necessary changes to your Scenario, then re-run the Scenario.
 <br>
-<img align="middle" style="padding: 3px" width="500" src="assets/images/screencap-9.png">
+<img align="middle" style="padding: 3px" width="600" src="assets/images/screencap-9.png">
 <br>
 Next, repeat the steps above to run the **Generate Flow Multiplier** Scenario and then the **Run Spin-up** Scenario.  
 >**Note:** The **Run Setup** and **Run Forecast** Scenarios rely on dependencies that are defined in **Predefined Inputs** and **User Defined Inputs**, as well as results from previous **Run Setup** Scenarios. For this reason, it is important the Scenarios are run in sequence.  
