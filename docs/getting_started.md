@@ -60,6 +60,9 @@ The **Predefined Inputs** folder contains pre-configured Scenarios that act as i
 In the **User Defined Inputs** folder, select and review the inputs for the Scenarios in the **Run Setup Inputs** sub-folder.
 * Select the Scenario named **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** in the Library Explorer.
 * Right-click and choose **Properties** from the context menu to view the details of the Scenario.
+<br>
+<img align="middle" style="padding: 3px" width="800" src="assets/images/screencap-4.png">
+<br>
 
 ## **Step 5: Run the model**
 
