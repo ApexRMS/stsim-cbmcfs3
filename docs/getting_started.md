@@ -98,5 +98,5 @@ Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast
 ## **Step 6: Analyze the results**
 To view results from your **Single Cell – No Disturbance** run, move to the **Charts** tab at the bottom left of the **Scenario Manager** screen and double-click on the **Single Cell – Biomass** chart to open it.
 <br>
-<img align="middle" style="padding: 3px" width="350" src="assets/images/screencap-10.png">
+<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-10.png">
 <br>
