@@ -96,3 +96,7 @@ Next, repeat the steps above to run the **Generate Flow Multiplier** Scenario an
 Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast** Scenarios can be run. Click on the **Single Cell – No Disturbance** and **Landscape** Scenarios to familiarize yourself with the Scenario inputs. Repeat the steps above to run the two Scenarios.
 
 ## **Step 6: Analyze the results**
+To view results from your **Single Cell – No Disturbance** run, move to the **Charts** tab at the bottom left of the **Scenario Manager** screen and double-click on the **Single Cell – Biomass** chart to open it.
+<br>
+<img align="middle" style="padding: 3px" width="350" src="assets/images/screencap-10.png">
+<br>
