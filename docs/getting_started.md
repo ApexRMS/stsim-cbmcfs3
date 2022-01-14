@@ -65,12 +65,19 @@ In the **User Defined Inputs** folder, select and review the inputs for the Scen
 <br>
 The first tab in this window, called **General**, contains three datasheets. The first, **Summary**, displays some general information for the Scenario. The second, **Pipeline**, allows the user to select the run order of the inputs in the model. Finally, the **Datafeeds** datasheet displays a list of all data sources.
 
-Select the **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.  
+Select the **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.
+
+This example is setup to simulate four different forest types in the Sierra Nevada Ecoregion of California:
+
+* Western Oak,
+* California Mixed Conifer,
+* Ponderosa Pine, and  
+* Alder/Maple
+
+The crosswalk datasheet allows a user to associate each forest type to a CBM-CFS3 equivalent combination of Ecological Boundary, Admin Boundary and Species Type.  Here a user can specify temperature values that should be used when modeling dead organic matter transfer and decay rates.  Note that if temperature values are not specified, the default values for the selected Ecological Boundary will be used. Here a user must also load CBM-CFS3 output files that are used to calculate growth rates by biomass pool.  Outputs loaded from the CBM-CFS3 can eventually be compared against simulations run in ST-Sim for validation purposes (see step 6).
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-5.png">
 <br>
-This example includes four different species types from the CBM-CFS3 Database...
-
 Looking at the **Spin-up** Scenario we see that each ST-Sim State Class defined in the species crosswalk has been linked with each transition (disturbance) type.   
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-6.png">
