@@ -75,6 +75,11 @@ Looking at the **Spin-up** Scenario we see that each ST-Sim State Class defined 
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-6.png">
 <br>
+With all Scenarios in the **User Defined Inputs** folder populated, the **Run Setup** Scenarios can now be run.
+<br>
+<img align="middle" style="padding: 3px" width="450" src="assets/images/screencap-7.png">
+<br>
+Click on the Scenarios in **Run Setup** to view dependencies and familiarize yourself with each Scenario's inputs.  
 
 ## **Step 5: Run the model**
 
