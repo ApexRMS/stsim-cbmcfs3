@@ -5,19 +5,6 @@
 # This script is used to define constants, read configuration options, and load
 # necessary functions in a reproducible way across scripts
 
-# Load packages
-library(rsyncrosim)
-library(tidyverse)
-library(RODBC)
-library(methods)
-library(readxl)
-
-# load crosswalk file
-# initialInputsDirectory <- "C:/Users/Administrator/Desktop/A249/LUCAS Base MOdel - Template Dev/data/"
-# crosswalkStock <- read_xlsx(path = paste0(initialInputsDirectory, "CBM-CFS3 Crosswalk Carbon Stock.xlsx"), sheet = "CBM-CFS3 Crosswalk Carbon Stock") %>%
-#  data.frame()
-#  names(crosswalkStock) <- c("CBMStock","StockTypeID")
-
 # crosswalk function ---
 
 # Crosswalk function

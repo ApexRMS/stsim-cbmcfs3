@@ -2,18 +2,17 @@
 ## A223 - LandCarbon - Spinnup pre-processing script ##
 ## Prepared by Valentin Lucet sept 2020              ##
 ## Modified by Bronwyn Rayfield sept 2021            ##
+## Modified by Schuyler Pearman-Gillman Jan 2022     ##
 #######################################################
 
-library(rsyncrosim)
-library(tidyverse)
+# Source helper functions
+pkg_dir <- (Sys.getenv("ssim_package_directory"))
+source(file.path(pkg_dir, "0-dependencies.R"))
+source(file.path(pkg_dir, "0-helper-functions.R"))
 
 myLibrary <- ssimLibrary()
 myProject <- project()
 myScenario <- scenario()
-
-# Source helper functions
-pkg_dir <- (Sys.getenv("ssim_package_directory"))
-source(file.path(pkg_dir, "0-helper-functions.R"))
 
 # (1) Extract spinup datasheet from library -------------------------------
 spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup", optional=TRUE) %>%

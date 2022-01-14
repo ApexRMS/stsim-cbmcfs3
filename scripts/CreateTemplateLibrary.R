@@ -275,7 +275,7 @@ myScenario = scenario(myProject, scenario = myScenarioName)
 
 sheetName <- "stsimsf_OutputOptions"
 mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
-mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "SF Output Options.xlsx"), sheet = "SF Output Options") %>%
+mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "SF Output Options - Spatial.xlsx"), sheet = "SF Output Options") %>%
   data.frame()
 # names(mySheetFull) <- names(mySheet)
 saveDatasheet(myScenario, mySheetFull, sheetName)
@@ -303,7 +303,7 @@ mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "CBM-CFS3 Crosswa
 names(mySheetFull) <- names(mySheet)
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
-### Output options
+### Output options non-spatial 
 myScenario <- scenario(myProject, scenario = "Output Options [Non-spatial]")
 sheetName <- "stsim_OutputOptions"
 mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
@@ -322,6 +322,16 @@ mySheet[1, "SummaryOutputTATimesteps"] <- 1
 mySheet[1, "SummaryOutputOmitSS"] <- F
 mySheet[1, "SummaryOutputOmitTS"] <- F
 saveDatasheet(myScenario, mySheet, sheetName)
+
+### Output Options Spatial 
+myScenario <- scenario(myProject, scenario = "Output Options [Spatial]")
+sheetName <- "stsim_OutputOptionsSpatial"
+mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "Output Options Spatial.xlsx"), sheet = "Output Options Spatial") %>%
+  data.frame()
+names(mySheetFull) <- names(mySheet)
+saveDatasheet(myScenario, mySheetFull, sheetName)
+
 
 #########################
 ## USER DEFINED INPUTS ##
@@ -520,27 +530,29 @@ saveDatasheet(myScenario, sheetData, sheetName)
 
 #### Single Cell Dependencies ----
 
-### Initial Conditions - Single Cell
-myScenarioName <- "Initial Conditions - Single Cell" 
-myScenario = scenario(myProject, scenario = myScenarioName)
-sheetName <- "stsim_InitialConditionsNonSpatial"
-mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-mySheet[1, "TotalAmount"] <- 1
-mySheet[1, "NumCells"] <- 1
-mySheet[1, "CalcFromDist"] <- T
-saveDatasheet(myScenario, mySheet, sheetName)
-
-sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
-mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-mySheetFull = data.frame()
-
-crosswalkSUST <- crosswalkSUSTFull %>% slice(2)
-mySheet = addRow(mySheet, data.frame(StratumID = crosswalkSUST$`ST-Sim Stratum`,
-                                       SecondaryStratumID = crosswalkSUST$`ST-Sim Secondary Stratum`,
-                                       StateClassID = crosswalkSUST$`ST-Sim State Class`,
-                                       AgeMin = initialStandAge,
-                                       RelativeAmount = standArea))
-saveDatasheet(myScenario, mySheet, sheetName, append = F)
+# ### Initial Conditions - Single Cell
+# myScenarioName <- "Initial Conditions - Single Cell" 
+# myScenario = scenario(myProject, scenario = myScenarioName)
+# sheetName <- "stsim_InitialConditionsNonSpatial"
+# mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+# mySheet[1, "TotalAmount"] <- nrow(crosswalkSUSTFull)
+# mySheet[1, "NumCells"] <- 1
+# mySheet[1, "CalcFromDist"] <- T
+# saveDatasheet(myScenario, mySheet, sheetName)
+# 
+# sheetName <- "stsim_InitialConditionsNonSpatialDistribution"
+# mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
+# mySheetFull = data.frame()
+# for(i in seq(1:nrow(crosswalkSUSTFull))) {
+# crosswalkSUST <- crosswalkSUSTFull %>% slice(i)
+# mySheet = addRow(mySheet, data.frame(StratumID = crosswalkSUST$`ST-Sim Stratum`,
+#                                        SecondaryStratumID = crosswalkSUST$`ST-Sim Secondary Stratum`,
+#                                        StateClassID = crosswalkSUST$`ST-Sim State Class`,
+#                                        AgeMin = initialStandAge,
+#                                        RelativeAmount = standArea))
+# } 
+# mySheetFull = bind_rows(mySheetFull, mySheet)
+# saveDatasheet(myScenario, mySheet, sheetName, append = F)
 
 
 #### Landscape Dependencies ---- 
@@ -548,7 +560,7 @@ saveDatasheet(myScenario, mySheet, sheetName, append = F)
 myScenario <- scenario(myProject, scenario = "Run Control - Landscape" )
 sheetName <- "stsim_RunControl"
 mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
-mySheet[1,"MinimumIteration"] <- 0
+mySheet[1,"MinimumIteration"] <- 1
 mySheet[1,"MaximumIteration"] <- 3
 mySheet[1,"MinimumTimestep"] <- 2021
 mySheet[1,"MaximumTimestep"] <- 2030
@@ -739,11 +751,16 @@ dependency(myScenario,
 
 # 1 - Predefined Inputs ## make this folder read-only
 # 2 - User Defined Inputs
-## 1 - Scenario Inputs [Load CBM-CFS3 Outputs]
-## 2 - Scenario Inputs [Generate Flow Multipliers]
-## 3 - Scenario Inputs [CBM Spin-up]
+## 1 - Run Setup Inputs 
+## 2 - Run Forecast Inputs
 # 3 - Run Setup
 # 4 - Run Forecast
+
+#########################
+## create charts in UI ##
+#########################
+
+# in options check the "no data as zero" box for all charts 
 
 # # Make a console call to create/move scenarios to folders -----------
 # 

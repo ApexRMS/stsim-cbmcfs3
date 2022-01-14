@@ -1,8 +1,13 @@
+# stsimcbmcfs3
+# Bronwyn Rayfield and Schuyler Pearman-Gillman, ApexRMS
+# Run with R-4.1.1
+
 # Before running script make sure that Microsoft Access Database Engine is installed so that you can connect to a MS Access db from R x64bit
-# On Sept 27 2018, I installed AccessDatabaseEngine_X64.exe from https://www.microsoft.com/en-us/download/details.aspx?id=13255
+# On Sept 27 2018: AccessDatabaseEngine_X64.exe installed from https://www.microsoft.com/en-us/download/details.aspx?id=13255
 
 # source constants and helper functions
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
+source(file.path(pkg_dir, "0-dependencies.R"))
 source(file.path(pkg_dir, "0-constants.R"))
 source(file.path(pkg_dir, "0-helper-functions.R"))
 

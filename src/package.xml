@@ -179,6 +179,7 @@
       programArguments="2-flow-pathways.R"
       transformerSpecificOutput="False">
 	  <pipeline>
+		<datafeed name="stsim_RunControl"/> 
         <datafeed name="Spinup"/>
         <datafeed name="CrosswalkSpecies"/>        
         <datafeed name="CrosswalkDisturbance"/>        
