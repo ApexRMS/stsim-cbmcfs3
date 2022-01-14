@@ -18,8 +18,11 @@ permalink: /
 
 ## Requirements
 
-This package requires the following software:
-The <a href="https://syncrosim.com/download/" target="_blank">latest version</a> of Syncrosim.
+This package requires the following software: <br>
+<a href="https://syncrosim.com/download/" target="_blank">SyncroSim</a> version 2.3.9 or higher. <br>
+<a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/climate-change-impacts-forests/carbon-accounting/carbon-budget-model/13107" target="_blank">Carbon Budget Model for the Canadian Forest Sector</a> <br>
+R [version 4.0.2](https://www.r-project.org/){:target="_blank"} or higher. <br>
+Syncrosim packages <a href="https://docs.stsim.net/" target="_blank">*stsim* and *stsimsf*</a>.
 
 ## How to Install
 
