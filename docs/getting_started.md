@@ -61,18 +61,20 @@ In the **User Defined Inputs** folder, select and review the inputs for the Scen
 * Select the Scenario named **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** in the Library Explorer.
 * Right-click and choose **Properties** from the context menu to view the details of the Scenario.
 
-<br>
 <img align="middle" style="padding: 3px" width="900" src="assets/images/screencap-4.png">
 <br>
 The first tab in this window, called **General**, contains three datasheets. The first, **Summary**, displays some general information for the Scenario. The second, **Pipeline**, allows the user to select the run order of the inputs in the model. Finally, the **Datafeeds** datasheet displays a list of all data sources.
 
-Select the CBM-CFS3 Crosswalk – Spatial Unit and Species Type datafeed to view the example inputs.  
+Select the **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.  
 <br>
 <img align="middle" style="padding: 3px" width="800" src="assets/images/screencap-5.png">
 <br>
 This example includes four different species types from the CBM-CFS3 Database...
 
 Looking at the **Spin-up** Scenario we see that each ST-Sim State Class defined in the species crosswalk has been linked with each transition (disturbance) type.   
+<br>
+<img align="middle" style="padding: 3px" width="800" src="assets/images/screencap-6.png">
+<br>
 
 ## **Step 5: Run the model**
 
