@@ -104,3 +104,14 @@ You can now view the results of your **Single Cell – No Disturbance** run and 
 <br>
 <img align="middle" style="padding: 3px" width="450" src="assets/images/screencap-11.png">
 <br>
+>**Note:** You can add and remove Results Scenarios from the list of Scenarios being analyzed by selecting a Scenario in the Library Explorer and then choosing either **Add to Results** or **Remove from Results** from the Scenario menu. **Scenarios** currently selected for analysis are highlighted in bold in the Library Explorer.
+
+<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-12.png">
+<br>
+Double-click on the **Single Cell – Aboveground DOM** and **Single Cell – Belowground DOM** charts to view the results. You can view results for the different forest types by changing the **State Class** selection and then clicking **Apply**.  When done viewing the **Single Cell** Results, remove the **Load CBM-CFS3 Output** and **Single Cell – No Disturbance Scenarios** from the Results Viewer.
+
+To view spatial results, add the **Landscape** Scenario to the Results and then select the Maps tab from the bottom of the **Scenario Manager** window (i.e. beside the **Charts** tab). Double click on the **Biomass** Map. By default, the mapping window should display Wildfire events and changes in Total Biomass over time.
+<br>
+<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-13.png">
+<br>
+Double click on **Flows** and **Age** Maps to view changes in carbon flows and forest age for the **Landscape** Scenario. 
