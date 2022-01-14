@@ -1,3 +1,0 @@
-StratumID,SecondaryStratumID,TertiaryStratumID,StateClassID,MostRecentDisturbanceTGID,HistoricalDisturbanceTGID,ReturnInterval,SpinupDuration,MaxAgeForLastCycle
-Boreal Shield West,Ontario,,Generic:Hardwood,Clearcut (97%) [Type],Wildfire [Type],100,10000,300
-Pacific Maritime,British Columbia,,Douglas-fir - Genus type:Softwood,Clearcut (97%) [Type],Wildfire [Type],150,12000,250

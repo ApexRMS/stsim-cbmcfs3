@@ -2,18 +2,17 @@
 ## A223 - LandCarbon - Spinnup pre-processing script ##
 ## Prepared by Valentin Lucet sept 2020              ##
 ## Modified by Bronwyn Rayfield sept 2021            ##
+## Modified by Schuyler Pearman-Gillman Jan 2022     ##
 #######################################################
 
-library(rsyncrosim)
-library(tidyverse)
+# Source helper functions
+pkg_dir <- (Sys.getenv("ssim_package_directory"))
+source(file.path(pkg_dir, "0-dependencies.R"))
+source(file.path(pkg_dir, "0-helper-functions.R"))
 
 myLibrary <- ssimLibrary()
 myProject <- project()
 myScenario <- scenario()
-
-# Source helper functions
-pkg_dir <- (Sys.getenv("ssim_package_directory"))
-source(file.path(pkg_dir, "helpers.R"))
 
 # (1) Extract spinup datasheet from library -------------------------------
 spinup <- datasheet(myScenario, "stsimcbmcfs3_Spinup", optional=TRUE) %>%
@@ -37,9 +36,6 @@ if(!secondary_stratum_check$Valid)
 spinup <- spinup %>% 
   mutate(TertiaryStratumID = paste0("Last Disturbance: ", 
                                     strip_type(MostRecentDisturbanceTGID)))
-saveDatasheet(myScenario, data = spinup, 
-              name = "stsimcbmcfs3_Spinup")
-
 # Throw error if empty
 if (nrow(spinup) == 0){
   stop("Spinup datasheet is empty, conditions could not be initiated")
@@ -49,6 +45,11 @@ if (nrow(spinup) == 0){
 unique_tertiary <- data.frame(Name = unique(spinup$TertiaryStratumID))
 saveDatasheet(myProject, data = unique_tertiary, 
               name = "stsim_TertiaryStratum")
+
+# save updated spinup
+saveDatasheet(myScenario, data = spinup, 
+              name = "stsimcbmcfs3_Spinup")
+
 
 # (2) Impute Spinup params from CBM ---------------------------------------
 
@@ -98,13 +99,11 @@ for (rownb in 1:nrow_unique){
   dist_hist <- the_row$HistoricalDisturbanceTGID
   dist_last <- the_row$MostRecentDisturbanceTGID
   
-  # If primary stratum is blank create a new primary stratum called "All"
+  # If primary stratum is blank create a new primary stratum called "All" (changed to "[Unspecified]" to match template lib)
   if(is.na(stratum)){
-    stratum <- "All"
-    
-    stratum_definition <- data.frame(Name = stratum)
-    saveDatasheet(myProject, data = stratum_definition, 
-                  name = "stsim_Stratum")
+    stratum <- "[Unspecified]" # "All"
+    # stratum_definition <- data.frame(Name = stratum)
+    # saveDatasheet(myProject, data = stratum_definition, name = "stsim_Stratum")
   }
   
   # Spinup cycles
@@ -172,8 +171,8 @@ saveDatasheet(myScenario, data = final_df,
               name = "stsim_TransitionMultiplierValue")
 
 spinup$StratumID <- stratum_col
-# saveDatasheet(myScenario, data = spinup, 
-#               name = "stsimcbmcfs3_Spinup")
+saveDatasheet(myScenario, data = spinup, 
+             name = "stsimcbmcfs3_Spinup")
 
 # (5) Populate initial Conditions -----------------------------------------
 
@@ -193,15 +192,15 @@ saveDatasheet(myScenario, data = IC_nonspatial_dist,
 
 # (6) Set Output Options --------------------------------------------------
 
-output_options <- datasheet(myScenario, "stsim_OutputOptions")
-
-output_options$SummaryOutputSC <- TRUE
-output_options$SummaryOutputSCTimesteps <- 1
-output_options$SummaryOutputTR <- TRUE
-output_options$SummaryOutputTRTimesteps <- 1
-
-saveDatasheet(myScenario, data = output_options, 
-              name = "stsim_OutputOptions")
+# output_options <- datasheet(myScenario, "stsim_OutputOptions")
+# 
+# output_options$SummaryOutputSC <- TRUE
+# output_options$SummaryOutputSCTimesteps <- 1
+# output_options$SummaryOutputTR <- TRUE
+# output_options$SummaryOutputTRTimesteps <- 1
+# 
+# saveDatasheet(myScenario, data = output_options, 
+#               name = "stsim_OutputOptions")
 
 
 # (7) Transition Pathways -------------------------------------------------
