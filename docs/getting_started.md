@@ -44,6 +44,22 @@ For the model to run, SyncroSim needs the locations of your R and the CBC-CFS3 D
 <img align="middle" style="padding: 3px" width="800" src="assets/images/screencap-2.png">
 
 ## **Step 4: Review the model inputs**
+The contents of your newly created Library are now displayed in the Library Explorer. Model inputs in SyncroSim are organized into Scenarios, where each Scenario consists of a suite of values, one for each of the Model's required inputs.
+
+Because you chose the **LUCAS Example** template when you created your Library, your Library already contains four folders:
+* Predefined Inputs
+* User Defined Inputs
+* Run Setup
+* Run Forecast
+
+The **Predefined Inputs** folder contains pre-configured Scenarios that act as inputs for the **Run Setup** and **Run Forecast** Scenarios. The **User Defined Inputs** folder contains two sub-folders Run Setup Inputs and Run Forecast Inputs that house user input Scenarios that need to be populated before running the Run Setup and Run Forecast Scenarios.
+>**Note:** The **User Defined Inputs** have been populated to provide an executable example to help you get started quickly.
+
+<img align="middle" style="padding: 3px" width="450" src="assets/images/screencap-3.PNG">
+<br>
+In the **User Defined Inputs** folder, select and review the inputs for the Scenarios in the **Run Setup Inputs** sub-folder. 
+* Select the Scenario named **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** in the Library Explorer.
+* Right-click and choose **Properties** from the context menu to view the details of the Scenario.
 
 ## **Step 5: Run the model**
 
