@@ -31,12 +31,12 @@ Having installed the **stsimcbmcfs3** Package, you are now ready to create you
 <br>
 In this window:
 <br>
-* Select the row for **stsim**. Note that as you select a row, the list of Templates available and suggested **File name** for that base package are updated.
+* Select the row for **stsim**. Note that as you select a row, the list of **Templates** available and suggested **File name** for that base package are updated.
 * Select the **LUCAS Example Template** as shown above.
 * Optionally type in a new **File name** for the Library (or accept the default); you can also change the target **Folder** using the **Browse...** button.
 > **Note:** If you intend on using Multiprocessing (recommended), ensure your SyncroSim Library is saved to the C: Drive. Saving your library to OneDrive will result in an error when completing a model run.
 
-When you are ready to create the Library file, click OK. A new Library will be created and loaded into the Library Explorer.
+When you are ready to create the Library file, click **OK**. A new Library will be created and loaded into the Library Explorer.
 
 ## **Step 3: Configure library settings**
 For the model to run, SyncroSim needs the locations of your R and the CBC-CFS3 Database. The R executable will be found automatically. To check, double-click on **LUCAS Example** and navigate to the **Options** tab. In the **R Configuration** datasheet, you should see the file path to your R executable. If not, click **Browse...** and navigate to the correct file location. The CBM-CFS3 file path is set to the databases default download location. If the CBM-CFS3 Database was not installed to the default location, select the Folder icon, and navigate to the proper location on your local computer, then click **Open**.
