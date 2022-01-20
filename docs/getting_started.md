@@ -92,7 +92,7 @@ Click on the Scenarios in **Run Setup** to view dependencies and familiarize you
 ## **Step 5: Run the model**
 Right-click on the **Load CBM-CFS3 Output** Scenario in the **Scenario Manager** window and select **Run** from the context menu. If prompted to save your project, click **Yes**. If the run is successful, you will see a Status of **Done** in the **Run Monitor** window, at which point you can close the **Run Monitor** window; otherwise, click on the **Run Log** link to see a report of any problems. Make any necessary changes to your Scenario, then re-run the Scenario.
 <br>
-<img align="middle" style="padding: 3px" width="600" src="assets/images/screencap-8.png">
+<img align="middle" style="padding: 3px" width="575" src="assets/images/screencap-8.png">
 <br>
 >**Note:** If you encounter an error in your model run, you may need to install Microsoft Access Database Engine <a href="https://www.microsoft.com/en-us/download/details.aspx?id=54920" target="_blank">2016 Redistributable</a>.
 
@@ -101,7 +101,7 @@ Next, repeat the steps above to run the **Generate Flow Multiplier** and **Run S
 
 Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast** Scenarios can be run. At this point, **Multiprocessing** should be enabled with 3 jobs.
 <br>
-<img align="middle" style="padding: 3px" width="575" src="assets/images/screencap-9.png">
+<img align="middle" style="padding: 3px" width="600" src="assets/images/screencap-9.png">
 <br>
 Click on the **Single Cell – No Disturbance** and **Landscape** Scenarios to familiarize yourself with the Scenario inputs. Repeat the steps above to run the two Scenarios.
 
