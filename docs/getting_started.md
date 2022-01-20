@@ -79,6 +79,8 @@ The crosswalk datasheet allows a user to associate each forest type to a CBM-CFS
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-5.png">
 <br>
+<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-5-update.png">
+<br>
 Looking at the **Spin-up** Scenario, we see that each ST-Sim State Class defined in the species crosswalk has been linked with each transition (disturbance) type.   
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-6.png">
