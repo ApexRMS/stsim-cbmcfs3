@@ -29,6 +29,9 @@ Having installed the **stsimcbmcfs3** Package, you are now ready to create you
 <br>
 <img align="middle" style="padding: 3px" width="680" src="assets/images/screencap-1.png">
 <br>
+<br>
+<img align="middle" style="padding: 3px" width="680" src="assets/images/screencap-1-update.png">
+<br>
 In this window:
 <br>
 * Select the row for **stsim**. Note that as you select a row, the list of **Templates** available and suggested **File name** for that base package are updated.
