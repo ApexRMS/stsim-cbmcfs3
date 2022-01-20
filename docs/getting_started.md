@@ -29,6 +29,9 @@ Having installed the **stsimcbmcfs3** Package, you are now ready to create you
 <br>
 <img align="middle" style="padding: 3px" width="680" src="assets/images/screencap-1.png">
 <br>
+<br>
+<img align="middle" style="padding: 3px" width="680" src="assets/images/screencap-1-update.png">
+<br>
 In this window:
 <br>
 * Select the row for **stsim**. Note that as you select a row, the list of **Templates** available and suggested **File name** for that base package are updated.
@@ -101,7 +104,7 @@ Next, repeat the steps above to run the **Generate Flow Multiplier** and **Run S
 
 Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast** Scenarios can be run. At this point, **Multiprocessing** should be enabled with 3 jobs.
 <br>
-<img align="middle" style="padding: 3px" width="575" src="assets/images/screencap-8-border.png">
+<img align="middle" style="padding: 3px" width="575" src="assets/images/screencap-8.png">
 <br>
 Click on the **Single Cell – No Disturbance** and **Landscape** Scenarios to familiarize yourself with the Scenario inputs. Repeat the steps above to run the two Scenarios.
 
