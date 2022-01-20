@@ -39,7 +39,7 @@ In this window:
 When you are ready to create the Library file, click **OK**. A new Library will be created and loaded into the Library Explorer.
 
 ## **Step 3: Configure library settings**
-For the model to run, SyncroSim needs the locations of your R and the CBC-CFS3 Database. The R executable will be found automatically. To check, double-click on **LUCAS Example** and navigate to the **Options** tab. In the **R Configuration** datasheet, you should see the file path to your R executable. If not, click **Browse...** and navigate to the correct file location. The CBM-CFS3 file path is set to the databases default download location. If the CBM-CFS3 Database was not installed to the default location, select the Folder icon, and navigate to the proper location on your local computer, then click **Open**.
+For the model to run, SyncroSim needs the locations of your R and the CBC-CFS3 Database. The R executable will be found automatically. To check, double-click on **LUCAS Example** and navigate to the **Options** tab. In the **R Configuration** datasheet, you should see the file path to your R executable. If not, click **Browse...** and navigate to the correct file location. The CBM-CFS3 file path is set to the default location that was recommended during the installation of the database. If the CBM-CFS3 Database was not installed to the default location, select the Folder icon, and navigate to the proper location on your local computer, then click **Open**.
 <br>
 <img align="middle" style="padding: 3px" width="800" src="assets/images/screencap-2.png">
 
