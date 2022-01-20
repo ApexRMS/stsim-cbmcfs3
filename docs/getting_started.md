@@ -52,7 +52,7 @@ Because you chose the **LUCAS Example** template when you created your Library
 * Run Setup
 * Run Forecast
 
-The **Predefined Inputs** folder contains pre-configured Scenarios that act as inputs for the **Run Setup** and **Run Forecast** Scenarios. The **User Defined Inputs** folder contains two sub-folders Run Setup Inputs and Run Forecast Inputs that house user input Scenarios that need to be populated before running the Run Setup and Run Forecast Scenarios.
+The **Predefined Inputs** folder contains pre-configured Scenarios that act as inputs for the **Run Setup** and **Run Forecast** Scenarios. The **User Defined Inputs** folder contains two sub-folders (**Run Setup Inputs** and **Run Forecast Inputs**) that house user input Scenarios that need to be populated before running the **Run Setup** and **Run Forecast** Scenarios.
 >**Note:** The **User Defined Inputs** have been populated to provide an executable example to help you get started quickly.
 
 <img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-3.png">
@@ -61,9 +61,10 @@ In the **User Defined Inputs** folder, select and review the inputs for the Scen
 * Select the Scenario named **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** in the Library Explorer.
 * Right-click and choose **Properties** from the context menu to view the details of the Scenario.
 
+This opens the Scenario Properties window. The first tab in this window, called **General**, contains three datasheets. The first, **Summary**, displays some general information for the Scenario. The second, **Pipeline**, allows the user to select the run order of the inputs in the model. Finally, the **Datafeeds** datasheet (shown below) displays a list of all data sources.
+
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-4.png">
 <br>
-The first tab in this window, called **General**, contains three datasheets. The first, **Summary**, displays some general information for the Scenario. The second, **Pipeline**, allows the user to select the run order of the inputs in the model. Finally, the **Datafeeds** datasheet displays a list of all data sources.
 
 Select the **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.
 
@@ -74,11 +75,11 @@ This example is setup to simulate four different forest types in the Sierra Neva
 * Ponderosa Pine, and  
 * Alder/Maple
 
-The crosswalk datasheet allows a user to associate each forest type to a CBM-CFS3 equivalent combination of Ecological Boundary, Admin Boundary and Species Type.  Here a user can specify temperature values that should be used when modeling dead organic matter transfer and decay rates.  Note that if temperature values are not specified, the default values for the selected Ecological Boundary will be used. Here a user must also load CBM-CFS3 output files that are used to calculate growth rates by biomass pool.  Outputs loaded from the CBM-CFS3 can eventually be compared against simulations run in ST-Sim for validation purposes (see Step 6).
+The crosswalk datasheet allows a user to associate each forest type to a CBM-CFS3 equivalent combination of Ecological Boundary, Admin Boundary and Species Type.  Here a user can specify temperature values that should be used when modeling dead organic matter transfer and decay rates.  Note that if temperature values are not specified, the default values for the selected Ecological Boundary will be used. Here a user must also load CBM-CFS3 output files that are used to calculate growth rates by biomass pool.  Outputs loaded from the CBM-CFS3 can eventually be compared against simulations run in ST-Sim for validation purposes (see **Step 6**).
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-5.png">
 <br>
-Looking at the **Spin-up** Scenario we see that each ST-Sim State Class defined in the species crosswalk has been linked with each transition (disturbance) type.   
+Looking at the **Spin-up** Scenario, we see that each ST-Sim State Class defined in the species crosswalk has been linked with each transition (disturbance) type.   
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-6.png">
 <br>
