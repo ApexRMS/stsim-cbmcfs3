@@ -114,7 +114,8 @@ To view results from your **Single Cell – No Disturbance** run, move to the 
 <br>
 <img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-10.png">
 <br>
-
+The following window should open.
+<br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-12.png">
 <br>
 Double-click on the **Single Cell – Aboveground DOM** and **Single Cell – Belowground DOM** charts to view the results. You can view results for the different forest types by changing the **State Class** selection and then clicking **Apply**.  When done viewing the **Single Cell** Results, remove the **Load CBM-CFS3 Output** and **Single Cell – No Disturbance Scenarios** from the Results Viewer.
