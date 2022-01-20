@@ -98,7 +98,7 @@ Right-click on the **Load CBM-CFS3 Output** Scenario in the **Scenario Manag
 <br>
 <img align="middle" style="padding: 3px" width="600" src="assets/images/screencap-9.png">
 <br>
-Next, repeat the steps above to run the **Generate Flow Multiplier** Scenario and then the **Run Spin-up** Scenario.  
+Next, repeat the steps above to run the **Generate Flow Multiplier** and **Run Spin-up** Scenarios.  
 >**Note:** The **Run Setup** and **Run Forecast** Scenarios rely on dependencies that are defined in **Predefined Inputs** and **User Defined Inputs**, as well as results from previous **Run Setup** Scenarios. For this reason, it is important the Scenarios are run in sequence.  
 
 Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast** Scenarios can be run. Click on the **Single Cell – No Disturbance** and **Landscape** Scenarios to familiarize yourself with the Scenario inputs. Repeat the steps above to run the two Scenarios.
