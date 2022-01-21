@@ -124,6 +124,6 @@ Double-click on the **Single Cell – Aboveground DOM** and **Single Cell – 
 
 To view spatial results, add the **Landscape** Scenario to the Results and then select the Maps tab from the bottom of the **Scenario Manager** window (i.e. beside the **Charts** tab). Double click on the **Biomass** Map. By default, the mapping window should display Wildfire events and changes in Total Biomass over time.
 <br>
-<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-13.png">
+<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-13-update.png">
 <br>
 Double click on **Flows** and **Age** Maps to view changes in carbon flows and forest age for the **Landscape** Scenario.
