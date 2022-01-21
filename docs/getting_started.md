@@ -67,7 +67,7 @@ This opens the Scenario Properties window. The first tab in this window, called�
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-4-update.png">
 <br>
-<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-4-update-2png">
+<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-4-update-2.png">
 <br>
 
 Select the **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.
