@@ -27,7 +27,7 @@ Microsoft Access Database Engine <a href="https://www.microsoft.com/en-us/downlo
 
 ## How to Install
 
-For installation instructions, see the **Install stsimcbmcfs3** section on the <a href="https://apexrms.github.io/stsimcbmcfs3/getting_started.html" target="_blank">Getting Started</a> page.
+For installation instructions, see the **Install stsimcbmcfs3** section on the [Getting Started](https://apexrms.github.io/stsimcbmcfs3/getting_started.html) page.
 
 ## Getting Started
 
