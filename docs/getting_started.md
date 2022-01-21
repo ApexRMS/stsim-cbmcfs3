@@ -77,7 +77,7 @@ This example is setup to simulate four different forest types in the Sierra Neva
 
 The crosswalk datasheet allows a user to associate each forest type to a CBM-CFS3 equivalent combination of Ecological Boundary, Admin Boundary and Species Type.  Here a user can specify temperature values that should be used when modeling dead organic matter transfer and decay rates.  Note that if temperature values are not specified, the default values for the selected Ecological Boundary will be used. Here a user must also load CBM-CFS3 output files that are used to calculate growth rates by biomass pool.  Outputs loaded from the CBM-CFS3 can eventually be compared against simulations run in ST-Sim for validation purposes (see **Step 6**).
 <br>
-<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-5-update-3.png">
+<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-5.png">
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-5-update-4.png">
 <br>
