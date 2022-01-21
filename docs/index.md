@@ -31,7 +31,7 @@ For installation instructions, see the **Install stsimcbmcfs3** section on the <
 
 ## Getting Started
 
-For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see the <a href="https://apexrms.github.io/stsimcbmcfs3/getting_started.html" target="_blank">Getting Started</a> page.
+For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see the [Getting Started](https://apexrms.github.io/stsimcbmcfs3/getting_started.html) page.
 
 ## Links
 
