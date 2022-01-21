@@ -116,7 +116,7 @@ You can now view the results of your **Single Cell – No Disturbance** run and 
 
 To view results from your **Single Cell – No Disturbance** run, move to the **Charts** tab at the bottom left of the **Scenario Manager** screen and double-click on the **Single Cell – Biomass** chart to open it.
 <br>
-<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-11.png">
+<img align="middle" style="padding: 3px" width="500" src="assets/images/screencap-11.png">
 <br>
 The following window should open.
 <br>
