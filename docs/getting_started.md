@@ -39,7 +39,7 @@ In this window:
 When you are ready to create the Library file, click **OK**. A new Library will be created and loaded into the Library Explorer.
 
 ## **Step 3: Configure library settings**
-For the model to run, SyncroSim needs the locations of your R executable and the CBC-CFS3 Database. The R executable will be found automatically. To check, double-click on **LUCAS Example** and navigate to the **Options** tab. In the **R Configuration** datasheet, you should see the file path to your R executable. If not, click **Browse...** and navigate to the correct file location. The CBM-CFS3 file path is set to the default location that was recommended during the installation of the database. If the CBM-CFS3 Database was not installed to the default location, select the Folder icon, and navigate to the proper location on your local computer, then click **Open**.
+For the model to run, SyncroSim needs the locations of your R executable and the CBC-CFS3 Database. The R executable will be found automatically. To check, double-click on **LUCAS Example* and navigate to the **Options** tab. In the **R Configuration** datasheet, you should see the file path to your R executable. If not, click **Browse...** and navigate to the correct file location. The CBM-CFS3 file path is set to the default location that was recommended during the installation of the database. If the CBM-CFS3 Database was not installed to the default location, select the Folder icon, and navigate to the proper location on your local computer, then click **Open**.
 <br>
 <img align="middle" style="padding: 3px" width="850" src="assets/images/screencap-2.png">
 
@@ -64,6 +64,8 @@ In the **User Defined Inputs** folder, select and review the inputs for the Scen
 This opens the Scenario Properties window. The first tab in this window, called **General**, contains three datasheets. The first, **Summary**, displays some general information for the Scenario. The second, **Pipeline**, allows the user to select the run order of the inputs in the model. Finally, the **Datafeeds** datasheet (shown below) displays a list of all data sources.
 
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-4-update-2.png">
+<br>
+<img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-4-update-3.png">
 <br>
 
 Select the **CBM-CFS3 Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.
