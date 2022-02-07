@@ -6,7 +6,7 @@ present <- installed.packages()[ , "Package"]
 needed <- depend[!(depend %in% present)] 
 nneeded <- length(needed)
 if(nneeded > 0){
-  install.packages(needed)
+  install.packages(needed, repos = "https://cloud.r-project.org/")
 }
 for(dep in 1:ndepend){
   suppressMessages(eval(bquote(library(.(depend[dep])))))

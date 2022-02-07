@@ -117,7 +117,7 @@ sheetName <- "stsimcbmcfs3_CrosswalkStock"
 crosswalkStock  <- datasheet(myScenario, name = sheetName, optional = T)
 
 
-## loop over the rows in the croswalkSUSTFull
+## loop over the rows in the crosswalkSUSTFull
 Validation_OutputStock <- data.frame()
 for (row in 1:nrow(crosswalkSUSTFull)) { # row = 1
  

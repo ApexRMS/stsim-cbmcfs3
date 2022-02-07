@@ -1,5 +1,7 @@
 # ApexRMS - Jan 2022
-# script creates "lucas-example" template library for stsimcbmcfs3 package
+# script creates "cbm-example" template library for stsimcbmcfs3 package
+
+# setwd("C:/GitHub/stsimcbmcfs3")
 
 library(rsyncrosim)
 library(readxl)
@@ -8,23 +10,25 @@ library(tidyverse)
 options(stringsAsFactors=FALSE)
 
 # Settings ----
-mySession <- session("C:/Users/Administrator/Desktop/SyncroSim Versions/2-3-9")
+mySession <- session("C:/SyncroSim Versions/2-3-9")
 # version(mySession)
-libraryName <- "model/lucas-example"
+libraryName <- "model/cbm-example"
 myProjectName <- "Definitions"
 initialInputsDirectory <- "C:/GitHub/stsimcbmcfs3/data/" # "../data/"
 
 # Build base library ----
 
 # Ensure ST-Sim is installed
-addPackage("stsim")
+addPackage("stsim", session = mySession)
+addPackage("stsimsf", session = mySession)
+addPackage("stsimcbmcfs3", session = mySession)
 
 # Create library
 dir.create("model/", showWarnings = FALSE)
 myLibrary <- ssimLibrary(libraryName, 
                          addon = c("stsimsf", "stsimcbmcfs3"),
                          session = mySession, overwrite = TRUE)
-name(myLibrary) <- "LUCAS Example"
+name(myLibrary) <- "CBM Example"
 myProject <- project(myLibrary, project=myProjectName)
 
 #######################
@@ -93,6 +97,14 @@ saveDatasheet(myProject, mySheetFull, sheetName)
 # mySheetFull <- data.frame(Name = unique(transitionTypes$transitions))
 # saveDatasheet(myProject, mySheetFull, sheetName)
 
+## Ages ----
+
+### Age groups
+sheetName <- "stsim_AgeGroup"
+mySheet <- datasheet(myProject, name=sheetName, optional=T, empty = T)
+mySheetFull <- read_xlsx(path = paste0(initialInputsDirectory, "Age Groups.xlsx"), sheet = "Age Groups") %>%
+  data.frame()
+saveDatasheet(myProject, mySheetFull, sheetName)
 
 ## Advanced ----
 
@@ -143,7 +155,7 @@ saveDatasheet(myProject, mySheetFull, sheetName)
 
 #### terminology
 sheetName <- "stsimsf_Terminology"
-mySheetFull <- data.frame(StockUnits = "tons C")
+mySheetFull <- data.frame(StockUnits = "metric tons C")
 saveDatasheet(myProject, mySheetFull, sheetName)
 
 ### CBM Definitions ----
@@ -354,7 +366,7 @@ saveDatasheet(myScenario, mySheetFull, sheetName)
 ## user could also define these values in Syncrosim UI 
 
 CBMDir <- "C:/GitHub/stsimcbmcfs3/data/user-example-inputs/cbm-cfs3-simulation-results/"
-crosswalkSUSTPath <- "../data/user-example-inputs/Crosswalk - Spatial Unit and Species Type.csv"
+crosswalkSUSTPath <- "data/user-example-inputs/Crosswalk - Spatial Unit and Species Type.csv"
 crosswalkSUSTFull <- read.csv(crosswalkSUSTPath, check.names = F)
 crosswalkSUSTFull$CBMSimulationDataFilePath <- paste0(CBMDir, crosswalkSUSTFull$CBMSimulationDataFileName)
 crosswalkSUSTFull$CBMSimulationDataFileName <- NULL
@@ -466,7 +478,7 @@ mySheet[1,"IsSpatial"] <- FALSE
 saveDatasheet(myScenario, mySheet, sheetName)
 
 ### Species Type Crosswalk 
-myScenarioName <- "CBM-CFS3 Crosswalk - Spatial Unit and Species Type"
+myScenarioName <- "CBM Crosswalk - Spatial Unit and Species Type"
 myScenario = scenario(myProject, scenario = myScenarioName)
 sheetName <- "stsimcbmcfs3_CrosswalkSpecies"
 mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
@@ -523,7 +535,7 @@ myScenarioName = "Spin-up"
 myScenario = scenario(myProject, scenario = myScenarioName)
 sheetName = "stsimcbmcfs3_Spinup"
 sheetData = datasheet(myScenario, sheetName, empty = T)
-sheetData = read.csv("../data/user-example-inputs/Spin-up.csv")
+sheetData = read.csv("data/user-example-inputs/Spin-up.csv")
 # sheetData$StratumID <- NA
 # sheetData$SecondaryStratumID <- NA
 saveDatasheet(myScenario, sheetData, sheetName)
@@ -646,18 +658,18 @@ saveDatasheet(myScenario, mySheetFull, sheetName)
 ###############
 # generate run scenarios for each transformer
 
-### Load CBM-CFS3 Output
-myScenarioName <- "Load CBM-CFS3 Output"
+### Load CBM Output
+myScenarioName <- "Load CBM Output"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
            c("Run Control",
              "CBM Crosswalk - Stocks",
-             "CBM-CFS3 Crosswalk - Spatial Unit and Species Type"))
+             "CBM Crosswalk - Spatial Unit and Species Type"))
 
 # set "Load CBM-CFS3 Output" transformer to run for this scenario
 sheetName <- "core_Pipeline"
 # mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
-mySheetFull <- data.frame(StageNameID = "Load CBM-CFS3 Output",
+mySheetFull <- data.frame(StageNameID = "1 - Load CBM Output",
                           RunOrder = 1)
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
@@ -676,20 +688,20 @@ dependency(myScenario,
              "Initial Conditions",
              # "Pathway Diagram",
              "CBM Crosswalk - Disturbance",
-             "Load CBM-CFS3 Output"))
+             "Load CBM Output"))
 
 # set "Flow Pathways" transformer to run for this scenario
 sheetName <- "core_Pipeline"
 mySheet <- datasheet(myScenario, name=sheetName, optional=T)
 mySheet <- addRow(mySheet, data.frame(
-  StageNameID = "CBM-CFS3 Flow Pathways",
+  StageNameID = "2 - Generate Flow Pathways",
   MaximumJobs = NA,
   RunOrder = 1))
 saveDatasheet(myScenario, mySheet, sheetName)
 
 
-### CBM Spin-up
-myScenarioName <- "CBM Spin-up"
+### Run Spin-up
+myScenarioName <- "Run Spin-up"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
            c("Spin-up",
@@ -698,7 +710,7 @@ dependency(myScenario,
 
 # set "spin-up" transformer to run for this scenario
 sheetName <- "core_Pipeline"
-mySheetFull <- data.frame(StageNameID = "CBM-CFS3 Spin-up",
+mySheetFull <- data.frame(StageNameID = "3 - Run Spin-up",
                           RunOrder = 1)
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
@@ -713,7 +725,7 @@ myScenarioName <- "Single Cell - No Disturbance"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
            c("Run Control",
-             "Initial Conditions - Single Cell",
+             # "Initial Conditions - Single Cell",
              "Transition Pathways",
              "Generate Flow Multipliers"))
 
@@ -735,7 +747,7 @@ dependency(myScenario,
              "Transition Pathways - Landscape",
              "Transition Multiplier - Landscape", 
              "Fire Size - Landscape",
-             "CBM Spin-up"))
+             "Run Spin-up"))
 
 # # set "stsim" transformer to run for this scenario
 # sheetName <- "core_Pipeline"
@@ -760,7 +772,7 @@ dependency(myScenario,
 ## create charts in UI ##
 #########################
 
-# in options check the "no data as zero" box for all charts 
+# in options check the "no data as zero" box for all charts except wildfire  
 
 # # Make a console call to create/move scenarios to folders -----------
 # 

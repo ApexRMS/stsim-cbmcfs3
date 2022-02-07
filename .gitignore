@@ -9,4 +9,4 @@ data/.Rhistory
 *.suo
 *.sqlite
 *.json
-scripts/model
+model

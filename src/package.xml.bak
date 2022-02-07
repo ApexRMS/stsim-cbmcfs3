@@ -159,7 +159,7 @@
     </transformer>
     <transformer
       name="LoadCBMCFS3Output"
-      displayName="1 - Load CBM Output"
+      displayName="Load CBM Output"
       isRunnable="True"
       programName="Rscript.exe"
       programArguments="1-load-cbmcfs3-output.R"
@@ -173,7 +173,7 @@
     </transformer>
     <transformer
       name="FlowPathways"
-      displayName="2 - Generate Flow Pathways"
+      displayName="Generate Flow Pathways"
       isRunnable="True"
       programName="Rscript.exe"
       programArguments="2-flow-pathways.R"
@@ -200,7 +200,7 @@
     </transformer>
     <transformer
       name="Spinup"
-      displayName="3 - Run Spin-up"
+      displayName="Run Spin-up"
       isRunnable="True"
       transformerSpecificOutput="False">
       <runtime>
