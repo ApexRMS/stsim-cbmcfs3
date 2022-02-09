@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template
+  name="cbm-example"
+  displayName="CBM Example"
+  description="
+    {br}Example library for the stsimcbmcfs3 SyncroSim package." 
+  location=""https://s3.us-west-2.amazonaws.com/apexrms.com.public/test/cbm-example.zip"
+  liveUpdate="True">
+</template>

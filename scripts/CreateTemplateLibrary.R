@@ -210,7 +210,18 @@ mySheet$SecondaryStratumLabel[1] <- "Administrative Boundary"
 mySheet$TimestepUnits[1] <- "Year"
 saveDatasheet(myProject, mySheet, sheetName)
 
-# Sub-Scenario data ----
+# Predefined Input Scenario data ----
+
+# Find the Parent Project ID to create a folder within this Project
+pid <-  project(myLibrary)$projectId[1]
+
+# Write the console command for "Run Scenario" folder
+command <- paste0("\"", filepath(mySession), "/SyncroSim.Console.Exe\"",
+                   " --create --folder --lib=", filepath(myLibrary),
+                   " --name=1-Predefined-Inputs --tpid=", pid)
+
+# Invoke a system command
+sysOut <- system(command, intern=TRUE)
 
 # datasheet(myProject, optional = T) # datasheet(myScenario, optional = T)
 
@@ -349,6 +360,14 @@ saveDatasheet(myScenario, mySheetFull, sheetName)
 ## USER DEFINED INPUTS ##
 #########################
 # generate scenarios for all required user inputs
+
+# Write the console command for "Run Scenario" folder
+command <- paste0("\"", filepath(mySession), "/SyncroSim.Console.Exe\"",
+                  " --create --folder --lib=", filepath(myLibrary),
+                  " --name=2-User-Defined-Inputs --tpid=", pid)
+
+# Invoke a system command
+sysOut <- system(command, intern=TRUE)
 
 ## Library Definitions ----
 
@@ -594,7 +613,7 @@ sheetName <- "stsim_InitialTSTSpatial"
 mySheet <- datasheet(myScenario, name = sheetName, empty = T, optional = T)
 mySheetFull <- addRow(mySheet, data.frame(TransitionGroupID = "Wildfire [Type]",
                                           TSTFileName = paste0(initialInputsDirectory, "user-example-inputs/spatial/age.tif")))
-saveDatasheet(myScenario, mySheet, sheetName)
+saveDatasheet(myScenario, mySheetFull, sheetName)
 
 
 ### Transition Pathways Diagram 
@@ -652,11 +671,18 @@ mySheetFull = bind_rows(mySheetFull, mySheet)
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
 
-
 ###############
 ## RUN SETUP ##
 ###############
 # generate run scenarios for each transformer
+
+# Write the console command for "Run Scenario" folder
+command <- paste0("\"", filepath(mySession), "/SyncroSim.Console.Exe\"",
+                  " --create --folder --lib=", filepath(myLibrary),
+                  " --name=3-Run-Setup --tpid=", pid)
+
+# Invoke a system command
+sysOut <- system(command, intern=TRUE)
 
 ### Load CBM Output
 myScenarioName <- "Load CBM Output"
@@ -720,6 +746,14 @@ saveDatasheet(myScenario, mySheetFull, sheetName)
 ## Run Forecast ##
 ##################
 
+# Write the console command for "Run Scenario" folder
+command <- paste0("\"", filepath(mySession), "/SyncroSim.Console.Exe\"",
+                  " --create --folder --lib=", filepath(myLibrary),
+                  " --name=4-Run-Forecast --tpid=", pid)
+
+# Invoke a system command
+sysOut <- system(command, intern=TRUE)
+
 ### Single cell
 myScenarioName <- "Single Cell - No Disturbance"
 myScenario = scenario(myProject, scenario = myScenarioName)
@@ -744,6 +778,7 @@ myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
            c("Run Control - Landscape",
              "Initial Conditions - Landscape",
+             "Output Options [Spatial]",
              "Transition Pathways - Landscape",
              "Transition Multiplier - Landscape", 
              "Fire Size - Landscape",
@@ -758,7 +793,7 @@ dependency(myScenario,
 ### IN UI: set ignore dependencies for "OutputStock" and "Pipeline" 
 
 ##########################
-## create folders in UI ##
+## Rename Folders in UI ##
 ##########################
 
 # 1 - Predefined Inputs ## make this folder read-only
@@ -768,9 +803,41 @@ dependency(myScenario,
 # 3 - Run Setup
 # 4 - Run Forecast
 
-#########################
-## create charts in UI ##
-#########################
+##############################
+## create charts/maps in UI ##
+##############################
+
+# Charts ---
+# 01 - Single Cell - Biomass
+# 02 - Single Cell - Aboveground DOM
+# 03 - Single Cell - Belowground DOM
+# 04 - Spin-up - Biomass
+# 05 - Spin-up - Aboveground DOM
+# 06 - Spin-up - Belowground DOM
+# 07 - Landscape - Area Burned 
+# 08 - Landscape - Biomass
+# 09 - Landscape - Aboveground DOM
+# 10 - Landscape - Belowground DOM
+
+# --> Stocks > Total > Disaggregate by: Stock Type/Group > Include data for: State Class (select one), Stock Type/Group (select biomass or A/B DOM types)
+
+# Options > 
+# Options [checked boxes]:
+## Yaxis min to zero
+## Fixed Y axis intervals
+## Show legend
+## Show scenario name
+## Show scenario ID
+## Show tooltips
+## show tiles
+# Format:
+# 1 decimal place (y)
+
+# Maps ---
+# 1 - Biomass
+# 2 - Flows 
+# --> net growth and emissions
+# 3 - Age
 
 # in options check the "no data as zero" box for all charts except wildfire  
 
