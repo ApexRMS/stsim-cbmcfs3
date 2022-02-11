@@ -1,6 +1,6 @@
-# stsimcbmcfs3
-# Bronwyn Rayfield and Schuyler Pearman-Gillman, ApexRMS
-# Run with R-4.1.1
+## stsimcbmcfs3            
+## ApexRMS, January 2022  
+## Run with R-4.1.1       
 
 # Before running script make sure that Microsoft Access Database Engine is installed so that you can connect to a MS Access db from R x64bit
 # On Sept 27 2018: AccessDatabaseEngine_X64.exe installed from https://www.microsoft.com/en-us/download/details.aspx?id=13255

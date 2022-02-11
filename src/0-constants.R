@@ -1,9 +1,8 @@
 # stsimcbmcfs3
-# Schuyler Pearman-Gillman, ApexRMS
+# ApexRMS, January 2022
 # Run with R-4.1.1
 #
-# This script is used to define constants, read configuration options, and load
-# necessary functions in a reproducible way across scripts
+# This script is used to define constants across scripts
 
 # crosswalk function ---
 

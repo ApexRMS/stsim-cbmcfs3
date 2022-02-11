@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.13" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://apexrms.github.io/stsimcbmcfs3/">
+<package name="stsimcbmcfs3" displayName="Integrates the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim simulation model." version="1.0.14" isAddOn="True" extendsPackage="stsim" requiresAddOns="stsimsf" url="https://apexrms.github.io/stsimcbmcfs3/">
   <transformers>
     <transformer name="Primary" isPrimary="True">
       <include>
@@ -159,7 +159,7 @@
     </transformer>
     <transformer
       name="LoadCBMCFS3Output"
-      displayName="Load CBM Output"
+      displayName="1 - Load CBM Output"
       isRunnable="True"
       programName="Rscript.exe"
       programArguments="1-load-cbmcfs3-output.R"
@@ -173,7 +173,7 @@
     </transformer>
     <transformer
       name="FlowPathways"
-      displayName="Generate Flow Pathways"
+      displayName="2 - Generate Flow Pathways"
       isRunnable="True"
       programName="Rscript.exe"
       programArguments="2-flow-pathways.R"
@@ -200,7 +200,7 @@
     </transformer>
     <transformer
       name="Spinup"
-      displayName="Run Spin-up"
+      displayName="3 - Run Spin-up"
       isRunnable="True"
       transformerSpecificOutput="False">
       <runtime>
@@ -265,7 +265,7 @@
   </layouts>
   <updateProvider 
     schemaVersion="3" 
-    minPackageVersion="1.0.13" 
+    minPackageVersion="1.0.14" 
     className="SyncroSim.Core.XMLUpdateProvider" 
     classAssembly="SyncroSim.Core"/>
 </package>

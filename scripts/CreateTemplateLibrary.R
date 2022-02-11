@@ -12,7 +12,7 @@ options(stringsAsFactors=FALSE)
 # Settings ----
 mySession <- session("C:/SyncroSim Versions/2-3-9")
 # version(mySession)
-libraryName <- "model/cbm-example"
+libraryName <- "model/cbm-cfs3-example"
 myProjectName <- "Definitions"
 initialInputsDirectory <- "C:/GitHub/stsimcbmcfs3/data/" # "../data/"
 
@@ -28,8 +28,15 @@ dir.create("model/", showWarnings = FALSE)
 myLibrary <- ssimLibrary(libraryName, 
                          addon = c("stsimsf", "stsimcbmcfs3"),
                          session = mySession, overwrite = TRUE)
-name(myLibrary) <- "CBM Example"
+name(myLibrary) <- "CBM-CFS3 Example"
 myProject <- project(myLibrary, project=myProjectName)
+
+# load library
+# myLibrary <- ssimLibrary(libraryName, 
+#                          addon = c("stsimsf", "stsimcbmcfs3"),
+#                          session = mySession)
+# myProject <- project(myLibrary, project=myProjectName)
+
 
 #######################
 ## Predefined Inputs ##

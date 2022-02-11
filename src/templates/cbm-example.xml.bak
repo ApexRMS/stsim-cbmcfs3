@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<template
-  name="cbm-example-remote"
-  displayName="CBM Example"
-  description="
-    {br}Example library for the stsimcbmcfs3 SyncroSim package." 
-  location="https://github.com/ApexRMS/helloworld/raw/master/remote_template/Remote-Example-Model.zip"
-  liveUpdate="True">
-</template>

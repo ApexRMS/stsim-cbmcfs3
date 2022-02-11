@@ -1,9 +1,10 @@
-# stsimcbmcfs3
-# Schuyler Pearman-Gillman, ApexRMS
-# Run with R-4.1.1
+## stsimcbmcfs3
+## ApexRMS, January 2022
+## Run with R-4.1.1
 
-# this script loads in CBM-CFS3 to ST-Sim species type and carbon stock crosswalks and populates the
-# state attributes datafeed. CBM-CFS3 validation outputs are also generated. 
+# This script loads in crosswalks for CBM-CFS3 to ST-Sim species type and carbon stock, 
+# and populates the state attributes datafeed. 
+# CBM-CFS3 validation outputs are also generated. 
 
 # source constants 
 pkg_dir <- (Sys.getenv("ssim_package_directory"))
@@ -34,7 +35,6 @@ speciesTypeTable <- sqlFetch(CBMdatabase, "tblSpeciesTypeDefault")
 forestTypeTable <- sqlFetch(CBMdatabase, "tblForestTypeDefault")
 close(CBMdatabase)
 
-biomassStocks
 
 ## State Attributes for Living Biomass
 
