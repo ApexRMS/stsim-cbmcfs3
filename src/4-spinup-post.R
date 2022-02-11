@@ -1,9 +1,8 @@
-########################################################
-## A223 - LandCarbon - Spinnup post-processing script ##
-## Prepared by Valentin Lucet sept 2020               ##
-## Modified by Bronwyn Rayfield sept 2021             ##
-## Modified by Schuyler Pearman-Gillman Jan 2022      ##
-########################################################
+## stsimcbmcfs3
+## ApexRMS, January 2022
+## Run with R-4.1.1
+
+# Spin-up post-processing script
 
 # Source helper functions
 pkg_dir <- (Sys.getenv("ssim_package_directory"))

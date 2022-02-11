@@ -265,7 +265,7 @@
   </layouts>
   <updateProvider 
     schemaVersion="3" 
-    minPackageVersion="1.0.13" 
+    minPackageVersion="1.0.14" 
     className="SyncroSim.Core.XMLUpdateProvider" 
     classAssembly="SyncroSim.Core"/>
 </package>

@@ -1,6 +1,6 @@
-# stsimcbmcfs3
-# Bronwyn Rayfield and Schuyler Pearman-Gillman, ApexRMS
-# Run with R-4.1.1
+## stsimcbmcfs3            
+## ApexRMS, January 2022  
+## Run with R-4.1.1       
 
 # Before running script make sure that Microsoft Access Database Engine is installed so that you can connect to a MS Access db from R x64bit
 # On Sept 27 2018: AccessDatabaseEngine_X64.exe installed from https://www.microsoft.com/en-us/download/details.aspx?id=13255
@@ -32,31 +32,6 @@ crosswalkStratumState <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkSpecies",
                                    optional = T) # crosswalkStratumState <- datasheet(myLibrary, scenario = 11, "stsimcbmcfs3_CrosswalkSpecies", optional = T)
 
 crosswalkStock <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkStock") # crosswalkStock <- datasheet(myLibrary, scenario = 8, "stsimcbmcfs3_CrosswalkStock")
-
-# crosswalkStock[16, 1] <- "Products"
-
-#crosswalkTransition <- datasheet(myScenario, "CBMCFS3_CrosswalkDisturbance")
-
-# Crosswalk functions
-# crossSF <- function(CBMStock){ as.character(crosswalkStock$StockTypeID[crosswalkStock$CBMStock==CBMStock])}
-#crossTG  <- function(CBMDisturbace){ as.character(crosswalkTransition$DisturbanceTypeID[crosswalkTransition$CBMTransitionGroupID==CBMDisturbance])}
-
-# # Identify biomass and DOM stocks
-# biomassStocks <- unlist(lapply(c("Merchantable", "Foliage", "Other", "Coarse Roots", "Fine Roots"), crossSF))
-# biomassStateAtts <- c("Merchantable", "Foliage", "Other Wood", "Coarse Roots", "Fine Roots")
-# biomassStateAtts <- as.list(str_c("Carbon Initial Conditions: ", biomassStateAtts))
-# numBiomassStocks <- length(biomassStocks)
-# 
-# DOMCBMStocks <- c("Aboveground Very Fast DOM", "Aboveground Fast DOM", "Medium DOM", "Aboveground Slow DOM",
-#                "Belowground Very Fast DOM", "Belowground Fast DOM", "Belowground Slow DOM",
-#                "Hardwood Branch Snag", "Hardwood Stem Snag","Softwood Branch Snag", "Softwood Stem Snag")
-# DOMStocks <- unique(unlist(lapply(DOMStocks, crossSF)))
-# DOMStocks_hw <- c(DOMStocks[1:7], "Hardwood Branch Snag", "Hardwood Stem Snag")
-# DOMStocks_sw <- c(DOMStocks[1:7],"Softwood Branch Snag", "Softwood Stem Snag")
-# DOMStateAtts <- c("Aboveground Very Fast", "Aboveground Fast", "Aboveground Medium", "Aboveground Slow",
-#                   "Belowground Very Fast", "Belowground Fast", "Belowground Slow", "Snag Branch", "Snag Stem")
-# DOMStateAtts <- as.list(str_c("Carbon Initial Conditions: ", DOMStateAtts))
-# numDOMStocks <- length(DOMStocks)
 
 # SF Flow Pathways
 flowPathways = datasheet(myScenario, name="stsimsf_FlowPathway", empty=F, optional=T) %>% # flowPathways = datasheet(myLibrary, scenario = 1, name="stsimsf_FlowPathway", empty=F, optional=T) %>% 
@@ -561,7 +536,7 @@ for(i in 1: nrow(crosswalkStratumState)){
   stateAttributesNetGrowthMaster = rbind(stateAttributesNetGrowth, stateAttributesNetGrowthMaster)
   
   # SF Flow Pathways
-  # Flow Multilpiers for biomass net growth based on volume-to-carbon proportions 
+  # Flow Multipliers for biomass net growth based on volume-to-carbon proportions 
   flowMultiplierNetGrowth <- datasheet(myScenario, name="stsimsf_FlowMultiplier", empty = T, optional = T)
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "StratumID"] <- crosswalkStratumState$StratumID[i]
   flowMultiplierNetGrowth[1:(nrow(volumeToCarbon)*numBiomassStocks), "SecondaryStratumID"] <- crosswalkStratumState$SecondaryStratumID[i]

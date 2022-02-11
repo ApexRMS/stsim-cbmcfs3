@@ -1,3 +1,9 @@
+## stsimcbmcfs3
+## ApexRMS, January 2022
+## Run with R-4.1.1
+
+# This script loads helper functions used by transformer scripts
+
 cut_label <- function(labels, side = "left", sep = ":"){
   
   if (sum(is.na(labels)) == 0){
