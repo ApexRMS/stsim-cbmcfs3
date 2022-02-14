@@ -54,10 +54,10 @@ The **Predefined Inputs** folder contains pre-configured Scenarios that act as i
 <img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-2.png">
 <br>
 In the **User Defined Inputs** folder, select and review the inputs for the Scenarios in the **Run Setup Inputs** sub-folder.
-<br>
+
 * Select the Scenario named **CBM Crosswalk – Spatial Unit and Species Type** in the Library Explorer.
 * Right-click and choose **Properties** from the context menu to view the details of the Scenario.
-<br>
+
 This opens the Scenario Properties window. The first tab in this window, called **General**, contains three datasheets. The first, **Summary**, displays some general information for the Scenario. The second, **Pipeline**, allows the user to select the run order of the inputs in the model. Finally, the **Datafeeds** datasheet (shown below) displays a list of all data sources.
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-3.png">
