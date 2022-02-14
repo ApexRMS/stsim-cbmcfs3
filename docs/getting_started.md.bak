@@ -61,7 +61,7 @@ This opens the Scenario Properties window. The first tab in this window, called 
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-3.png">
 <br>
-Select the **CBM Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.
+Select the **CBM Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.
 
 This example is setup to simulate four different forest types in the Sierra Nevada Ecoregion of California:
 
@@ -94,7 +94,7 @@ Open the **Load CBM Output** Scenario and select **Pipeline** from the **General
 
 Open the Result Scenario for **Load CBM Output**. 
 <br>
-<img align="middle" style="padding: 3px" width="500" src="assets/images/screencap-8.png">
+<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-8.png">
 <br>
 Looking at **Datafeeds**, notice that the **State Attribute Values** datasheet was populated as a result of running the **Load CBM Output** Scenario. 
 <br>
@@ -127,12 +127,11 @@ To view spatial results, add the **Landscape** Scenario to the Results and then 
 Double click on **Flows** and **Age** Maps to view changes in carbon flows and forest age for the **Landscape** Scenario.
 
 ## **Step 5: Run the model**
-In order to run the model, SyncroSim needs the locations of your R executable and the CBM-CFS3 Database. The R executable will be found automatically. To check, double-click on **CBM-CFS3 Example** and navigate to the **Options** tab. In the **R Configuration** datasheet, you should see the file path to your R executable. If not, click **Browse...** and navigate to the correct file location. The CBM file path is set to the default location that was recommended during the installation of the database. If the CBM-CFS3 Database was not installed to the default location, select the Folder icon, and navigate to the proper location on your local computer, then click **Open**.
+In order to run the model, SyncroSim needs the locations of your R executable and the CBM-CFS3 Database. The R executable will be found automatically. To check, double-click on **CBM-CFS3 Example** and navigate to the **Options** tab. In the **R Configuration** datasheet, you should see the file path to your R executable. If not, click **Browse...** and navigate to the correct file location. The CBM file path is set to the default location that was recommended during the installation of the database. If the CBM-CFS3 Database was not installed to the default location, select the Folder icon, and navigate to the proper location on your local computer, then click **Open**.
 <br>
-<img align="middle" style="padding: 3px" width="850" src="assets/images/screencap-14.png">
+<img align="middle" style="padding: 3px" width="700" src="assets/images/screencap-14.png">
 <br>
 Once your **CBM-CFS3 Example** Library is configured, you can run the model by right-clicking on the **Load CBM Output** Scenario in the **Scenario Manager** window and selecting **Run** from the context menu. If prompted to save your project, click **Yes**. If the run is successful, you will see a Status of **Done** in the **Run Monitor** window, at which point you can close the **Run Monitor** window; otherwise, click on the **Run Log** link to see a report of any problems. Make any necessary changes to your Scenario, then re-run the Scenario.
-
 <br>
 <img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-15.png">
 <br>
@@ -143,7 +142,7 @@ Next, repeat the steps above to run the **Generate Flow Multiplier** and **Run S
 
 Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast** Scenarios can be run. At this point, **Multiprocessing** should be enabled with 3 jobs.
 <br>
-<img align="middle" style="padding: 3px" width="600" src="assets/images/screencap-16.png">
+<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-16.png">
 <br>
 Repeat the steps above to run the the **Single Cell – No Disturbance** and **Landscape** Scenarios.
 
