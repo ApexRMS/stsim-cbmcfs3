@@ -53,7 +53,7 @@ The **Predefined Inputs** folder contains pre-configured Scenarios that act as i
 <br>
 <img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-2.png">
 <br>
-In the  **User Defined Inputs**  folder, select and review the inputs for the Scenarios in the  **Run Setup Inputs**  sub-folder.
+In the  **User Defined Inputs** folder, select and review the inputs for the Scenarios in the **Run Setup Inputs**  sub-folder.
 
 * Select the Scenario named  **CBM Crosswalk – Spatial Unit and Species Type**  in the Library Explorer.
 * Right-click and choose  **Properties**  from the context menu to view the details of the Scenario.
@@ -85,7 +85,7 @@ When all Scenarios in the **User Defined Inputs** folder are populated, the **Ru
 <br>
 <img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-6.png">
 <br>
-Click on the Scenarios in the **Run Setup** and ** Run Forecast** folders to view the Scenario dependencies and familiarize yourself with each Scenario's inputs. The Scenarios in **Run Setup** and **Run Forecast** have already been run so you will also see a Results folder when you click on each Scenario. 
+Click on the Scenarios in the **Run Setup** and **Run Forecast** folders to view the Scenario dependencies and familiarize yourself with each Scenario's inputs. The Scenarios in **Run Setup** and **Run Forecast** have already been run so you will also see a Results folder when you click on each Scenario. 
 
 Open the **Load CBM Output** Scenario and select **Pipeline** from the **General** tab. Notice that, only the Load CBM Output Run Stage has been selected for this scenario. Now select **Datafeeds** from the **General** tab to see the Scenarios active datasheets. 
 <br>
