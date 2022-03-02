@@ -1,4 +1,4 @@
-
+LUCAS_CBMCFS3
 stsimcbmcfs3.ssimpkg
 src/.metadata
 install_script.cmd
@@ -10,3 +10,4 @@ data/.Rhistory
 *.sqlite
 *.json
 model
+dev

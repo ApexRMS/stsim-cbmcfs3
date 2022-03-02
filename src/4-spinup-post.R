@@ -1,7 +1,7 @@
-## stsimcbmcfs3
+## stsimcbmcfs3 - spinup post
 ## ApexRMS, January 2022
-## Run with R-4.1.1
 
+# Run with R-4.1.1
 # Spin-up post-processing script
 
 # Source helper functions

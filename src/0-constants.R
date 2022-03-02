@@ -1,7 +1,7 @@
-# stsimcbmcfs3
-# ApexRMS, January 2022
+## stsimcbmcfs3 - constants
+## ApexRMS, January 2022
+
 # Run with R-4.1.1
-#
 # This script is used to define constants across scripts
 
 # crosswalk function ---

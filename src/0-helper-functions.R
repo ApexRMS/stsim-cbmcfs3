@@ -1,7 +1,7 @@
-## stsimcbmcfs3
+## stsimcbmcfs3 - helper functions
 ## ApexRMS, January 2022
-## Run with R-4.1.1
 
+# Run with R-4.1.1
 # This script loads helper functions used by transformer scripts
 
 cut_label <- function(labels, side = "left", sep = ":"){

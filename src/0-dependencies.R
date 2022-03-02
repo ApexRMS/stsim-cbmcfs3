@@ -1,7 +1,7 @@
-## stsimcbmcfs3
+## stsimcbmcfs3 - dependencies
 ## ApexRMS, January 2022
-## Run with R-4.1.1
 
+# Run with R-4.1.1
 # This script installs missing dependencies and loads all dependencies
 
 depend <- c("rsyncrosim", "RODBC", "tidyverse") 
