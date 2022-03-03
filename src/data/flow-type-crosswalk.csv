@@ -32,3 +32,4 @@ DOM: Aboveground Very Fast,Atmosphere: CO,LULC: Emission DOM CO
 DOM: Aboveground Very Fast,Atmosphere: CO2,LULC: Emission DOM CO2
 DOM: Snag Branch,DOM: Aboveground Fast,LULC: Transfer DOM
 DOM: Snag Stem,DOM: Aboveground Medium,LULC: Transfer DOM
+DOM: Snag Stem,Forestry Sector,LULC: Harvest DOM

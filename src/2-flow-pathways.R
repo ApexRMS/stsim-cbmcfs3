@@ -34,7 +34,7 @@ crosswalkStratumState <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkSpecies",
                                    optional = T) # crosswalkStratumState <- datasheet(myLibrary, scenario = 11, "stsimcbmcfs3_CrosswalkSpecies", optional = T)
 
 # load flow type crosswalk for transitions
-crossTFT <- read.csv("data/flow-type-crosswalk.csv")
+crossTFT <- read.csv(file.path(pkg_dir,"data/flow-type-crosswalk.csv"))
 
 crosswalkStock <- datasheet(myScenario, "stsimcbmcfs3_CrosswalkStock") # crosswalkStock <- datasheet(myLibrary, scenario = 8, "stsimcbmcfs3_CrosswalkStock")
 
