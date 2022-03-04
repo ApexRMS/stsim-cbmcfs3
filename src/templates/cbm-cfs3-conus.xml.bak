@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template
-  name="cbm-cfs3-example"
-  displayName="CBM-CFS3 Example"
+  name="cbm-cfs3-conus"
+  displayName="CBM-CFS3 CONUS"
   description="
-    {br}Example library for the stsimcbmcfs3 SyncroSim package." 
-  location="https://s3.us-west-2.amazonaws.com/apexrms.com.syncrosim.templates/stsimcbmcfs3/v1.0.14/cbm-cfs3-example.zip"
+    {br}CONUS template library for the stsimcbmcfs3 SyncroSim package." 
+  location="https://s3.us-west-2.amazonaws.com/apexrms.com.syncrosim.templates/stsimcbmcfs3/v1.0.14/cbm-cfs3-conus.zip"
   liveUpdate="True">
 </template>
