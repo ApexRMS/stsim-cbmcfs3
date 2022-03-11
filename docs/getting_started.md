@@ -35,7 +35,7 @@ In this window:
 * Select the row for **stsim**. Note that as you select a row, the list of **Templates** available and suggested **File name** for that base package are updated.
 * Select the **CBM-CFS3 Example** Template as shown above.
 * Optionally type in a new **File name** for the Library (or accept the default); you can also change the target **Folder** using the **Browse...** button.
-> **Note:** If you intend on using Multiprocessing (recommended), ensure your SyncroSim Library is saved to a drived that is not being syncronized to the cloud. Saving your library to OneDrive, Dropbox or some other similar location can result in an error when completing a model run.
+> **Note:** If you intend on using Multiprocessing (recommended), ensure your SyncroSim Library is saved to a drive that is not being syncronized to the cloud. Saving your library to OneDrive, Dropbox or some other similar location can result in an error when completing a model run.
 
 When you are ready to create the Library file, click **OK**. A new Library will be created and loaded into the Library Explorer.
 
