@@ -1,9 +1,9 @@
-## stsimcbmcfs3
+## stsimcbmcfs3 - load cbmcfs3 output
 ## ApexRMS, January 2022
-## Run with R-4.1.1
 
-# This script loads in crosswalks for CBM-CFS3 to ST-Sim species type and carbon stock, 
-# and populates the state attributes datafeed. 
+# Run with R-4.1.1
+# This script loads in crosswalks for CBM-CFS3 to ST-Sim species type and 
+# carbon stock, and populates the state attributes datafeed. 
 # CBM-CFS3 validation outputs are also generated. 
 
 # source constants 

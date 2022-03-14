@@ -47,6 +47,6 @@ Bronwyn Rayfield (Author) <a href="https://orcid.org/0000-0003-1768-1300"><img a
 <br>
 Benjamin Sleeter (Author) <a href="https://orcid.org/0000-0003-2371-9571"><img align="middle" style="padding: 0.5px" width="17" src="assets/images/ORCID.png"></a>
 <br>
-Skye Pearman-Gillman (Author)
+Schuyler Pearman-Gillman (Author) <a href="https://orcid.org/0000-0002-3911-1985"><img align="middle" style="padding: 0.5px" width="17" src="assets/images/ORCID.png"></a>
 <br>
 Colin Daniel (Author)

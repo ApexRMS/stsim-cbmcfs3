@@ -263,7 +263,7 @@ saveDatasheet(myScenario, mySheetFull, sheetName)
 
 sheetName <- "stsimsf_FlowOrderOptions"
 mySheet <- datasheet(myScenario, name=sheetName, optional=T, empty = T)
-mySheetFull <- addRow(mySheet, data.frame(ApplyEquallyRankedSimultaneously = T))
+mySheetFull <- addRow(mySheet, data.frame(ApplyBeforeTransitions = T, ApplyEquallyRankedSimultaneously = T))
 saveDatasheet(myScenario, mySheetFull, sheetName)
 
 ## Flow group membership
@@ -712,13 +712,11 @@ myScenarioName <- "Generate Flow Multipliers"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
            c("Flow Pathways",
-             "Flow Order",
              "Stock Group Membership",
              "Flow Group Membership",
              "Initial Stocks",
              "Stock Flow Output Options",
-             "Output Options [Non-spatial]",
-             "Initial Conditions",
+             # "Initial Conditions",
              # "Pathway Diagram",
              "CBM Crosswalk - Disturbance",
              "Load CBM Output"))
@@ -737,7 +735,8 @@ saveDatasheet(myScenario, mySheet, sheetName)
 myScenarioName <- "Run Spin-up"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
-           c("Spin-up",
+           c("Flow Order",
+             "Spin-up",
              "Transition Pathways",
              "Generate Flow Multipliers"))
 
@@ -765,8 +764,9 @@ sysOut <- system(command, intern=TRUE)
 myScenarioName <- "Single Cell - No Disturbance"
 myScenario = scenario(myProject, scenario = myScenarioName)
 dependency(myScenario, 
-           c("Run Control",
-             # "Initial Conditions - Single Cell",
+           c("Flow Order",
+             "Initial Conditions",
+             "Output Options [Non-spatial]",
              "Transition Pathways",
              "Generate Flow Multipliers"))
 

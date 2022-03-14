@@ -1,7 +1,7 @@
-## stsimcbmcfs3
+## stsimcbmcfs3 - spinup pre
 ## ApexRMS, January 2022
-## Run with R-4.1.1
 
+# Run with R-4.1.1
 # Spin-up pre-processing script 
 
 # Source helper functions

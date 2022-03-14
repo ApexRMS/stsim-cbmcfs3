@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template
+  name="cbm-cfs3-conus"
+  displayName="CBM-CFS3 CONUS"
+  description="{br}Library for the stsimcbmcfs3 SyncroSim package containing the 29 forest types required to run forest carbon simulations for CONUS." 
+  location="https://s3.us-west-2.amazonaws.com/apexrms.com.syncrosim.templates/stsimcbmcfs3/v1.0.14/cbm-cfs3-conus.zip"
+  liveUpdate="True">
+</template>
