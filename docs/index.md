@@ -35,8 +35,8 @@ For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see t
 
 ## Templates
 
-**CBM-CFS3 Example**: Library containing example inputs and outputs for the stsimcbmcfs3 SyncroSim package.
-**CBM-CFS3 CONUS**: Library containing the 29 forest types required to run forest carbon simulations for CONUS.
+- **CBM-CFS3 Example**: Library containing example inputs and outputs for the stsimcbmcfs3 SyncroSim package.
+- **CBM-CFS3 CONUS**: Library containing the 29 forest types required to run forest carbon simulations for CONUS.
 
 ## Links
 
