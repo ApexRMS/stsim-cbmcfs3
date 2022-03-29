@@ -16,17 +16,17 @@ This quickstart tutorial will introduce you to the basics of working with stsimc
 
 
 ## **Step 1: Install stsimcbmcfs3**
-**stsimcbmcfs3** is a Package within the <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> simulation modeling framework; as such, **stsimcbmcfs3** requires that the **SyncroSim** software be installed on your computer. Download and install **SyncroSim 2.3.11 or later** <a href="https://syncrosim.com/download/" target="_blank">here</a>.
+**stsimcbmcfs3** is a Package within the <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> simulation modeling framework; as such, **stsimcbmcfs3** requires that the **SyncroSim** software be installed on your computer. Download and install <a href="https://syncrosim.com/download/" target="_blank">**SyncroSim 2.3.11 or later**</a> here.
 
-If you choose to run **stsimcbmcfs3**, you will also need to install the CBM-CFS3 <a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/impacts-forests/carbon-accounting/carbon-budget-model/13107?utm_campaign=DFATD&utm_medium=twitter&utm_source=tweet44" target="_blank">Database</a> and R version <a href="https://www.r-project.org/" target="_blank">4.0.2</a> or later. The R packages rsyncrosim, tidyverse, and RODBC are also required and will be installed when running stsimcbmcfs3. 
-> **Note:** The stsimcbmcfs3 package includes two templates Libraries, **CBM-CFS3 Example** and **CBM-CFS3 CONUS**, that contain example inputs and outputs. Installation of R and the CBM-CFS3 Database are not required to view the example Libraries.
+If you choose to run **stsimcbmcfs3**, you will also need to install the <a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/impacts-forests/carbon-accounting/carbon-budget-model/13107?utm_campaign=DFATD&utm_medium=twitter&utm_source=tweet44" target="_blank">CBM-CFS3</a> and R version <a href="https://www.r-project.org/" target="_blank">4.0.2</a> or later. The R packages rsyncrosim, tidyverse, and RODBC are also required and will be installed when running stsimcbmcfs3. 
+> **Note:** The stsimcbmcfs3 package includes two template Libraries, **CBM-CFS3 Example** and **CBM-CFS3 CONUS**, that contain example inputs and outputs. Installation of R and the CBM-CFS3 are not required to view the template Libraries.
 
-Once all required programs are installed, open **SyncroSim** and select **File -> Packages... -> Install...** and select the **stsim**, **stsimsf**, and **stsimcbmcfs3** packages and click OK. Alternatively download the <a href="https://github.com/ApexRMS/stsimcbmcfs3/releases" target="_blank">latest release</a> from GitHub. Open **SyncroSim** and select **File -> Packages... -> Install From File...**, then navigate to the downloaded pacjage file with the extension *.ssimpkg*.
-* **ST-Sim:** package for creating and running state-and-transition simulation models. See <a href="https://docs.stsim.net/" target="_blank">documentation</a>.
-* **Stock-Flow Add-On for ST-Sim:** package for modelling stocks and flows within state-and-transition simulation models. See <a href="https://docs.stsim.net/" target="_blank">documentation</a>.
+Once all required programs are installed, open **SyncroSim** and select **File -> Packages... -> Install...** and select the **stsim**, **stsimsf**, and **stsimcbmcfs3** packages and click OK. Alternatively download the <a href="https://github.com/ApexRMS/stsimcbmcfs3/releases" target="_blank">latest release</a> from GitHub. Open **SyncroSim** and select **File -> Packages... -> Install From File...**, then navigate to the downloaded package file with the extension *.ssimpkg*.
+
+Please refer to the <a href="https://docs.stsim.net/" target="_blank">documentation</a> for additional information on ST-Sim and the Stock-Flow add-on packages (stsim and stsimsf).
 
 ## **Step 2: Create a new stsimcbmcfs3 Library**
-Having installed the **stsimcbmcfs3** Package, you are now ready to create your first SyncroSim Library. A Library is a file (with extension *.ssim*) that contains all of your model inputs and outputs. Note that the format of each Library is specific to the Package for which it was initially created. To create a new Library, choose **New Library...** from the **File** menu.
+Having installed the **stsimcbmcfs3** Package, you are now ready to create your first SyncroSim Library. A Library is a file (with extension *.ssim*) that contains all of your model inputs and outputs. The format of each Library is specific to the Package for which it was initially created. To create a new Library, choose **New Library...** from the **File** menu.
 <br>
 <img align="middle" style="padding: 3px" width="680" src="assets/images/screencap-1.png">
 <br>
@@ -63,7 +63,8 @@ This opens the Scenario Properties window. The first tab in this window, called 
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-3.png">
 <br>
 Select the **CBM Crosswalk – Spatial Unit and Species Type** datafeed to view the example inputs.
-
+<br>
+>**Note:** Populated datasheets will appear at the top of the Datafeeds list with a green check mark in the Data field.
 This example is setup to simulate four different forest types in the Sierra Nevada Ecoregion of California:
 
 * Western Oak,
@@ -71,7 +72,7 @@ This example is setup to simulate four different forest types in the Sierra Neva
 * Ponderosa Pine, and  
 * Alder/Maple
 
-The crosswalk datasheet allows a user to associate each forest type to a CBM equivalent combination of Ecological Boundary, Admin Boundary and Species Type.  Here a user can specify temperature values that should be used when modeling dead organic matter transfer and decay rates.  Note that if temperature values are not specified, the default values for the selected Ecological Boundary will be used. Here a user must also load CBM output files that are used to calculate growth rates by biomass pool.  Outputs loaded from the CBM can be compared against simulations run in ST-Sim for validation purposes (see below).
+The crosswalk datasheet allows a user to associate each forest type to a CBM equivalent combination of Ecological Boundary, Admin Boundary, and Species Type.  Here a user can specify temperature values that should be used when modeling dead organic matter transfer and decay rates.  Note that if temperature values are not specified, the default values for the selected Ecological Boundary will be used. Here a user must also load CBM output files that are used to calculate growth rates by biomass pool.  Outputs loaded from the CBM can be compared against simulations run in ST-Sim for validation purposes (see below).
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-4.png">
 <br>
@@ -91,8 +92,6 @@ Open the **Load CBM Output** Scenario and select **Pipeline** from the **General
 <br>
 <img align="middle" style="padding: 3px" width="975" src="assets/images/screencap-7.png">
 <br>
->**Note:** Populated datasheets will appear at the top of the Datafeeds list with a green check mark in the Data field.
-
 Open the Result Scenario for **Load CBM Output**. 
 <br>
 <img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-8.png">
@@ -134,17 +133,17 @@ In order to run the model, SyncroSim needs the locations of your R executable an
 <br>
 Once your **CBM-CFS3 Example** Library is configured, you can run the model by right-clicking on the **Load CBM Output** Scenario in the **Scenario Manager** window and selecting **Run** from the context menu. If prompted to save your project, click **Yes**. If the run is successful, you will see a Status of **Done** in the **Run Monitor** window, at which point you can close the **Run Monitor** window; otherwise, click on the **Run Log** link to see a report of any problems. Make any necessary changes to your Scenario, then re-run the Scenario.
 <br>
-<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-15.png">
+<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-16.png">
 <br>
 >**Note:** If you encounter an error in your model run, you may need to install Microsoft Access Database Engine <a href="https://www.microsoft.com/en-us/download/details.aspx?id=54920" target="_blank">2016 Redistributable</a>.
 
 Next, repeat the steps above to run the **Generate Flow Multiplier** and **Run Spin-up** Scenarios.  
 >**Note:** The **Run Setup** and **Run Forecast** Scenarios rely on dependencies that are defined in **Predefined Inputs** and **User Defined Inputs**, as well as results from previous **Run Setup** Scenarios. For this reason, it is important the Scenarios are run in sequence.  
 
-Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast** Scenarios can be run. At this point, **Multiprocessing** should be enabled with 3 jobs.
-<br>
-<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-16.png">
-<br>
-Repeat the steps above to run the the **Single Cell – No Disturbance** and **Landscape** Scenarios.
+Once the **Run Setup** Scenarios have completed successfully, the **Run Forecast** Scenarios can be run. 
 
-When a Scenario is run a new Results Scenario will appear in the Results folder. To view the results, select the Results Scenario in the Library Explorer and then choose **Add to Results** from the Scenario menu. The selected Scenario will appear in **bold** in the Library Explorer and the Scenarios results will display in Charts and Maps.
+Repeat the steps above to run the **Single Cell – No Disturbance** and **Landscape** Scenarios. When running the Landscape Scenario, **Multiprocessing** should be enabled with 3 jobs.
+<br>
+<img align="middle" style="padding: 3px" width="550" src="assets/images/screencap-15.png">
+<br>
+When a Scenario is run, a new Results Scenario will appear in the Results folder. To view the results, select the Results Scenario in the Library Explorer and then choose **Add to Results** from the Scenario menu. The selected Scenario will appear in **bold** in the Library Explorer and the Scenario results will display in Charts and Maps.
