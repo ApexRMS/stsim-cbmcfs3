@@ -33,6 +33,11 @@ For installation instructions, see the **Install stsimcbmcfs3** section on the [
 
 For more information on **stsimcbmcfs3**, including a Quickstart Tutorial, see the [Getting Started](https://apexrms.github.io/stsimcbmcfs3/getting_started.html) page.
 
+## Templates
+
+**CBM-CFS3 Example**: Library containing example inputs and outputs for the stsimcbmcfs3 SyncroSim package.
+**CBM-CFS3 CONUS**: Library containing the 29 forest types required to run forest carbon simulations for CONUS.
+
 ## Links
 
 Browse source code at <a href="https://github.com/ApexRMS/stsimcbmcfs3/" target="_blank">https://github.com/ApexRMS/stsimcbmcfs3/</a>
