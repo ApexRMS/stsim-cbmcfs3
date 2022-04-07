@@ -3,30 +3,30 @@ layout: default
 title: Getting started
 ---
 
-# Getting started with **stsimcbmcfs3**
+# Getting started with **ST-Sim CBM-CFS3**
 
 ## Quickstart Tutorial
 
-This quickstart tutorial will introduce you to the basics of working with stsimcbmcfs3. The steps include:
+This quickstart tutorial will introduce you to the basics of working with **ST-Sim CBM-CFS3**. The steps include:
 <br>
-* Installing stsimcbmcfs3
-* Creating a new stsimcbmcfs3 Library
+* Installing ST-Sim CBM-CFS3
+* Creating a new ST-Sim CBM-CFS3 Library
 * Viewing model inputs and outputs
 * Running the model
 
 
-## **Step 1: Install stsimcbmcfs3**
-**stsimcbmcfs3** is a Package within the <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> simulation modeling framework; as such, **stsimcbmcfs3** requires that the **SyncroSim** software be installed on your computer. Download and install <a href="https://syncrosim.com/download/" target="_blank">**SyncroSim 2.3.11 or later**</a> here.
+## **Step 1: Install ST-Sim CBM-CFS3**
+**ST-Sim CBM-CFS3** is a Package within the <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> simulation modeling framework; as such, **ST-Sim CBM-CFS3** requires that the **SyncroSim** software be installed on your computer. Download and install <a href="https://syncrosim.com/download/" target="_blank">**SyncroSim 2.3.11 or later**</a> here.
 
-If you choose to run **stsimcbmcfs3**, you will also need to install the <a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/impacts-forests/carbon-accounting/carbon-budget-model/13107?utm_campaign=DFATD&utm_medium=twitter&utm_source=tweet44" target="_blank">CBM-CFS3</a> and R version <a href="https://www.r-project.org/" target="_blank">4.0.2</a> or later.
-> **Note:** The stsimcbmcfs3 package includes two template Libraries, **CBM-CFS3 Example** and **CBM-CFS3 CONUS**, that contain example inputs and outputs. Installation of R and the CBM-CFS3 are not required to view the template Libraries.
+If you choose to run **ST-Sim CBM-CFS3**, you will also need to install the <a href="https://www.nrcan.gc.ca/climate-change/impacts-adaptations/impacts-forests/carbon-accounting/carbon-budget-model/13107?utm_campaign=DFATD&utm_medium=twitter&utm_source=tweet44" target="_blank">CBM-CFS3</a> and R version <a href="https://www.r-project.org/" target="_blank">4.0.2</a> or later.
+> **Note:** The **ST-Sim CBM-CFS3** package includes two template Libraries, **CBM-CFS3 Example** and **CBM-CFS3 CONUS**, that contain example inputs and outputs. Installation of R and the CBM-CFS3 are not required to view the template Libraries.
 
 Once all required programs are installed, open **SyncroSim** and select **File -> Packages... -> Install...** and select the **stsim**, **stsimsf**, and **stsimcbmcfs3** packages and click OK.
 
 Please refer to the <a href="https://docs.stsim.net/" target="_blank">documentation</a> for additional information on ST-Sim and the Stock-Flow add-on packages (stsim and stsimsf).
 
-## **Step 2: Create a new stsimcbmcfs3 Library**
-Having installed the **stsimcbmcfs3** Package, you are now ready to create your first SyncroSim Library. A Library is a file (with extension *.ssim*) that contains all of your model inputs and outputs. The format of each Library is specific to the Package for which it was initially created. To create a new Library, choose **New Library...** from the **File** menu.
+## **Step 2: Create a new ST-Sim CBM-CFS3 Library**
+Having installed the **ST-Sim CBM-CFS3** Package, you are now ready to create your first SyncroSim Library. A Library is a file (with extension *.ssim*) that contains all of your model inputs and outputs. The format of each Library is specific to the Package for which it was initially created. To create a new Library, choose **New Library...** from the **File** menu.
 <br>
 <img align="middle" style="padding: 3px" width="680" src="assets/images/screencap-1.png">
 <br>
