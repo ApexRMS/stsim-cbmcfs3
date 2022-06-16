@@ -18,7 +18,7 @@ myLibrary <- ssimLibrary()
 myProject <- project(myLibrary, 1)
 myScenario <- scenario() # myScenario <- scenario(myLibrary,scenario = 15)
 
-# Get disturbance flow pathways - currently incomplete
+# Get disturbance flow pathways - needs further testing
 doDisturbances = T
 
 # Use CBM output to derive expansion factors?
@@ -214,6 +214,9 @@ for(i in 1: nrow(crosswalkStratumState)){
       rename("Sink" = "Description") %>%
       mutate(Source = as.character(Source), Sink = as.character(Sink)) %>% 
       filter(DistTypeName %in% crosswalkDisturbance$DisturbanceTypeID)
+      
+      # Fix typo in CBM database where "Hardwood Coarse Roots" is misspelled as "Hardwood Coarse roots"
+      df[df == "Hardwood Coarse roots"] <- "Hardwood Coarse Roots"
     
     # discriminate between hardwood and softwood
     
@@ -222,9 +225,9 @@ for(i in 1: nrow(crosswalkStratumState)){
     df_filtered <- df %>% 
       filter(!str_detect(Source, opposite))
     
-    sources = data.frame(CBMSource = unique(df_filtered$Source),
-                         FromStockID = "")
-    
+    sources <- data.frame(CBMSource = unique(df_filtered$Source), 
+                          FromStockID = "")
+      
     sinks = data.frame(CBMSink = unique(df_filtered$Sink),
                        ToStockID = "")
     
@@ -282,8 +285,6 @@ for(i in 1: nrow(crosswalkStratumState)){
     #write.csv(temp_pathways_df, file = "FlowPathways.csv")
     
   }
-  
-  # Disturbance Stuff -----------------------------------------------------------
   
   # Get biomass turnover Proportions (not found in CBM database), taken from Kurtz et al. 2009
   if(ForestType == "Softwood") proportionFoliageToAGVeryFast <- 1
