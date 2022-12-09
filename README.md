@@ -1,7 +1,6 @@
-# ST-Sim CBM-CFS3 SyncroSim Package
+# **ST-Sim CBM-CFS3**
 
-Landscape scale forest carbon simulations
+**ST-Sim CBM-CFS3** is an open-source [SyncroSim](http://www.syncrosim.com) add-on package to [ST-Sim](http://docs.stsim.net) for integrating dynamics from the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim landscape simulation model.
 
-**ST-Sim CBM-CFS3** is an open-source <a href="https://syncrosim.com/download/" target="_blank">Syncrosim</a> add-on package to <a href="http://docs.stsim.net" target="_blank">ST-Sim</a> for integrating dynamics from the Carbon Budget Model for the Canadian Forest Sector (CBM-CFS3) into the ST-Sim landscape simulation model.
-
-Additional documentation for the **ST-Sim CBM-CFS3** package can be found <a href="https://apexrms.github.io/stsimcbmcfs3/">here</a>.
+* See the [Home page](https://apexrms.github.io/stsimcbmcfs3/) for an overview of **ST-Sim CBM-CFS3**
+* See the [Getting Started](https://apexrms.github.io/stsimcbmcfs3/getting_started.html) page to get up and running quickly
