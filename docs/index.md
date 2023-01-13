@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Home
-description: "SyncroSim package for forest carbon simulations"
+description: "SyncroSim package for forest carbon modeling"
 permalink: /
 ---
 
