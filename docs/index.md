@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Home
-description: "Landing page for stsimcbmcfs3"
+description: "SyncroSim package for forest carbon simulations"
 permalink: /
 ---
 
