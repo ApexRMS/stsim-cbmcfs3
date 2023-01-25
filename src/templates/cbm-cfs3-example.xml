@@ -4,6 +4,6 @@
   displayName="CBM-CFS3 Example"
   description="
     {br}Example library for the stsimcbmcfs3 SyncroSim package." 
-  location="https://s3.us-west-2.amazonaws.com/apexrms.com.syncrosim.templates/stsimcbmcfs3/v1.0.15/cbm-cfs3-example.zip"
+  location="https://s3.us-west-2.amazonaws.com/apexrms.com.syncrosim.templates/stsimcbmcfs3/v1.0.16/cbm-cfs3-example.zip"
   liveUpdate="True">
 </template>
