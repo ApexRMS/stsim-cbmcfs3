@@ -1,6 +1,7 @@
 LUCAS_CBMCFS3
 stsimcbmcfs3.ssimpkg
 src/.metadata
+src/package.xml.bak
 install_script.cmd
 data/.Rhistory
 .Rproj.user
